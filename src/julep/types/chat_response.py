@@ -4,6 +4,7 @@ from typing import List, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal, TypeAlias
 
+from .snippet import Snippet
 from .._models import BaseModel
 
 __all__ = [
@@ -41,7 +42,6 @@ __all__ = [
     "ChoiceMultipleChatOutputLogprobsContentTopLogprob",
     "Doc",
     "DocOwner",
-    "DocSnippet",
     "Usage",
 ]
 
@@ -285,18 +285,12 @@ class DocOwner(BaseModel):
     role: Literal["user", "agent"]
 
 
-class DocSnippet(BaseModel):
-    content: str
-
-    index: int
-
-
 class Doc(BaseModel):
     id: str
 
     owner: DocOwner
 
-    snippets: List[DocSnippet]
+    snippets: List[Snippet]
 
     distance: Optional[float] = None
 

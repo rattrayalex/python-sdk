@@ -6,6 +6,7 @@ from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
+from .snippet import Snippet
 from .._models import BaseModel
 from .chat_response import ChatResponse
 
@@ -23,7 +24,6 @@ __all__ = [
     "ChunkChatResponseChoiceLogprobsContentTopLogprob",
     "ChunkChatResponseDoc",
     "ChunkChatResponseDocOwner",
-    "ChunkChatResponseDocSnippet",
     "ChunkChatResponseUsage",
 ]
 
@@ -101,18 +101,12 @@ class ChunkChatResponseDocOwner(BaseModel):
     role: Literal["user", "agent"]
 
 
-class ChunkChatResponseDocSnippet(BaseModel):
-    content: str
-
-    index: int
-
-
 class ChunkChatResponseDoc(BaseModel):
     id: str
 
     owner: ChunkChatResponseDocOwner
 
-    snippets: List[ChunkChatResponseDocSnippet]
+    snippets: List[Snippet]
 
     distance: Optional[float] = None
 

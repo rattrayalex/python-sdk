@@ -66,7 +66,16 @@ Methods:
 Types:
 
 ```python
-from julep.types import ChatInput, ChatResponse, History, Session, SessionChatResponse
+from julep.types import (
+    ChatInput,
+    ChatResponse,
+    ChatSettings,
+    Entry,
+    History,
+    Message,
+    Session,
+    SessionChatResponse,
+)
 ```
 
 Methods:
@@ -131,7 +140,7 @@ Methods:
 Types:
 
 ```python
-from julep.types import Doc, EmbedQueryResponse
+from julep.types import Doc, EmbedQueryResponse, Snippet
 ```
 
 Methods:
@@ -144,7 +153,7 @@ Methods:
 Types:
 
 ```python
-from julep.types import Task
+from julep.types import Task, Tool
 ```
 
 Methods:

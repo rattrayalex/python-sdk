@@ -3,9 +3,10 @@
 from typing import List, Optional
 from typing_extensions import Literal
 
+from ..snippet import Snippet
 from ..._models import BaseModel
 
-__all__ = ["DocSearchResponse", "Doc", "DocOwner", "DocSnippet"]
+__all__ = ["DocSearchResponse", "Doc", "DocOwner"]
 
 
 class DocOwner(BaseModel):
@@ -14,18 +15,12 @@ class DocOwner(BaseModel):
     role: Literal["user", "agent"]
 
 
-class DocSnippet(BaseModel):
-    content: str
-
-    index: int
-
-
 class Doc(BaseModel):
     id: str
 
     owner: DocOwner
 
-    snippets: List[DocSnippet]
+    snippets: List[Snippet]
 
     distance: Optional[float] = None
 

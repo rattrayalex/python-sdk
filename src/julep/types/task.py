@@ -6,7 +6,9 @@ from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
+from .tool import Tool
 from .._models import BaseModel
+from .chat_settings import ChatSettings
 
 __all__ = [
     "Task",
@@ -19,10 +21,6 @@ __all__ = [
     "MainPromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainPromptStepOutputSettings",
-    "MainPromptStepOutputSettingsResponseFormat",
-    "MainPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainGetStep",
     "MainSetStep",
     "MainLogStep",
@@ -50,10 +48,6 @@ __all__ = [
     "MainIfElseWorkflowStepOutputThenPromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainIfElseWorkflowStepOutputThenPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainIfElseWorkflowStepOutputThenPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainIfElseWorkflowStepOutputThenPromptStepOutputSettings",
-    "MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormat",
-    "MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainIfElseWorkflowStepOutputThenGetStep",
     "MainIfElseWorkflowStepOutputThenSetStep",
     "MainIfElseWorkflowStepOutputThenLogStep",
@@ -80,10 +74,6 @@ __all__ = [
     "MainIfElseWorkflowStepOutputElsePromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainIfElseWorkflowStepOutputElsePromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainIfElseWorkflowStepOutputElsePromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainIfElseWorkflowStepOutputElsePromptStepOutputSettings",
-    "MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormat",
-    "MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainIfElseWorkflowStepOutputElseGetStep",
     "MainIfElseWorkflowStepOutputElseSetStep",
     "MainIfElseWorkflowStepOutputElseLogStep",
@@ -112,10 +102,6 @@ __all__ = [
     "MainSwitchStepOutputSwitchThenPromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainSwitchStepOutputSwitchThenPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainSwitchStepOutputSwitchThenPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainSwitchStepOutputSwitchThenPromptStepOutputSettings",
-    "MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormat",
-    "MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainSwitchStepOutputSwitchThenGetStep",
     "MainSwitchStepOutputSwitchThenSetStep",
     "MainSwitchStepOutputSwitchThenLogStep",
@@ -144,10 +130,6 @@ __all__ = [
     "MainForeachStepOutputForeachDoPromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainForeachStepOutputForeachDoPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainForeachStepOutputForeachDoPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainForeachStepOutputForeachDoPromptStepOutputSettings",
-    "MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormat",
-    "MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainForeachStepOutputForeachDoGetStep",
     "MainForeachStepOutputForeachDoSetStep",
     "MainForeachStepOutputForeachDoLogStep",
@@ -168,10 +150,6 @@ __all__ = [
     "MainParallelStepOutputParallelPromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainParallelStepOutputParallelPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainParallelStepOutputParallelPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainParallelStepOutputParallelPromptStepOutputSettings",
-    "MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormat",
-    "MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainParallelStepOutputParallelGetStep",
     "MainParallelStepOutputParallelSetStep",
     "MainParallelStepOutputParallelLogStep",
@@ -192,10 +170,6 @@ __all__ = [
     "MainMainOutputMapPromptStepOutputPromptUnionMember0ContentUnionMember1Content",
     "MainMainOutputMapPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainMainOutputMapPromptStepOutputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainMainOutputMapPromptStepOutputSettings",
-    "MainMainOutputMapPromptStepOutputSettingsResponseFormat",
-    "MainMainOutputMapPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainMainOutputMapPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainMainOutputMapGetStep",
     "MainMainOutputMapSetStep",
     "MainMainOutputMapLogStep",
@@ -206,8 +180,6 @@ __all__ = [
     "MainMainOutputMapSearchStepSearchVectorDocSearchRequest",
     "MainMainOutputMapSearchStepSearchTextOnlyDocSearchRequest",
     "MainMainOutputMapSearchStepSearchHybridDocSearchRequest",
-    "Tool",
-    "ToolFunction",
 ]
 
 
@@ -260,61 +232,12 @@ class MainPromptStepOutputPromptUnionMember0(BaseModel):
     name: Optional[str] = None
 
 
-class MainPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainPromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainPromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainPromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainPromptStepOutput(BaseModel):
     prompt: Union[List[MainPromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainPromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainGetStep(BaseModel):
@@ -489,61 +412,12 @@ class MainIfElseWorkflowStepOutputThenPromptStepOutputPromptUnionMember0(BaseMod
     name: Optional[str] = None
 
 
-class MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainIfElseWorkflowStepOutputThenPromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainIfElseWorkflowStepOutputThenPromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainIfElseWorkflowStepOutputThenPromptStepOutput(BaseModel):
     prompt: Union[List[MainIfElseWorkflowStepOutputThenPromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainIfElseWorkflowStepOutputThenPromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainIfElseWorkflowStepOutputThenGetStep(BaseModel):
@@ -735,61 +609,12 @@ class MainIfElseWorkflowStepOutputElsePromptStepOutputPromptUnionMember0(BaseMod
     name: Optional[str] = None
 
 
-class MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainIfElseWorkflowStepOutputElsePromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainIfElseWorkflowStepOutputElsePromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainIfElseWorkflowStepOutputElsePromptStepOutput(BaseModel):
     prompt: Union[List[MainIfElseWorkflowStepOutputElsePromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainIfElseWorkflowStepOutputElsePromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainIfElseWorkflowStepOutputElseGetStep(BaseModel):
@@ -992,61 +817,12 @@ class MainSwitchStepOutputSwitchThenPromptStepOutputPromptUnionMember0(BaseModel
     name: Optional[str] = None
 
 
-class MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainSwitchStepOutputSwitchThenPromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainSwitchStepOutputSwitchThenPromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainSwitchStepOutputSwitchThenPromptStepOutput(BaseModel):
     prompt: Union[List[MainSwitchStepOutputSwitchThenPromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainSwitchStepOutputSwitchThenPromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainSwitchStepOutputSwitchThenGetStep(BaseModel):
@@ -1250,61 +1026,12 @@ class MainForeachStepOutputForeachDoPromptStepOutputPromptUnionMember0(BaseModel
     name: Optional[str] = None
 
 
-class MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainForeachStepOutputForeachDoPromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainForeachStepOutputForeachDoPromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainForeachStepOutputForeachDoPromptStepOutput(BaseModel):
     prompt: Union[List[MainForeachStepOutputForeachDoPromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainForeachStepOutputForeachDoPromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainForeachStepOutputForeachDoGetStep(BaseModel):
@@ -1457,61 +1184,12 @@ class MainParallelStepOutputParallelPromptStepOutputPromptUnionMember0(BaseModel
     name: Optional[str] = None
 
 
-class MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainParallelStepOutputParallelPromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainParallelStepOutputParallelPromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainParallelStepOutputParallelPromptStepOutput(BaseModel):
     prompt: Union[List[MainParallelStepOutputParallelPromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainParallelStepOutputParallelPromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainParallelStepOutputParallelGetStep(BaseModel):
@@ -1654,61 +1332,12 @@ class MainMainOutputMapPromptStepOutputPromptUnionMember0(BaseModel):
     name: Optional[str] = None
 
 
-class MainMainOutputMapPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat(BaseModel):
-    type: Optional[Literal["text", "json_object"]] = None
-
-
-class MainMainOutputMapPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat(BaseModel):
-    json_schema: object
-
-    type: Optional[Literal["json_schema"]] = None
-
-
-MainMainOutputMapPromptStepOutputSettingsResponseFormat: TypeAlias = Union[
-    MainMainOutputMapPromptStepOutputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainMainOutputMapPromptStepOutputSettingsResponseFormatSchemaCompletionResponseFormat,
-    None,
-]
-
-
-class MainMainOutputMapPromptStepOutputSettings(BaseModel):
-    agent: Optional[str] = None
-
-    frequency_penalty: Optional[float] = None
-
-    length_penalty: Optional[float] = None
-
-    logit_bias: Optional[Dict[str, float]] = None
-
-    max_tokens: Optional[int] = None
-
-    min_p: Optional[float] = None
-
-    model: Optional[str] = None
-
-    presence_penalty: Optional[float] = None
-
-    repetition_penalty: Optional[float] = None
-
-    response_format: Optional[MainMainOutputMapPromptStepOutputSettingsResponseFormat] = None
-
-    seed: Optional[int] = None
-
-    stop: Optional[List[str]] = None
-
-    stream: Optional[bool] = None
-
-    temperature: Optional[float] = None
-
-    top_p: Optional[float] = None
-
-
 class MainMainOutputMapPromptStepOutput(BaseModel):
     prompt: Union[List[MainMainOutputMapPromptStepOutputPromptUnionMember0], str]
 
     kind: Optional[Literal["prompt"]] = FieldInfo(alias="kind_", default=None)
 
-    settings: Optional[MainMainOutputMapPromptStepOutputSettings] = None
+    settings: Optional[ChatSettings] = None
 
 
 class MainMainOutputMapGetStep(BaseModel):
@@ -1830,31 +1459,6 @@ Main: TypeAlias = Union[
     MainParallelStepOutput,
     MainMainOutput,
 ]
-
-
-class ToolFunction(BaseModel):
-    description: Optional[str] = None
-
-    name: Optional[object] = None
-
-    parameters: Optional[object] = None
-
-
-class Tool(BaseModel):
-    function: ToolFunction
-    """Function definition"""
-
-    name: str
-
-    api_call: Optional[object] = None
-
-    inherited: Optional[bool] = None
-
-    integration: Optional[object] = None
-
-    system: Optional[object] = None
-
-    type: Optional[Literal["function", "integration", "system", "api_call"]] = None
 
 
 class Task(BaseModel):

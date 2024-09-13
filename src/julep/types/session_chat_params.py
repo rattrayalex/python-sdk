@@ -5,13 +5,10 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
+from .message_param import MessageParam
+
 __all__ = [
     "SessionChatParams",
-    "Message",
-    "MessageContentUnionMember2",
-    "MessageContentUnionMember2Content",
-    "MessageContentUnionMember2ContentModel",
-    "MessageContentUnionMember2ContentModelImageURL",
     "ResponseFormat",
     "ResponseFormatSimpleCompletionResponseFormat",
     "ResponseFormatSchemaCompletionResponseFormat",
@@ -27,7 +24,7 @@ __all__ = [
 
 
 class SessionChatParams(TypedDict, total=False):
-    messages: Required[Iterable[Message]]
+    messages: Required[Iterable[MessageParam]]
 
     agent: Optional[str]
 
@@ -66,44 +63,6 @@ class SessionChatParams(TypedDict, total=False):
     tools: Iterable[Tool]
 
     top_p: Optional[float]
-
-
-class MessageContentUnionMember2Content(TypedDict, total=False):
-    text: Required[str]
-
-    type: Literal["text"]
-
-
-class MessageContentUnionMember2ContentModelImageURL(TypedDict, total=False):
-    url: Required[str]
-
-    detail: Literal["low", "high", "auto"]
-
-
-class MessageContentUnionMember2ContentModel(TypedDict, total=False):
-    image_url: Required[MessageContentUnionMember2ContentModelImageURL]
-    """The image URL"""
-
-    type: Literal["image_url"]
-
-
-MessageContentUnionMember2: TypeAlias = Union[MessageContentUnionMember2Content, MessageContentUnionMember2ContentModel]
-
-_MessageReservedKeywords = TypedDict(
-    "_MessageReservedKeywords",
-    {
-        "continue": Optional[bool],
-    },
-    total=False,
-)
-
-
-class Message(_MessageReservedKeywords, total=False):
-    content: Required[Union[str, List[str], Iterable[MessageContentUnionMember2]]]
-
-    role: Required[Literal["user", "assistant", "system", "function", "function_response", "function_call", "auto"]]
-
-    name: Optional[str]
 
 
 class ResponseFormatSimpleCompletionResponseFormat(TypedDict, total=False):
