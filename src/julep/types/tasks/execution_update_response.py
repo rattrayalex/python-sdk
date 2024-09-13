@@ -5,10 +5,10 @@ from datetime import datetime
 
 from ..._models import BaseModel
 
-__all__ = ["ResourceUpdated"]
+__all__ = ["ExecutionUpdateResponse"]
 
 
-class ResourceUpdated(BaseModel):
+class ExecutionUpdateResponse(BaseModel):
     id: str
 
     updated_at: datetime

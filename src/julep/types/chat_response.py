@@ -5,7 +5,6 @@ from datetime import datetime
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
-from .shared.doc_reference import DocReference
 
 __all__ = [
     "ChatResponse",
@@ -40,6 +39,9 @@ __all__ = [
     "ChoiceMultipleChatOutputLogprobs",
     "ChoiceMultipleChatOutputLogprobsContent",
     "ChoiceMultipleChatOutputLogprobsContentTopLogprob",
+    "Doc",
+    "DocOwner",
+    "DocSnippet",
     "Usage",
 ]
 
@@ -277,6 +279,30 @@ class ChoiceMultipleChatOutput(BaseModel):
 Choice: TypeAlias = Union[ChoiceSingleChatOutput, ChoiceMultipleChatOutput]
 
 
+class DocOwner(BaseModel):
+    id: str
+
+    role: Literal["user", "agent"]
+
+
+class DocSnippet(BaseModel):
+    content: str
+
+    index: int
+
+
+class Doc(BaseModel):
+    id: str
+
+    owner: DocOwner
+
+    snippets: List[DocSnippet]
+
+    distance: Optional[float] = None
+
+    title: Optional[str] = None
+
+
 class Usage(BaseModel):
     completion_tokens: Optional[int] = None
 
@@ -292,7 +318,7 @@ class ChatResponse(BaseModel):
 
     created_at: datetime
 
-    docs: Optional[List[DocReference]] = None
+    docs: Optional[List[Doc]] = None
 
     jobs: Optional[List[str]] = None
 
