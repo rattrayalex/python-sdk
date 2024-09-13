@@ -23,10 +23,9 @@ from ..._response import (
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.task import Task
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.agents import task_list_params, task_create_params, task_create_or_update_params
+from ...types.agents import task_list_params, task_create_params
 from ...types.tool_param import ToolParam
 from ...types.shared.resource_created import ResourceCreated
-from ...types.shared.resource_updated import ResourceUpdated
 
 __all__ = ["TasksResource", "AsyncTasksResource"]
 
@@ -153,61 +152,6 @@ class TasksResource(SyncAPIResource):
             model=Task,
         )
 
-    def create_or_update(
-        self,
-        task_id: str,
-        *,
-        agent_id: str,
-        main: Iterable[task_create_or_update_params.Main],
-        name: str,
-        description: str | NotGiven = NOT_GIVEN,
-        inherit_tools: bool | NotGiven = NOT_GIVEN,
-        input_schema: Optional[object] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        tools: Iterable[ToolParam] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResourceUpdated:
-        """
-        Create Or Update Task
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        return self._post(
-            f"/agents/{agent_id}/tasks/{task_id}",
-            body=maybe_transform(
-                {
-                    "main": main,
-                    "name": name,
-                    "description": description,
-                    "inherit_tools": inherit_tools,
-                    "input_schema": input_schema,
-                    "metadata": metadata,
-                    "tools": tools,
-                },
-                task_create_or_update_params.TaskCreateOrUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ResourceUpdated,
-        )
-
 
 class AsyncTasksResource(AsyncAPIResource):
     @cached_property
@@ -331,61 +275,6 @@ class AsyncTasksResource(AsyncAPIResource):
             model=Task,
         )
 
-    async def create_or_update(
-        self,
-        task_id: str,
-        *,
-        agent_id: str,
-        main: Iterable[task_create_or_update_params.Main],
-        name: str,
-        description: str | NotGiven = NOT_GIVEN,
-        inherit_tools: bool | NotGiven = NOT_GIVEN,
-        input_schema: Optional[object] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        tools: Iterable[ToolParam] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResourceUpdated:
-        """
-        Create Or Update Task
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        return await self._post(
-            f"/agents/{agent_id}/tasks/{task_id}",
-            body=await async_maybe_transform(
-                {
-                    "main": main,
-                    "name": name,
-                    "description": description,
-                    "inherit_tools": inherit_tools,
-                    "input_schema": input_schema,
-                    "metadata": metadata,
-                    "tools": tools,
-                },
-                task_create_or_update_params.TaskCreateOrUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ResourceUpdated,
-        )
-
 
 class TasksResourceWithRawResponse:
     def __init__(self, tasks: TasksResource) -> None:
@@ -396,9 +285,6 @@ class TasksResourceWithRawResponse:
         )
         self.list = to_raw_response_wrapper(
             tasks.list,
-        )
-        self.create_or_update = to_raw_response_wrapper(
-            tasks.create_or_update,
         )
 
 
@@ -412,9 +298,6 @@ class AsyncTasksResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             tasks.list,
         )
-        self.create_or_update = async_to_raw_response_wrapper(
-            tasks.create_or_update,
-        )
 
 
 class TasksResourceWithStreamingResponse:
@@ -427,9 +310,6 @@ class TasksResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             tasks.list,
         )
-        self.create_or_update = to_streamed_response_wrapper(
-            tasks.create_or_update,
-        )
 
 
 class AsyncTasksResourceWithStreamingResponse:
@@ -441,7 +321,4 @@ class AsyncTasksResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             tasks.list,
-        )
-        self.create_or_update = async_to_streamed_response_wrapper(
-            tasks.create_or_update,
         )
