@@ -3,9 +3,9 @@
 from typing import List, Optional
 from typing_extensions import Literal
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["UserSearchResponse", "Doc", "DocOwner", "DocSnippet"]
+__all__ = ["DocSearchResponse", "Doc", "DocOwner", "DocSnippet"]
 
 
 class DocOwner(BaseModel):
@@ -32,7 +32,7 @@ class Doc(BaseModel):
     title: Optional[str] = None
 
 
-class UserSearchResponse(BaseModel):
+class DocSearchResponse(BaseModel):
     docs: List[Doc]
 
     time: float

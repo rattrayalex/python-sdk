@@ -11,6 +11,7 @@ from julep import Julep, AsyncJulep
 from julep.types import (
     History,
     Session,
+    SessionChatResponse,
     SessionPatchResponse,
     SessionCreateResponse,
     SessionDeleteResponse,
@@ -73,44 +74,6 @@ class TestSessions:
             assert_matches_type(SessionCreateResponse, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_method_retrieve(self, client: Julep) -> None:
-        session = client.sessions.retrieve(
-            "session_id",
-        )
-        assert_matches_type(Session, session, path=["response"])
-
-    @parametrize
-    def test_raw_response_retrieve(self, client: Julep) -> None:
-        response = client.sessions.with_raw_response.retrieve(
-            "session_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        session = response.parse()
-        assert_matches_type(Session, session, path=["response"])
-
-    @parametrize
-    def test_streaming_response_retrieve(self, client: Julep) -> None:
-        with client.sessions.with_streaming_response.retrieve(
-            "session_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            session = response.parse()
-            assert_matches_type(Session, session, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_retrieve(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
-            client.sessions.with_raw_response.retrieve(
-                "",
-            )
 
     @parametrize
     def test_method_update(self, client: Julep) -> None:
@@ -237,6 +200,139 @@ class TestSessions:
             )
 
     @parametrize
+    def test_method_chat(self, client: Julep) -> None:
+        session = client.sessions.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+        assert_matches_type(SessionChatResponse, session, path=["response"])
+
+    @parametrize
+    def test_method_chat_with_all_params(self, client: Julep) -> None:
+        session = client.sessions.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                    "continue": True,
+                    "name": "name",
+                }
+            ],
+            agent="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            frequency_penalty=-2,
+            length_penalty=0,
+            logit_bias={"foo": -100},
+            max_tokens=1,
+            min_p=0,
+            model="model",
+            presence_penalty=-2,
+            recall=True,
+            repetition_penalty=0,
+            response_format={"type": "text"},
+            save=True,
+            seed=-1,
+            stop=["string", "string", "string"],
+            stream=True,
+            temperature=0,
+            tool_choice="auto",
+            tools=[
+                {
+                    "function": {
+                        "description": "description",
+                        "name": {},
+                        "parameters": {},
+                    },
+                    "name": "name",
+                    "api_call": {},
+                    "integration": {},
+                    "system": {},
+                    "type": "function",
+                },
+                {
+                    "function": {
+                        "description": "description",
+                        "name": {},
+                        "parameters": {},
+                    },
+                    "name": "name",
+                    "api_call": {},
+                    "integration": {},
+                    "system": {},
+                    "type": "function",
+                },
+                {
+                    "function": {
+                        "description": "description",
+                        "name": {},
+                        "parameters": {},
+                    },
+                    "name": "name",
+                    "api_call": {},
+                    "integration": {},
+                    "system": {},
+                    "type": "function",
+                },
+            ],
+            top_p=0,
+        )
+        assert_matches_type(SessionChatResponse, session, path=["response"])
+
+    @parametrize
+    def test_raw_response_chat(self, client: Julep) -> None:
+        response = client.sessions.with_raw_response.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        session = response.parse()
+        assert_matches_type(SessionChatResponse, session, path=["response"])
+
+    @parametrize
+    def test_streaming_response_chat(self, client: Julep) -> None:
+        with client.sessions.with_streaming_response.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            session = response.parse()
+            assert_matches_type(SessionChatResponse, session, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_chat(self, client: Julep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            client.sessions.with_raw_response.chat(
+                session_id="",
+                messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
+    @parametrize
     def test_method_create_or_update(self, client: Julep) -> None:
         session = client.sessions.create_or_update(
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -296,6 +392,44 @@ class TestSessions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
             client.sessions.with_raw_response.create_or_update(
                 session_id="",
+            )
+
+    @parametrize
+    def test_method_get(self, client: Julep) -> None:
+        session = client.sessions.get(
+            "session_id",
+        )
+        assert_matches_type(Session, session, path=["response"])
+
+    @parametrize
+    def test_raw_response_get(self, client: Julep) -> None:
+        response = client.sessions.with_raw_response.get(
+            "session_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        session = response.parse()
+        assert_matches_type(Session, session, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get(self, client: Julep) -> None:
+        with client.sessions.with_streaming_response.get(
+            "session_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            session = response.parse()
+            assert_matches_type(Session, session, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get(self, client: Julep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            client.sessions.with_raw_response.get(
+                "",
             )
 
     @parametrize
@@ -439,44 +573,6 @@ class TestAsyncSessions:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncJulep) -> None:
-        session = await async_client.sessions.retrieve(
-            "session_id",
-        )
-        assert_matches_type(Session, session, path=["response"])
-
-    @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncJulep) -> None:
-        response = await async_client.sessions.with_raw_response.retrieve(
-            "session_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        session = await response.parse()
-        assert_matches_type(Session, session, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncJulep) -> None:
-        async with async_client.sessions.with_streaming_response.retrieve(
-            "session_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            session = await response.parse()
-            assert_matches_type(Session, session, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncJulep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
-            await async_client.sessions.with_raw_response.retrieve(
-                "",
-            )
-
-    @parametrize
     async def test_method_update(self, async_client: AsyncJulep) -> None:
         session = await async_client.sessions.update(
             session_id="session_id",
@@ -601,6 +697,139 @@ class TestAsyncSessions:
             )
 
     @parametrize
+    async def test_method_chat(self, async_client: AsyncJulep) -> None:
+        session = await async_client.sessions.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+        assert_matches_type(SessionChatResponse, session, path=["response"])
+
+    @parametrize
+    async def test_method_chat_with_all_params(self, async_client: AsyncJulep) -> None:
+        session = await async_client.sessions.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                    "continue": True,
+                    "name": "name",
+                }
+            ],
+            agent="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            frequency_penalty=-2,
+            length_penalty=0,
+            logit_bias={"foo": -100},
+            max_tokens=1,
+            min_p=0,
+            model="model",
+            presence_penalty=-2,
+            recall=True,
+            repetition_penalty=0,
+            response_format={"type": "text"},
+            save=True,
+            seed=-1,
+            stop=["string", "string", "string"],
+            stream=True,
+            temperature=0,
+            tool_choice="auto",
+            tools=[
+                {
+                    "function": {
+                        "description": "description",
+                        "name": {},
+                        "parameters": {},
+                    },
+                    "name": "name",
+                    "api_call": {},
+                    "integration": {},
+                    "system": {},
+                    "type": "function",
+                },
+                {
+                    "function": {
+                        "description": "description",
+                        "name": {},
+                        "parameters": {},
+                    },
+                    "name": "name",
+                    "api_call": {},
+                    "integration": {},
+                    "system": {},
+                    "type": "function",
+                },
+                {
+                    "function": {
+                        "description": "description",
+                        "name": {},
+                        "parameters": {},
+                    },
+                    "name": "name",
+                    "api_call": {},
+                    "integration": {},
+                    "system": {},
+                    "type": "function",
+                },
+            ],
+            top_p=0,
+        )
+        assert_matches_type(SessionChatResponse, session, path=["response"])
+
+    @parametrize
+    async def test_raw_response_chat(self, async_client: AsyncJulep) -> None:
+        response = await async_client.sessions.with_raw_response.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        session = await response.parse()
+        assert_matches_type(SessionChatResponse, session, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_chat(self, async_client: AsyncJulep) -> None:
+        async with async_client.sessions.with_streaming_response.chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            session = await response.parse()
+            assert_matches_type(SessionChatResponse, session, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_chat(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            await async_client.sessions.with_raw_response.chat(
+                session_id="",
+                messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
+    @parametrize
     async def test_method_create_or_update(self, async_client: AsyncJulep) -> None:
         session = await async_client.sessions.create_or_update(
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -660,6 +889,44 @@ class TestAsyncSessions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
             await async_client.sessions.with_raw_response.create_or_update(
                 session_id="",
+            )
+
+    @parametrize
+    async def test_method_get(self, async_client: AsyncJulep) -> None:
+        session = await async_client.sessions.get(
+            "session_id",
+        )
+        assert_matches_type(Session, session, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncJulep) -> None:
+        response = await async_client.sessions.with_raw_response.get(
+            "session_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        session = await response.parse()
+        assert_matches_type(Session, session, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncJulep) -> None:
+        async with async_client.sessions.with_streaming_response.get(
+            "session_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            session = await response.parse()
+            assert_matches_type(Session, session, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            await async_client.sessions.with_raw_response.get(
+                "",
             )
 
     @parametrize

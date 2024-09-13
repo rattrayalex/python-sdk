@@ -2,57 +2,47 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Any, Dict, List, Iterable, Optional, cast
 from typing_extensions import Literal
 
 import httpx
 
-from .chats import (
-    ChatsResource,
-    AsyncChatsResource,
-    ChatsResourceWithRawResponse,
-    AsyncChatsResourceWithRawResponse,
-    ChatsResourceWithStreamingResponse,
-    AsyncChatsResourceWithStreamingResponse,
-)
-from ...types import (
+from ..types import (
+    session_chat_params,
     session_list_params,
     session_patch_params,
     session_create_params,
     session_update_params,
     session_create_or_update_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._utils import (
     maybe_transform,
     async_maybe_transform,
 )
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
-from ..._base_client import AsyncPaginator, make_request_options
-from ...types.history import History
-from ...types.session import Session
-from ...types.session_patch_response import SessionPatchResponse
-from ...types.session_create_response import SessionCreateResponse
-from ...types.session_delete_response import SessionDeleteResponse
-from ...types.session_update_response import SessionUpdateResponse
-from ...types.session_create_or_update_response import SessionCreateOrUpdateResponse
+from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
+from .._base_client import AsyncPaginator, make_request_options
+from ..types.history import History
+from ..types.session import Session
+from ..types.session_chat_response import SessionChatResponse
+from ..types.session_patch_response import SessionPatchResponse
+from ..types.session_create_response import SessionCreateResponse
+from ..types.session_delete_response import SessionDeleteResponse
+from ..types.session_update_response import SessionUpdateResponse
+from ..types.session_create_or_update_response import SessionCreateOrUpdateResponse
 
 __all__ = ["SessionsResource", "AsyncSessionsResource"]
 
 
 class SessionsResource(SyncAPIResource):
-    @cached_property
-    def chats(self) -> ChatsResource:
-        return ChatsResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> SessionsResourceWithRawResponse:
         """
@@ -123,39 +113,6 @@ class SessionsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SessionCreateResponse,
-        )
-
-    def retrieve(
-        self,
-        session_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Session:
-        """
-        Get Session
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not session_id:
-            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
-        return self._get(
-            f"/sessions/{session_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Session,
         )
 
     def update(
@@ -288,6 +245,89 @@ class SessionsResource(SyncAPIResource):
             cast_to=SessionDeleteResponse,
         )
 
+    def chat(
+        self,
+        session_id: str,
+        *,
+        messages: Iterable[session_chat_params.Message],
+        agent: Optional[str] | NotGiven = NOT_GIVEN,
+        frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        length_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        logit_bias: Optional[Dict[str, float]] | NotGiven = NOT_GIVEN,
+        max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
+        min_p: Optional[float] | NotGiven = NOT_GIVEN,
+        model: Optional[str] | NotGiven = NOT_GIVEN,
+        presence_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        recall: bool | NotGiven = NOT_GIVEN,
+        repetition_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        response_format: Optional[session_chat_params.ResponseFormat] | NotGiven = NOT_GIVEN,
+        save: bool | NotGiven = NOT_GIVEN,
+        seed: Optional[int] | NotGiven = NOT_GIVEN,
+        stop: List[str] | NotGiven = NOT_GIVEN,
+        stream: bool | NotGiven = NOT_GIVEN,
+        temperature: Optional[float] | NotGiven = NOT_GIVEN,
+        tool_choice: Optional[session_chat_params.ToolChoice] | NotGiven = NOT_GIVEN,
+        tools: Iterable[session_chat_params.Tool] | NotGiven = NOT_GIVEN,
+        top_p: Optional[float] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SessionChatResponse:
+        """
+        Chat
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return cast(
+            SessionChatResponse,
+            self._post(
+                f"/sessions/{session_id}/chat",
+                body=maybe_transform(
+                    {
+                        "messages": messages,
+                        "agent": agent,
+                        "frequency_penalty": frequency_penalty,
+                        "length_penalty": length_penalty,
+                        "logit_bias": logit_bias,
+                        "max_tokens": max_tokens,
+                        "min_p": min_p,
+                        "model": model,
+                        "presence_penalty": presence_penalty,
+                        "recall": recall,
+                        "repetition_penalty": repetition_penalty,
+                        "response_format": response_format,
+                        "save": save,
+                        "seed": seed,
+                        "stop": stop,
+                        "stream": stream,
+                        "temperature": temperature,
+                        "tool_choice": tool_choice,
+                        "tools": tools,
+                        "top_p": top_p,
+                    },
+                    session_chat_params.SessionChatParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, SessionChatResponse
+                ),  # Union types cannot be passed in as arguments in the type system
+            ),
+        )
+
     def create_or_update(
         self,
         session_id: str,
@@ -342,6 +382,39 @@ class SessionsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SessionCreateOrUpdateResponse,
+        )
+
+    def get(
+        self,
+        session_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Session:
+        """
+        Get Session
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return self._get(
+            f"/sessions/{session_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Session,
         )
 
     def history(
@@ -428,10 +501,6 @@ class SessionsResource(SyncAPIResource):
 
 class AsyncSessionsResource(AsyncAPIResource):
     @cached_property
-    def chats(self) -> AsyncChatsResource:
-        return AsyncChatsResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> AsyncSessionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
@@ -501,39 +570,6 @@ class AsyncSessionsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SessionCreateResponse,
-        )
-
-    async def retrieve(
-        self,
-        session_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Session:
-        """
-        Get Session
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not session_id:
-            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
-        return await self._get(
-            f"/sessions/{session_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Session,
         )
 
     async def update(
@@ -666,6 +702,89 @@ class AsyncSessionsResource(AsyncAPIResource):
             cast_to=SessionDeleteResponse,
         )
 
+    async def chat(
+        self,
+        session_id: str,
+        *,
+        messages: Iterable[session_chat_params.Message],
+        agent: Optional[str] | NotGiven = NOT_GIVEN,
+        frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        length_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        logit_bias: Optional[Dict[str, float]] | NotGiven = NOT_GIVEN,
+        max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
+        min_p: Optional[float] | NotGiven = NOT_GIVEN,
+        model: Optional[str] | NotGiven = NOT_GIVEN,
+        presence_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        recall: bool | NotGiven = NOT_GIVEN,
+        repetition_penalty: Optional[float] | NotGiven = NOT_GIVEN,
+        response_format: Optional[session_chat_params.ResponseFormat] | NotGiven = NOT_GIVEN,
+        save: bool | NotGiven = NOT_GIVEN,
+        seed: Optional[int] | NotGiven = NOT_GIVEN,
+        stop: List[str] | NotGiven = NOT_GIVEN,
+        stream: bool | NotGiven = NOT_GIVEN,
+        temperature: Optional[float] | NotGiven = NOT_GIVEN,
+        tool_choice: Optional[session_chat_params.ToolChoice] | NotGiven = NOT_GIVEN,
+        tools: Iterable[session_chat_params.Tool] | NotGiven = NOT_GIVEN,
+        top_p: Optional[float] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SessionChatResponse:
+        """
+        Chat
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return cast(
+            SessionChatResponse,
+            await self._post(
+                f"/sessions/{session_id}/chat",
+                body=await async_maybe_transform(
+                    {
+                        "messages": messages,
+                        "agent": agent,
+                        "frequency_penalty": frequency_penalty,
+                        "length_penalty": length_penalty,
+                        "logit_bias": logit_bias,
+                        "max_tokens": max_tokens,
+                        "min_p": min_p,
+                        "model": model,
+                        "presence_penalty": presence_penalty,
+                        "recall": recall,
+                        "repetition_penalty": repetition_penalty,
+                        "response_format": response_format,
+                        "save": save,
+                        "seed": seed,
+                        "stop": stop,
+                        "stream": stream,
+                        "temperature": temperature,
+                        "tool_choice": tool_choice,
+                        "tools": tools,
+                        "top_p": top_p,
+                    },
+                    session_chat_params.SessionChatParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, SessionChatResponse
+                ),  # Union types cannot be passed in as arguments in the type system
+            ),
+        )
+
     async def create_or_update(
         self,
         session_id: str,
@@ -720,6 +839,39 @@ class AsyncSessionsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SessionCreateOrUpdateResponse,
+        )
+
+    async def get(
+        self,
+        session_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Session:
+        """
+        Get Session
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return await self._get(
+            f"/sessions/{session_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Session,
         )
 
     async def history(
@@ -811,9 +963,6 @@ class SessionsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             sessions.create,
         )
-        self.retrieve = to_raw_response_wrapper(
-            sessions.retrieve,
-        )
         self.update = to_raw_response_wrapper(
             sessions.update,
         )
@@ -823,8 +972,14 @@ class SessionsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             sessions.delete,
         )
+        self.chat = to_raw_response_wrapper(
+            sessions.chat,
+        )
         self.create_or_update = to_raw_response_wrapper(
             sessions.create_or_update,
+        )
+        self.get = to_raw_response_wrapper(
+            sessions.get,
         )
         self.history = to_raw_response_wrapper(
             sessions.history,
@@ -833,10 +988,6 @@ class SessionsResourceWithRawResponse:
             sessions.patch,
         )
 
-    @cached_property
-    def chats(self) -> ChatsResourceWithRawResponse:
-        return ChatsResourceWithRawResponse(self._sessions.chats)
-
 
 class AsyncSessionsResourceWithRawResponse:
     def __init__(self, sessions: AsyncSessionsResource) -> None:
@@ -844,9 +995,6 @@ class AsyncSessionsResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             sessions.create,
-        )
-        self.retrieve = async_to_raw_response_wrapper(
-            sessions.retrieve,
         )
         self.update = async_to_raw_response_wrapper(
             sessions.update,
@@ -857,8 +1005,14 @@ class AsyncSessionsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             sessions.delete,
         )
+        self.chat = async_to_raw_response_wrapper(
+            sessions.chat,
+        )
         self.create_or_update = async_to_raw_response_wrapper(
             sessions.create_or_update,
+        )
+        self.get = async_to_raw_response_wrapper(
+            sessions.get,
         )
         self.history = async_to_raw_response_wrapper(
             sessions.history,
@@ -867,10 +1021,6 @@ class AsyncSessionsResourceWithRawResponse:
             sessions.patch,
         )
 
-    @cached_property
-    def chats(self) -> AsyncChatsResourceWithRawResponse:
-        return AsyncChatsResourceWithRawResponse(self._sessions.chats)
-
 
 class SessionsResourceWithStreamingResponse:
     def __init__(self, sessions: SessionsResource) -> None:
@@ -878,9 +1028,6 @@ class SessionsResourceWithStreamingResponse:
 
         self.create = to_streamed_response_wrapper(
             sessions.create,
-        )
-        self.retrieve = to_streamed_response_wrapper(
-            sessions.retrieve,
         )
         self.update = to_streamed_response_wrapper(
             sessions.update,
@@ -891,8 +1038,14 @@ class SessionsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             sessions.delete,
         )
+        self.chat = to_streamed_response_wrapper(
+            sessions.chat,
+        )
         self.create_or_update = to_streamed_response_wrapper(
             sessions.create_or_update,
+        )
+        self.get = to_streamed_response_wrapper(
+            sessions.get,
         )
         self.history = to_streamed_response_wrapper(
             sessions.history,
@@ -901,10 +1054,6 @@ class SessionsResourceWithStreamingResponse:
             sessions.patch,
         )
 
-    @cached_property
-    def chats(self) -> ChatsResourceWithStreamingResponse:
-        return ChatsResourceWithStreamingResponse(self._sessions.chats)
-
 
 class AsyncSessionsResourceWithStreamingResponse:
     def __init__(self, sessions: AsyncSessionsResource) -> None:
@@ -912,9 +1061,6 @@ class AsyncSessionsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             sessions.create,
-        )
-        self.retrieve = async_to_streamed_response_wrapper(
-            sessions.retrieve,
         )
         self.update = async_to_streamed_response_wrapper(
             sessions.update,
@@ -925,8 +1071,14 @@ class AsyncSessionsResourceWithStreamingResponse:
         self.delete = async_to_streamed_response_wrapper(
             sessions.delete,
         )
+        self.chat = async_to_streamed_response_wrapper(
+            sessions.chat,
+        )
         self.create_or_update = async_to_streamed_response_wrapper(
             sessions.create_or_update,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            sessions.get,
         )
         self.history = async_to_streamed_response_wrapper(
             sessions.history,
@@ -934,7 +1086,3 @@ class AsyncSessionsResourceWithStreamingResponse:
         self.patch = async_to_streamed_response_wrapper(
             sessions.patch,
         )
-
-    @cached_property
-    def chats(self) -> AsyncChatsResourceWithStreamingResponse:
-        return AsyncChatsResourceWithStreamingResponse(self._sessions.chats)

@@ -11,7 +11,11 @@ from julep import Julep, AsyncJulep
 from julep.types import Doc
 from tests.utils import assert_matches_type
 from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
-from julep.types.agents import DocCreateResponse, DocDeleteResponse
+from julep.types.agents import (
+    DocCreateResponse,
+    DocDeleteResponse,
+    DocSearchResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -173,6 +177,170 @@ class TestDocs:
                 agent_id="agent_id",
             )
 
+    @parametrize
+    def test_method_search_overload_1(self, client: Julep) -> None:
+        doc = client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_method_search_with_all_params_overload_1(self, client: Julep) -> None:
+        doc = client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+            lang="en-US",
+            limit=1,
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_raw_response_search_overload_1(self, client: Julep) -> None:
+        response = client.agents.docs.with_raw_response.search(
+            agent_id="agent_id",
+            text="text",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        doc = response.parse()
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_streaming_response_search_overload_1(self, client: Julep) -> None:
+        with client.agents.docs.with_streaming_response.search(
+            agent_id="agent_id",
+            text="text",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            doc = response.parse()
+            assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_search_overload_1(self, client: Julep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.docs.with_raw_response.search(
+                agent_id="",
+                text="text",
+            )
+
+    @parametrize
+    def test_method_search_overload_2(self, client: Julep) -> None:
+        doc = client.agents.docs.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_method_search_with_all_params_overload_2(self, client: Julep) -> None:
+        doc = client.agents.docs.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+            confidence=0,
+            lang="en-US",
+            limit=1,
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_raw_response_search_overload_2(self, client: Julep) -> None:
+        response = client.agents.docs.with_raw_response.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        doc = response.parse()
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_streaming_response_search_overload_2(self, client: Julep) -> None:
+        with client.agents.docs.with_streaming_response.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            doc = response.parse()
+            assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_search_overload_2(self, client: Julep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.docs.with_raw_response.search(
+                agent_id="",
+                vector=[0, 0, 0],
+            )
+
+    @parametrize
+    def test_method_search_overload_3(self, client: Julep) -> None:
+        doc = client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_method_search_with_all_params_overload_3(self, client: Julep) -> None:
+        doc = client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+            alpha=0,
+            confidence=0,
+            lang="en-US",
+            limit=1,
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_raw_response_search_overload_3(self, client: Julep) -> None:
+        response = client.agents.docs.with_raw_response.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        doc = response.parse()
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    def test_streaming_response_search_overload_3(self, client: Julep) -> None:
+        with client.agents.docs.with_streaming_response.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            doc = response.parse()
+            assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_search_overload_3(self, client: Julep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.docs.with_raw_response.search(
+                agent_id="",
+                text="text",
+                vector=[0, 0, 0],
+            )
+
 
 class TestAsyncDocs:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -329,4 +497,168 @@ class TestAsyncDocs:
             await async_client.agents.docs.with_raw_response.delete(
                 doc_id="",
                 agent_id="agent_id",
+            )
+
+    @parametrize
+    async def test_method_search_overload_1(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_method_search_with_all_params_overload_1(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+            lang="en-US",
+            limit=1,
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_raw_response_search_overload_1(self, async_client: AsyncJulep) -> None:
+        response = await async_client.agents.docs.with_raw_response.search(
+            agent_id="agent_id",
+            text="text",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        doc = await response.parse()
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_search_overload_1(self, async_client: AsyncJulep) -> None:
+        async with async_client.agents.docs.with_streaming_response.search(
+            agent_id="agent_id",
+            text="text",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            doc = await response.parse()
+            assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_search_overload_1(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.docs.with_raw_response.search(
+                agent_id="",
+                text="text",
+            )
+
+    @parametrize
+    async def test_method_search_overload_2(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.agents.docs.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_method_search_with_all_params_overload_2(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.agents.docs.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+            confidence=0,
+            lang="en-US",
+            limit=1,
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_raw_response_search_overload_2(self, async_client: AsyncJulep) -> None:
+        response = await async_client.agents.docs.with_raw_response.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        doc = await response.parse()
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_search_overload_2(self, async_client: AsyncJulep) -> None:
+        async with async_client.agents.docs.with_streaming_response.search(
+            agent_id="agent_id",
+            vector=[0, 0, 0],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            doc = await response.parse()
+            assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_search_overload_2(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.docs.with_raw_response.search(
+                agent_id="",
+                vector=[0, 0, 0],
+            )
+
+    @parametrize
+    async def test_method_search_overload_3(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_method_search_with_all_params_overload_3(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.agents.docs.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+            alpha=0,
+            confidence=0,
+            lang="en-US",
+            limit=1,
+        )
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_raw_response_search_overload_3(self, async_client: AsyncJulep) -> None:
+        response = await async_client.agents.docs.with_raw_response.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        doc = await response.parse()
+        assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_search_overload_3(self, async_client: AsyncJulep) -> None:
+        async with async_client.agents.docs.with_streaming_response.search(
+            agent_id="agent_id",
+            text="text",
+            vector=[0, 0, 0],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            doc = await response.parse()
+            assert_matches_type(DocSearchResponse, doc, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_search_overload_3(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.docs.with_raw_response.search(
+                agent_id="",
+                text="text",
+                vector=[0, 0, 0],
             )

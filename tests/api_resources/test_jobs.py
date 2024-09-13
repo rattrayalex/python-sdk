@@ -18,15 +18,15 @@ class TestJobs:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_retrieve(self, client: Julep) -> None:
-        job = client.jobs.retrieve(
+    def test_method_get(self, client: Julep) -> None:
+        job = client.jobs.get(
             "job_id",
         )
         assert_matches_type(JobStatus, job, path=["response"])
 
     @parametrize
-    def test_raw_response_retrieve(self, client: Julep) -> None:
-        response = client.jobs.with_raw_response.retrieve(
+    def test_raw_response_get(self, client: Julep) -> None:
+        response = client.jobs.with_raw_response.get(
             "job_id",
         )
 
@@ -36,8 +36,8 @@ class TestJobs:
         assert_matches_type(JobStatus, job, path=["response"])
 
     @parametrize
-    def test_streaming_response_retrieve(self, client: Julep) -> None:
-        with client.jobs.with_streaming_response.retrieve(
+    def test_streaming_response_get(self, client: Julep) -> None:
+        with client.jobs.with_streaming_response.get(
             "job_id",
         ) as response:
             assert not response.is_closed
@@ -49,9 +49,9 @@ class TestJobs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_retrieve(self, client: Julep) -> None:
+    def test_path_params_get(self, client: Julep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            client.jobs.with_raw_response.retrieve(
+            client.jobs.with_raw_response.get(
                 "",
             )
 
@@ -60,15 +60,15 @@ class TestAsyncJobs:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncJulep) -> None:
-        job = await async_client.jobs.retrieve(
+    async def test_method_get(self, async_client: AsyncJulep) -> None:
+        job = await async_client.jobs.get(
             "job_id",
         )
         assert_matches_type(JobStatus, job, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncJulep) -> None:
-        response = await async_client.jobs.with_raw_response.retrieve(
+    async def test_raw_response_get(self, async_client: AsyncJulep) -> None:
+        response = await async_client.jobs.with_raw_response.get(
             "job_id",
         )
 
@@ -78,8 +78,8 @@ class TestAsyncJobs:
         assert_matches_type(JobStatus, job, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncJulep) -> None:
-        async with async_client.jobs.with_streaming_response.retrieve(
+    async def test_streaming_response_get(self, async_client: AsyncJulep) -> None:
+        async with async_client.jobs.with_streaming_response.get(
             "job_id",
         ) as response:
             assert not response.is_closed
@@ -91,8 +91,8 @@ class TestAsyncJobs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncJulep) -> None:
+    async def test_path_params_get(self, async_client: AsyncJulep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            await async_client.jobs.with_raw_response.retrieve(
+            await async_client.jobs.with_raw_response.get(
                 "",
             )

@@ -68,23 +68,23 @@ class TestTransitions:
             )
 
     @parametrize
-    def test_method_list_stream(self, client: Julep) -> None:
-        transition = client.executions.transitions.list_stream(
+    def test_method_stream(self, client: Julep) -> None:
+        transition = client.executions.transitions.stream(
             execution_id="execution_id",
         )
         assert_matches_type(object, transition, path=["response"])
 
     @parametrize
-    def test_method_list_stream_with_all_params(self, client: Julep) -> None:
-        transition = client.executions.transitions.list_stream(
+    def test_method_stream_with_all_params(self, client: Julep) -> None:
+        transition = client.executions.transitions.stream(
             execution_id="execution_id",
             next_page_token="next_page_token",
         )
         assert_matches_type(object, transition, path=["response"])
 
     @parametrize
-    def test_raw_response_list_stream(self, client: Julep) -> None:
-        response = client.executions.transitions.with_raw_response.list_stream(
+    def test_raw_response_stream(self, client: Julep) -> None:
+        response = client.executions.transitions.with_raw_response.stream(
             execution_id="execution_id",
         )
 
@@ -94,8 +94,8 @@ class TestTransitions:
         assert_matches_type(object, transition, path=["response"])
 
     @parametrize
-    def test_streaming_response_list_stream(self, client: Julep) -> None:
-        with client.executions.transitions.with_streaming_response.list_stream(
+    def test_streaming_response_stream(self, client: Julep) -> None:
+        with client.executions.transitions.with_streaming_response.stream(
             execution_id="execution_id",
         ) as response:
             assert not response.is_closed
@@ -107,9 +107,9 @@ class TestTransitions:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_list_stream(self, client: Julep) -> None:
+    def test_path_params_stream(self, client: Julep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `execution_id` but received ''"):
-            client.executions.transitions.with_raw_response.list_stream(
+            client.executions.transitions.with_raw_response.stream(
                 execution_id="",
             )
 
@@ -167,23 +167,23 @@ class TestAsyncTransitions:
             )
 
     @parametrize
-    async def test_method_list_stream(self, async_client: AsyncJulep) -> None:
-        transition = await async_client.executions.transitions.list_stream(
+    async def test_method_stream(self, async_client: AsyncJulep) -> None:
+        transition = await async_client.executions.transitions.stream(
             execution_id="execution_id",
         )
         assert_matches_type(object, transition, path=["response"])
 
     @parametrize
-    async def test_method_list_stream_with_all_params(self, async_client: AsyncJulep) -> None:
-        transition = await async_client.executions.transitions.list_stream(
+    async def test_method_stream_with_all_params(self, async_client: AsyncJulep) -> None:
+        transition = await async_client.executions.transitions.stream(
             execution_id="execution_id",
             next_page_token="next_page_token",
         )
         assert_matches_type(object, transition, path=["response"])
 
     @parametrize
-    async def test_raw_response_list_stream(self, async_client: AsyncJulep) -> None:
-        response = await async_client.executions.transitions.with_raw_response.list_stream(
+    async def test_raw_response_stream(self, async_client: AsyncJulep) -> None:
+        response = await async_client.executions.transitions.with_raw_response.stream(
             execution_id="execution_id",
         )
 
@@ -193,8 +193,8 @@ class TestAsyncTransitions:
         assert_matches_type(object, transition, path=["response"])
 
     @parametrize
-    async def test_streaming_response_list_stream(self, async_client: AsyncJulep) -> None:
-        async with async_client.executions.transitions.with_streaming_response.list_stream(
+    async def test_streaming_response_stream(self, async_client: AsyncJulep) -> None:
+        async with async_client.executions.transitions.with_streaming_response.stream(
             execution_id="execution_id",
         ) as response:
             assert not response.is_closed
@@ -206,8 +206,8 @@ class TestAsyncTransitions:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_list_stream(self, async_client: AsyncJulep) -> None:
+    async def test_path_params_stream(self, async_client: AsyncJulep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `execution_id` but received ''"):
-            await async_client.executions.transitions.with_raw_response.list_stream(
+            await async_client.executions.transitions.with_raw_response.stream(
                 execution_id="",
             )

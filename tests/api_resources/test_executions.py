@@ -18,44 +18,6 @@ class TestExecutions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_retrieve(self, client: Julep) -> None:
-        execution = client.executions.retrieve(
-            "execution_id",
-        )
-        assert_matches_type(Execution, execution, path=["response"])
-
-    @parametrize
-    def test_raw_response_retrieve(self, client: Julep) -> None:
-        response = client.executions.with_raw_response.retrieve(
-            "execution_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        execution = response.parse()
-        assert_matches_type(Execution, execution, path=["response"])
-
-    @parametrize
-    def test_streaming_response_retrieve(self, client: Julep) -> None:
-        with client.executions.with_streaming_response.retrieve(
-            "execution_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            execution = response.parse()
-            assert_matches_type(Execution, execution, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_retrieve(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `execution_id` but received ''"):
-            client.executions.with_raw_response.retrieve(
-                "",
-            )
-
-    @parametrize
     def test_method_update_overload_1(self, client: Julep) -> None:
         execution = client.executions.update(
             execution_id="execution_id",
@@ -149,47 +111,47 @@ class TestExecutions:
                 execution_id="",
             )
 
-
-class TestAsyncExecutions:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
-
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncJulep) -> None:
-        execution = await async_client.executions.retrieve(
+    def test_method_get(self, client: Julep) -> None:
+        execution = client.executions.get(
             "execution_id",
         )
         assert_matches_type(Execution, execution, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncJulep) -> None:
-        response = await async_client.executions.with_raw_response.retrieve(
+    def test_raw_response_get(self, client: Julep) -> None:
+        response = client.executions.with_raw_response.get(
             "execution_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        execution = await response.parse()
+        execution = response.parse()
         assert_matches_type(Execution, execution, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncJulep) -> None:
-        async with async_client.executions.with_streaming_response.retrieve(
+    def test_streaming_response_get(self, client: Julep) -> None:
+        with client.executions.with_streaming_response.get(
             "execution_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            execution = await response.parse()
+            execution = response.parse()
             assert_matches_type(Execution, execution, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncJulep) -> None:
+    def test_path_params_get(self, client: Julep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `execution_id` but received ''"):
-            await async_client.executions.with_raw_response.retrieve(
+            client.executions.with_raw_response.get(
                 "",
             )
+
+
+class TestAsyncExecutions:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_update_overload_1(self, async_client: AsyncJulep) -> None:
@@ -283,4 +245,42 @@ class TestAsyncExecutions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `execution_id` but received ''"):
             await async_client.executions.with_raw_response.update(
                 execution_id="",
+            )
+
+    @parametrize
+    async def test_method_get(self, async_client: AsyncJulep) -> None:
+        execution = await async_client.executions.get(
+            "execution_id",
+        )
+        assert_matches_type(Execution, execution, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncJulep) -> None:
+        response = await async_client.executions.with_raw_response.get(
+            "execution_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        execution = await response.parse()
+        assert_matches_type(Execution, execution, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncJulep) -> None:
+        async with async_client.executions.with_streaming_response.get(
+            "execution_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            execution = await response.parse()
+            assert_matches_type(Execution, execution, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `execution_id` but received ''"):
+            await async_client.executions.with_raw_response.get(
+                "",
             )

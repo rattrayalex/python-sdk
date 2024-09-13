@@ -6,10 +6,10 @@ from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
 __all__ = [
-    "ChatCreateResponse",
+    "SessionChatResponse",
     "ChunkChatResponse",
     "ChunkChatResponseChoice",
     "ChunkChatResponseChoiceDelta",
@@ -459,4 +459,4 @@ class MessageChatResponse(BaseModel):
     """Usage statistics for the completion request"""
 
 
-ChatCreateResponse: TypeAlias = Union[ChunkChatResponse, MessageChatResponse]
+SessionChatResponse: TypeAlias = Union[ChunkChatResponse, MessageChatResponse]

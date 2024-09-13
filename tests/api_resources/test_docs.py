@@ -49,15 +49,15 @@ class TestDocs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_retrieve(self, client: Julep) -> None:
-        doc = client.docs.retrieve(
+    def test_method_get(self, client: Julep) -> None:
+        doc = client.docs.get(
             "doc_id",
         )
         assert_matches_type(Doc, doc, path=["response"])
 
     @parametrize
-    def test_raw_response_retrieve(self, client: Julep) -> None:
-        response = client.docs.with_raw_response.retrieve(
+    def test_raw_response_get(self, client: Julep) -> None:
+        response = client.docs.with_raw_response.get(
             "doc_id",
         )
 
@@ -67,8 +67,8 @@ class TestDocs:
         assert_matches_type(Doc, doc, path=["response"])
 
     @parametrize
-    def test_streaming_response_retrieve(self, client: Julep) -> None:
-        with client.docs.with_streaming_response.retrieve(
+    def test_streaming_response_get(self, client: Julep) -> None:
+        with client.docs.with_streaming_response.get(
             "doc_id",
         ) as response:
             assert not response.is_closed
@@ -80,9 +80,9 @@ class TestDocs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_retrieve(self, client: Julep) -> None:
+    def test_path_params_get(self, client: Julep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `doc_id` but received ''"):
-            client.docs.with_raw_response.retrieve(
+            client.docs.with_raw_response.get(
                 "",
             )
 
@@ -122,15 +122,15 @@ class TestAsyncDocs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncJulep) -> None:
-        doc = await async_client.docs.retrieve(
+    async def test_method_get(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.docs.get(
             "doc_id",
         )
         assert_matches_type(Doc, doc, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncJulep) -> None:
-        response = await async_client.docs.with_raw_response.retrieve(
+    async def test_raw_response_get(self, async_client: AsyncJulep) -> None:
+        response = await async_client.docs.with_raw_response.get(
             "doc_id",
         )
 
@@ -140,8 +140,8 @@ class TestAsyncDocs:
         assert_matches_type(Doc, doc, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncJulep) -> None:
-        async with async_client.docs.with_streaming_response.retrieve(
+    async def test_streaming_response_get(self, async_client: AsyncJulep) -> None:
+        async with async_client.docs.with_streaming_response.get(
             "doc_id",
         ) as response:
             assert not response.is_closed
@@ -153,8 +153,8 @@ class TestAsyncDocs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncJulep) -> None:
+    async def test_path_params_get(self, async_client: AsyncJulep) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `doc_id` but received ''"):
-            await async_client.docs.with_raw_response.retrieve(
+            await async_client.docs.with_raw_response.get(
                 "",
             )

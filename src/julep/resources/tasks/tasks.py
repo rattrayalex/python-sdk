@@ -51,7 +51,7 @@ class TasksResource(SyncAPIResource):
         """
         return TasksResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def get(
         self,
         task_id: str,
         *,
@@ -109,7 +109,7 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         return AsyncTasksResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def get(
         self,
         task_id: str,
         *,
@@ -147,8 +147,8 @@ class TasksResourceWithRawResponse:
     def __init__(self, tasks: TasksResource) -> None:
         self._tasks = tasks
 
-        self.retrieve = to_raw_response_wrapper(
-            tasks.retrieve,
+        self.get = to_raw_response_wrapper(
+            tasks.get,
         )
 
     @cached_property
@@ -160,8 +160,8 @@ class AsyncTasksResourceWithRawResponse:
     def __init__(self, tasks: AsyncTasksResource) -> None:
         self._tasks = tasks
 
-        self.retrieve = async_to_raw_response_wrapper(
-            tasks.retrieve,
+        self.get = async_to_raw_response_wrapper(
+            tasks.get,
         )
 
     @cached_property
@@ -173,8 +173,8 @@ class TasksResourceWithStreamingResponse:
     def __init__(self, tasks: TasksResource) -> None:
         self._tasks = tasks
 
-        self.retrieve = to_streamed_response_wrapper(
-            tasks.retrieve,
+        self.get = to_streamed_response_wrapper(
+            tasks.get,
         )
 
     @cached_property
@@ -186,8 +186,8 @@ class AsyncTasksResourceWithStreamingResponse:
     def __init__(self, tasks: AsyncTasksResource) -> None:
         self._tasks = tasks
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            tasks.retrieve,
+        self.get = async_to_streamed_response_wrapper(
+            tasks.get,
         )
 
     @cached_property

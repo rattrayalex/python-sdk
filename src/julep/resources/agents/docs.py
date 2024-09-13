@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Optional
+from typing import List, Union, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
+    required_args,
     maybe_transform,
     async_maybe_transform,
 )
@@ -23,9 +24,10 @@ from ..._response import (
 from ...types.doc import Doc
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.agents import doc_list_params, doc_create_params
+from ...types.agents import doc_list_params, doc_create_params, doc_search_params
 from ...types.agents.doc_create_response import DocCreateResponse
 from ...types.agents.doc_delete_response import DocDeleteResponse
+from ...types.agents.doc_search_response import DocSearchResponse
 
 __all__ = ["DocsResource", "AsyncDocsResource"]
 
@@ -182,6 +184,136 @@ class DocsResource(SyncAPIResource):
             cast_to=DocDeleteResponse,
         )
 
+    @overload
+    def search(
+        self,
+        agent_id: str,
+        *,
+        text: str,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        """
+        Search Agent Docs
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def search(
+        self,
+        agent_id: str,
+        *,
+        vector: Iterable[float],
+        confidence: float | NotGiven = NOT_GIVEN,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        """
+        Search Agent Docs
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def search(
+        self,
+        agent_id: str,
+        *,
+        text: str,
+        vector: Iterable[float],
+        alpha: float | NotGiven = NOT_GIVEN,
+        confidence: float | NotGiven = NOT_GIVEN,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        """
+        Search Agent Docs
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["text"], ["vector"], ["text", "vector"])
+    def search(
+        self,
+        agent_id: str,
+        *,
+        text: str | NotGiven = NOT_GIVEN,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        vector: Iterable[float] | NotGiven = NOT_GIVEN,
+        confidence: float | NotGiven = NOT_GIVEN,
+        alpha: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return self._post(
+            f"/agents/{agent_id}/search",
+            body=maybe_transform(
+                {
+                    "text": text,
+                    "lang": lang,
+                    "limit": limit,
+                    "vector": vector,
+                    "confidence": confidence,
+                    "alpha": alpha,
+                },
+                doc_search_params.DocSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DocSearchResponse,
+        )
+
 
 class AsyncDocsResource(AsyncAPIResource):
     @cached_property
@@ -335,6 +467,136 @@ class AsyncDocsResource(AsyncAPIResource):
             cast_to=DocDeleteResponse,
         )
 
+    @overload
+    async def search(
+        self,
+        agent_id: str,
+        *,
+        text: str,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        """
+        Search Agent Docs
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def search(
+        self,
+        agent_id: str,
+        *,
+        vector: Iterable[float],
+        confidence: float | NotGiven = NOT_GIVEN,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        """
+        Search Agent Docs
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def search(
+        self,
+        agent_id: str,
+        *,
+        text: str,
+        vector: Iterable[float],
+        alpha: float | NotGiven = NOT_GIVEN,
+        confidence: float | NotGiven = NOT_GIVEN,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        """
+        Search Agent Docs
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["text"], ["vector"], ["text", "vector"])
+    async def search(
+        self,
+        agent_id: str,
+        *,
+        text: str | NotGiven = NOT_GIVEN,
+        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        vector: Iterable[float] | NotGiven = NOT_GIVEN,
+        confidence: float | NotGiven = NOT_GIVEN,
+        alpha: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DocSearchResponse:
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return await self._post(
+            f"/agents/{agent_id}/search",
+            body=await async_maybe_transform(
+                {
+                    "text": text,
+                    "lang": lang,
+                    "limit": limit,
+                    "vector": vector,
+                    "confidence": confidence,
+                    "alpha": alpha,
+                },
+                doc_search_params.DocSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DocSearchResponse,
+        )
+
 
 class DocsResourceWithRawResponse:
     def __init__(self, docs: DocsResource) -> None:
@@ -348,6 +610,9 @@ class DocsResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             docs.delete,
+        )
+        self.search = to_raw_response_wrapper(
+            docs.search,
         )
 
 
@@ -364,6 +629,9 @@ class AsyncDocsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             docs.delete,
         )
+        self.search = async_to_raw_response_wrapper(
+            docs.search,
+        )
 
 
 class DocsResourceWithStreamingResponse:
@@ -379,6 +647,9 @@ class DocsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             docs.delete,
         )
+        self.search = to_streamed_response_wrapper(
+            docs.search,
+        )
 
 
 class AsyncDocsResourceWithStreamingResponse:
@@ -393,4 +664,7 @@ class AsyncDocsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             docs.delete,
+        )
+        self.search = async_to_streamed_response_wrapper(
+            docs.search,
         )

@@ -13,7 +13,6 @@ from julep.types import (
     AgentPatchResponse,
     AgentCreateResponse,
     AgentDeleteResponse,
-    AgentSearchResponse,
     AgentUpdateResponse,
     AgentCreateOrUpdateResponse,
 )
@@ -70,44 +69,6 @@ class TestAgents:
             assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_method_retrieve(self, client: Julep) -> None:
-        agent = client.agents.retrieve(
-            "agent_id",
-        )
-        assert_matches_type(Agent, agent, path=["response"])
-
-    @parametrize
-    def test_raw_response_retrieve(self, client: Julep) -> None:
-        response = client.agents.with_raw_response.retrieve(
-            "agent_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = response.parse()
-        assert_matches_type(Agent, agent, path=["response"])
-
-    @parametrize
-    def test_streaming_response_retrieve(self, client: Julep) -> None:
-        with client.agents.with_streaming_response.retrieve(
-            "agent_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = response.parse()
-            assert_matches_type(Agent, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_retrieve(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            client.agents.with_raw_response.retrieve(
-                "",
-            )
 
     @parametrize
     def test_method_update(self, client: Julep) -> None:
@@ -302,6 +263,44 @@ class TestAgents:
             )
 
     @parametrize
+    def test_method_get(self, client: Julep) -> None:
+        agent = client.agents.get(
+            "agent_id",
+        )
+        assert_matches_type(Agent, agent, path=["response"])
+
+    @parametrize
+    def test_raw_response_get(self, client: Julep) -> None:
+        response = client.agents.with_raw_response.get(
+            "agent_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        agent = response.parse()
+        assert_matches_type(Agent, agent, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get(self, client: Julep) -> None:
+        with client.agents.with_streaming_response.get(
+            "agent_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            agent = response.parse()
+            assert_matches_type(Agent, agent, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get(self, client: Julep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.with_raw_response.get(
+                "",
+            )
+
+    @parametrize
     def test_method_patch(self, client: Julep) -> None:
         agent = client.agents.patch(
             agent_id="agent_id",
@@ -360,170 +359,6 @@ class TestAgents:
                 agent_id="",
             )
 
-    @parametrize
-    def test_method_search_overload_1(self, client: Julep) -> None:
-        agent = client.agents.search(
-            agent_id="agent_id",
-            text="text",
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_method_search_with_all_params_overload_1(self, client: Julep) -> None:
-        agent = client.agents.search(
-            agent_id="agent_id",
-            text="text",
-            lang="en-US",
-            limit=1,
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_raw_response_search_overload_1(self, client: Julep) -> None:
-        response = client.agents.with_raw_response.search(
-            agent_id="agent_id",
-            text="text",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = response.parse()
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_streaming_response_search_overload_1(self, client: Julep) -> None:
-        with client.agents.with_streaming_response.search(
-            agent_id="agent_id",
-            text="text",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = response.parse()
-            assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_search_overload_1(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            client.agents.with_raw_response.search(
-                agent_id="",
-                text="text",
-            )
-
-    @parametrize
-    def test_method_search_overload_2(self, client: Julep) -> None:
-        agent = client.agents.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_method_search_with_all_params_overload_2(self, client: Julep) -> None:
-        agent = client.agents.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-            confidence=0,
-            lang="en-US",
-            limit=1,
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_raw_response_search_overload_2(self, client: Julep) -> None:
-        response = client.agents.with_raw_response.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = response.parse()
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_streaming_response_search_overload_2(self, client: Julep) -> None:
-        with client.agents.with_streaming_response.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = response.parse()
-            assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_search_overload_2(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            client.agents.with_raw_response.search(
-                agent_id="",
-                vector=[0, 0, 0],
-            )
-
-    @parametrize
-    def test_method_search_overload_3(self, client: Julep) -> None:
-        agent = client.agents.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_method_search_with_all_params_overload_3(self, client: Julep) -> None:
-        agent = client.agents.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-            alpha=0,
-            confidence=0,
-            lang="en-US",
-            limit=1,
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_raw_response_search_overload_3(self, client: Julep) -> None:
-        response = client.agents.with_raw_response.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = response.parse()
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    def test_streaming_response_search_overload_3(self, client: Julep) -> None:
-        with client.agents.with_streaming_response.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = response.parse()
-            assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_search_overload_3(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            client.agents.with_raw_response.search(
-                agent_id="",
-                text="text",
-                vector=[0, 0, 0],
-            )
-
 
 class TestAsyncAgents:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -572,44 +407,6 @@ class TestAsyncAgents:
             assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_method_retrieve(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.retrieve(
-            "agent_id",
-        )
-        assert_matches_type(Agent, agent, path=["response"])
-
-    @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncJulep) -> None:
-        response = await async_client.agents.with_raw_response.retrieve(
-            "agent_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = await response.parse()
-        assert_matches_type(Agent, agent, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncJulep) -> None:
-        async with async_client.agents.with_streaming_response.retrieve(
-            "agent_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = await response.parse()
-            assert_matches_type(Agent, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncJulep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            await async_client.agents.with_raw_response.retrieve(
-                "",
-            )
 
     @parametrize
     async def test_method_update(self, async_client: AsyncJulep) -> None:
@@ -804,6 +601,44 @@ class TestAsyncAgents:
             )
 
     @parametrize
+    async def test_method_get(self, async_client: AsyncJulep) -> None:
+        agent = await async_client.agents.get(
+            "agent_id",
+        )
+        assert_matches_type(Agent, agent, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncJulep) -> None:
+        response = await async_client.agents.with_raw_response.get(
+            "agent_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        agent = await response.parse()
+        assert_matches_type(Agent, agent, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncJulep) -> None:
+        async with async_client.agents.with_streaming_response.get(
+            "agent_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            agent = await response.parse()
+            assert_matches_type(Agent, agent, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncJulep) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.with_raw_response.get(
+                "",
+            )
+
+    @parametrize
     async def test_method_patch(self, async_client: AsyncJulep) -> None:
         agent = await async_client.agents.patch(
             agent_id="agent_id",
@@ -860,168 +695,4 @@ class TestAsyncAgents:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
             await async_client.agents.with_raw_response.patch(
                 agent_id="",
-            )
-
-    @parametrize
-    async def test_method_search_overload_1(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.search(
-            agent_id="agent_id",
-            text="text",
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_method_search_with_all_params_overload_1(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.search(
-            agent_id="agent_id",
-            text="text",
-            lang="en-US",
-            limit=1,
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_raw_response_search_overload_1(self, async_client: AsyncJulep) -> None:
-        response = await async_client.agents.with_raw_response.search(
-            agent_id="agent_id",
-            text="text",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = await response.parse()
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_search_overload_1(self, async_client: AsyncJulep) -> None:
-        async with async_client.agents.with_streaming_response.search(
-            agent_id="agent_id",
-            text="text",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = await response.parse()
-            assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_search_overload_1(self, async_client: AsyncJulep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            await async_client.agents.with_raw_response.search(
-                agent_id="",
-                text="text",
-            )
-
-    @parametrize
-    async def test_method_search_overload_2(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_method_search_with_all_params_overload_2(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-            confidence=0,
-            lang="en-US",
-            limit=1,
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_raw_response_search_overload_2(self, async_client: AsyncJulep) -> None:
-        response = await async_client.agents.with_raw_response.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = await response.parse()
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_search_overload_2(self, async_client: AsyncJulep) -> None:
-        async with async_client.agents.with_streaming_response.search(
-            agent_id="agent_id",
-            vector=[0, 0, 0],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = await response.parse()
-            assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_search_overload_2(self, async_client: AsyncJulep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            await async_client.agents.with_raw_response.search(
-                agent_id="",
-                vector=[0, 0, 0],
-            )
-
-    @parametrize
-    async def test_method_search_overload_3(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_method_search_with_all_params_overload_3(self, async_client: AsyncJulep) -> None:
-        agent = await async_client.agents.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-            alpha=0,
-            confidence=0,
-            lang="en-US",
-            limit=1,
-        )
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_raw_response_search_overload_3(self, async_client: AsyncJulep) -> None:
-        response = await async_client.agents.with_raw_response.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        agent = await response.parse()
-        assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_search_overload_3(self, async_client: AsyncJulep) -> None:
-        async with async_client.agents.with_streaming_response.search(
-            agent_id="agent_id",
-            text="text",
-            vector=[0, 0, 0],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            agent = await response.parse()
-            assert_matches_type(AgentSearchResponse, agent, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_search_overload_3(self, async_client: AsyncJulep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
-            await async_client.agents.with_raw_response.search(
-                agent_id="",
-                text="text",
-                vector=[0, 0, 0],
             )
