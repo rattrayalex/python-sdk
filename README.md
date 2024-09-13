@@ -10,7 +10,7 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [www.julep.ai](https://www.julep.ai/). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.julep.ai](https://docs.julep.ai/). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
