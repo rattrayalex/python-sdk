@@ -18,15 +18,15 @@ class TestDocs:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: Julep) -> None:
-        doc = client.docs.create(
+    def test_method_embed(self, client: Julep) -> None:
+        doc = client.docs.embed(
             text="string",
         )
         assert_matches_type(EmbedQueryResponse, doc, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: Julep) -> None:
-        response = client.docs.with_raw_response.create(
+    def test_raw_response_embed(self, client: Julep) -> None:
+        response = client.docs.with_raw_response.embed(
             text="string",
         )
 
@@ -36,8 +36,8 @@ class TestDocs:
         assert_matches_type(EmbedQueryResponse, doc, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: Julep) -> None:
-        with client.docs.with_streaming_response.create(
+    def test_streaming_response_embed(self, client: Julep) -> None:
+        with client.docs.with_streaming_response.embed(
             text="string",
         ) as response:
             assert not response.is_closed
@@ -91,15 +91,15 @@ class TestAsyncDocs:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncJulep) -> None:
-        doc = await async_client.docs.create(
+    async def test_method_embed(self, async_client: AsyncJulep) -> None:
+        doc = await async_client.docs.embed(
             text="string",
         )
         assert_matches_type(EmbedQueryResponse, doc, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncJulep) -> None:
-        response = await async_client.docs.with_raw_response.create(
+    async def test_raw_response_embed(self, async_client: AsyncJulep) -> None:
+        response = await async_client.docs.with_raw_response.embed(
             text="string",
         )
 
@@ -109,8 +109,8 @@ class TestAsyncDocs:
         assert_matches_type(EmbedQueryResponse, doc, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncJulep) -> None:
-        async with async_client.docs.with_streaming_response.create(
+    async def test_streaming_response_embed(self, async_client: AsyncJulep) -> None:
+        async with async_client.docs.with_streaming_response.embed(
             text="string",
         ) as response:
             assert not response.is_closed

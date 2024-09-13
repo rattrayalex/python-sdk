@@ -6,7 +6,7 @@ from typing import List, Union
 
 import httpx
 
-from ..types import doc_create_params
+from ..types import doc_embed_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -47,7 +47,7 @@ class DocsResource(SyncAPIResource):
         """
         return DocsResourceWithStreamingResponse(self)
 
-    def create(
+    def embed(
         self,
         *,
         text: Union[str, List[str]],
@@ -72,7 +72,7 @@ class DocsResource(SyncAPIResource):
         """
         return self._post(
             "/embed",
-            body=maybe_transform({"text": text}, doc_create_params.DocCreateParams),
+            body=maybe_transform({"text": text}, doc_embed_params.DocEmbedParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -133,7 +133,7 @@ class AsyncDocsResource(AsyncAPIResource):
         """
         return AsyncDocsResourceWithStreamingResponse(self)
 
-    async def create(
+    async def embed(
         self,
         *,
         text: Union[str, List[str]],
@@ -158,7 +158,7 @@ class AsyncDocsResource(AsyncAPIResource):
         """
         return await self._post(
             "/embed",
-            body=await async_maybe_transform({"text": text}, doc_create_params.DocCreateParams),
+            body=await async_maybe_transform({"text": text}, doc_embed_params.DocEmbedParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -203,8 +203,8 @@ class DocsResourceWithRawResponse:
     def __init__(self, docs: DocsResource) -> None:
         self._docs = docs
 
-        self.create = to_raw_response_wrapper(
-            docs.create,
+        self.embed = to_raw_response_wrapper(
+            docs.embed,
         )
         self.get = to_raw_response_wrapper(
             docs.get,
@@ -215,8 +215,8 @@ class AsyncDocsResourceWithRawResponse:
     def __init__(self, docs: AsyncDocsResource) -> None:
         self._docs = docs
 
-        self.create = async_to_raw_response_wrapper(
-            docs.create,
+        self.embed = async_to_raw_response_wrapper(
+            docs.embed,
         )
         self.get = async_to_raw_response_wrapper(
             docs.get,
@@ -227,8 +227,8 @@ class DocsResourceWithStreamingResponse:
     def __init__(self, docs: DocsResource) -> None:
         self._docs = docs
 
-        self.create = to_streamed_response_wrapper(
-            docs.create,
+        self.embed = to_streamed_response_wrapper(
+            docs.embed,
         )
         self.get = to_streamed_response_wrapper(
             docs.get,
@@ -239,8 +239,8 @@ class AsyncDocsResourceWithStreamingResponse:
     def __init__(self, docs: AsyncDocsResource) -> None:
         self._docs = docs
 
-        self.create = async_to_streamed_response_wrapper(
-            docs.create,
+        self.embed = async_to_streamed_response_wrapper(
+            docs.embed,
         )
         self.get = async_to_streamed_response_wrapper(
             docs.get,
