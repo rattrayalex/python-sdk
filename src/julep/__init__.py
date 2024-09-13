@@ -3,7 +3,18 @@
 from . import types
 from ._types import NOT_GIVEN, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
-from ._client import Julep, Client, Stream, Timeout, Transport, AsyncJulep, AsyncClient, AsyncStream, RequestOptions
+from ._client import (
+    ENVIRONMENTS,
+    Julep,
+    Client,
+    Stream,
+    Timeout,
+    Transport,
+    AsyncJulep,
+    AsyncClient,
+    AsyncStream,
+    RequestOptions,
+)
 from ._models import BaseModel
 from ._version import __title__, __version__
 from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIResponse
@@ -58,6 +69,7 @@ __all__ = [
     "AsyncStream",
     "Julep",
     "AsyncJulep",
+    "ENVIRONMENTS",
     "file_from_path",
     "BaseModel",
     "DEFAULT_TIMEOUT",
