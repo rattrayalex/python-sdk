@@ -22,8 +22,10 @@ from ..._response import (
 )
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.agents import tool_list_params, tool_create_params
+from ...types.agents import tool_list_params, tool_patch_params, tool_create_params, tool_update_params
 from ...types.shared.resource_created import ResourceCreated
+from ...types.shared.resource_deleted import ResourceDeleted
+from ...types.shared.resource_updated import ResourceUpdated
 from ...types.agents.tool_list_response import ToolListResponse
 
 __all__ = ["ToolsResource", "AsyncToolsResource"]
@@ -101,6 +103,61 @@ class ToolsResource(SyncAPIResource):
             cast_to=ResourceCreated,
         )
 
+    def update(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        function: tool_update_params.Function,
+        name: str,
+        api_call: Optional[object] | NotGiven = NOT_GIVEN,
+        integration: Optional[object] | NotGiven = NOT_GIVEN,
+        system: Optional[object] | NotGiven = NOT_GIVEN,
+        type: Literal["function", "integration", "system", "api_call"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResourceUpdated:
+        """
+        Update Agent Tool
+
+        Args:
+          function: Function definition
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return self._put(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            body=maybe_transform(
+                {
+                    "function": function,
+                    "name": name,
+                    "api_call": api_call,
+                    "integration": integration,
+                    "system": system,
+                    "type": type,
+                },
+                tool_update_params.ToolUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResourceUpdated,
+        )
+
     def list(
         self,
         agent_id: str,
@@ -149,6 +206,97 @@ class ToolsResource(SyncAPIResource):
                 ),
             ),
             model=ToolListResponse,
+        )
+
+    def delete(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResourceDeleted:
+        """
+        Delete Agent Tool
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return self._delete(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResourceDeleted,
+        )
+
+    def patch(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        api_call: Optional[object] | NotGiven = NOT_GIVEN,
+        function: Optional[tool_patch_params.Function] | NotGiven = NOT_GIVEN,
+        integration: Optional[object] | NotGiven = NOT_GIVEN,
+        name: Optional[str] | NotGiven = NOT_GIVEN,
+        system: Optional[object] | NotGiven = NOT_GIVEN,
+        type: Literal["function", "integration", "system", "api_call"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResourceUpdated:
+        """
+        Patch Agent Tool
+
+        Args:
+          function: Function definition
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return self._patch(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            body=maybe_transform(
+                {
+                    "api_call": api_call,
+                    "function": function,
+                    "integration": integration,
+                    "name": name,
+                    "system": system,
+                    "type": type,
+                },
+                tool_patch_params.ToolPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResourceUpdated,
         )
 
 
@@ -224,6 +372,61 @@ class AsyncToolsResource(AsyncAPIResource):
             cast_to=ResourceCreated,
         )
 
+    async def update(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        function: tool_update_params.Function,
+        name: str,
+        api_call: Optional[object] | NotGiven = NOT_GIVEN,
+        integration: Optional[object] | NotGiven = NOT_GIVEN,
+        system: Optional[object] | NotGiven = NOT_GIVEN,
+        type: Literal["function", "integration", "system", "api_call"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResourceUpdated:
+        """
+        Update Agent Tool
+
+        Args:
+          function: Function definition
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return await self._put(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            body=await async_maybe_transform(
+                {
+                    "function": function,
+                    "name": name,
+                    "api_call": api_call,
+                    "integration": integration,
+                    "system": system,
+                    "type": type,
+                },
+                tool_update_params.ToolUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResourceUpdated,
+        )
+
     def list(
         self,
         agent_id: str,
@@ -274,6 +477,97 @@ class AsyncToolsResource(AsyncAPIResource):
             model=ToolListResponse,
         )
 
+    async def delete(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResourceDeleted:
+        """
+        Delete Agent Tool
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return await self._delete(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResourceDeleted,
+        )
+
+    async def patch(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        api_call: Optional[object] | NotGiven = NOT_GIVEN,
+        function: Optional[tool_patch_params.Function] | NotGiven = NOT_GIVEN,
+        integration: Optional[object] | NotGiven = NOT_GIVEN,
+        name: Optional[str] | NotGiven = NOT_GIVEN,
+        system: Optional[object] | NotGiven = NOT_GIVEN,
+        type: Literal["function", "integration", "system", "api_call"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResourceUpdated:
+        """
+        Patch Agent Tool
+
+        Args:
+          function: Function definition
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return await self._patch(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            body=await async_maybe_transform(
+                {
+                    "api_call": api_call,
+                    "function": function,
+                    "integration": integration,
+                    "name": name,
+                    "system": system,
+                    "type": type,
+                },
+                tool_patch_params.ToolPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResourceUpdated,
+        )
+
 
 class ToolsResourceWithRawResponse:
     def __init__(self, tools: ToolsResource) -> None:
@@ -282,8 +576,17 @@ class ToolsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             tools.create,
         )
+        self.update = to_raw_response_wrapper(
+            tools.update,
+        )
         self.list = to_raw_response_wrapper(
             tools.list,
+        )
+        self.delete = to_raw_response_wrapper(
+            tools.delete,
+        )
+        self.patch = to_raw_response_wrapper(
+            tools.patch,
         )
 
 
@@ -294,8 +597,17 @@ class AsyncToolsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             tools.create,
         )
+        self.update = async_to_raw_response_wrapper(
+            tools.update,
+        )
         self.list = async_to_raw_response_wrapper(
             tools.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            tools.delete,
+        )
+        self.patch = async_to_raw_response_wrapper(
+            tools.patch,
         )
 
 
@@ -306,8 +618,17 @@ class ToolsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             tools.create,
         )
+        self.update = to_streamed_response_wrapper(
+            tools.update,
+        )
         self.list = to_streamed_response_wrapper(
             tools.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            tools.delete,
+        )
+        self.patch = to_streamed_response_wrapper(
+            tools.patch,
         )
 
 
@@ -318,6 +639,15 @@ class AsyncToolsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             tools.create,
         )
+        self.update = async_to_streamed_response_wrapper(
+            tools.update,
+        )
         self.list = async_to_streamed_response_wrapper(
             tools.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            tools.delete,
+        )
+        self.patch = async_to_streamed_response_wrapper(
+            tools.patch,
         )

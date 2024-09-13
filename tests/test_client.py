@@ -707,12 +707,14 @@ class TestJulep:
     @mock.patch("julep._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(
+            side_effect=httpx.TimeoutException("Test timeout error")
+        )
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/agents",
-                body=cast(object, dict()),
+                "/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                body=cast(object, dict(instructions=["Protect Leia", "Kick butt"], model="o1-preview", name="R2D2")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -722,12 +724,12 @@ class TestJulep:
     @mock.patch("julep._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents").mock(return_value=httpx.Response(500))
+        respx_mock.post("/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/agents",
-                body=cast(object, dict()),
+                "/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                body=cast(object, dict(instructions=["Protect Leia", "Kick butt"], model="o1-preview", name="R2D2")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -749,9 +751,9 @@ class TestJulep:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agents").mock(side_effect=retry_handler)
+        respx_mock.post("/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = client.agents.with_raw_response.create()
+        response = client.agents.with_raw_response.create_or_update(agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         assert response.retries_taken == failures_before_success
 
@@ -1434,12 +1436,14 @@ class TestAsyncJulep:
     @mock.patch("julep._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(
+            side_effect=httpx.TimeoutException("Test timeout error")
+        )
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/agents",
-                body=cast(object, dict()),
+                "/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                body=cast(object, dict(instructions=["Protect Leia", "Kick butt"], model="o1-preview", name="R2D2")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1449,12 +1453,12 @@ class TestAsyncJulep:
     @mock.patch("julep._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents").mock(return_value=httpx.Response(500))
+        respx_mock.post("/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/agents",
-                body=cast(object, dict()),
+                "/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                body=cast(object, dict(instructions=["Protect Leia", "Kick butt"], model="o1-preview", name="R2D2")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1479,8 +1483,10 @@ class TestAsyncJulep:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agents").mock(side_effect=retry_handler)
+        respx_mock.post("/agents/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = await client.agents.with_raw_response.create()
+        response = await client.agents.with_raw_response.create_or_update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+        )
 
         assert response.retries_taken == failures_before_success
