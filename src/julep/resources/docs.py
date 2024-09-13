@@ -20,6 +20,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..types.doc import Doc
 from .._base_client import make_request_options
 from ..types.embed_query_response import EmbedQueryResponse
 
@@ -78,6 +79,39 @@ class DocsResource(SyncAPIResource):
             cast_to=EmbedQueryResponse,
         )
 
+    def get(
+        self,
+        doc_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Doc:
+        """
+        Get Doc
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not doc_id:
+            raise ValueError(f"Expected a non-empty value for `doc_id` but received {doc_id!r}")
+        return self._get(
+            f"/docs/{doc_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Doc,
+        )
+
 
 class AsyncDocsResource(AsyncAPIResource):
     @cached_property
@@ -131,6 +165,39 @@ class AsyncDocsResource(AsyncAPIResource):
             cast_to=EmbedQueryResponse,
         )
 
+    async def get(
+        self,
+        doc_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Doc:
+        """
+        Get Doc
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not doc_id:
+            raise ValueError(f"Expected a non-empty value for `doc_id` but received {doc_id!r}")
+        return await self._get(
+            f"/docs/{doc_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Doc,
+        )
+
 
 class DocsResourceWithRawResponse:
     def __init__(self, docs: DocsResource) -> None:
@@ -138,6 +205,9 @@ class DocsResourceWithRawResponse:
 
         self.embed = to_raw_response_wrapper(
             docs.embed,
+        )
+        self.get = to_raw_response_wrapper(
+            docs.get,
         )
 
 
@@ -148,6 +218,9 @@ class AsyncDocsResourceWithRawResponse:
         self.embed = async_to_raw_response_wrapper(
             docs.embed,
         )
+        self.get = async_to_raw_response_wrapper(
+            docs.get,
+        )
 
 
 class DocsResourceWithStreamingResponse:
@@ -157,6 +230,9 @@ class DocsResourceWithStreamingResponse:
         self.embed = to_streamed_response_wrapper(
             docs.embed,
         )
+        self.get = to_streamed_response_wrapper(
+            docs.get,
+        )
 
 
 class AsyncDocsResourceWithStreamingResponse:
@@ -165,4 +241,7 @@ class AsyncDocsResourceWithStreamingResponse:
 
         self.embed = async_to_streamed_response_wrapper(
             docs.embed,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            docs.get,
         )

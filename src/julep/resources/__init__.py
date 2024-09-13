@@ -8,6 +8,14 @@ from .docs import (
     DocsResourceWithStreamingResponse,
     AsyncDocsResourceWithStreamingResponse,
 )
+from .jobs import (
+    JobsResource,
+    AsyncJobsResource,
+    JobsResourceWithRawResponse,
+    AsyncJobsResourceWithRawResponse,
+    JobsResourceWithStreamingResponse,
+    AsyncJobsResourceWithStreamingResponse,
+)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -68,6 +76,12 @@ __all__ = [
     "AsyncUsersResourceWithRawResponse",
     "UsersResourceWithStreamingResponse",
     "AsyncUsersResourceWithStreamingResponse",
+    "JobsResource",
+    "AsyncJobsResource",
+    "JobsResourceWithRawResponse",
+    "AsyncJobsResourceWithRawResponse",
+    "JobsResourceWithStreamingResponse",
+    "AsyncJobsResourceWithStreamingResponse",
     "DocsResource",
     "AsyncDocsResource",
     "DocsResourceWithRawResponse",

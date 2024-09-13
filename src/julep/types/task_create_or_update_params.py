@@ -5,11 +5,11 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from ..tool_param import ToolParam
-from ..chat_settings_param import ChatSettingsParam
+from .tool_param import ToolParam
+from .chat_settings_param import ChatSettingsParam
 
 __all__ = [
-    "TaskCreateParams",
+    "TaskCreateOrUpdateParams",
     "Main",
     "MainEvaluateStep",
     "MainToolCallStep",
@@ -181,7 +181,9 @@ __all__ = [
 ]
 
 
-class TaskCreateParams(TypedDict, total=False):
+class TaskCreateOrUpdateParams(TypedDict, total=False):
+    agent_id: Required[str]
+
     main: Required[Iterable[Main]]
 
     name: Required[str]

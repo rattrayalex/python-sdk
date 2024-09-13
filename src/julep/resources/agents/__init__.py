@@ -8,14 +8,6 @@ from .docs import (
     DocsResourceWithStreamingResponse,
     AsyncDocsResourceWithStreamingResponse,
 )
-from .tasks import (
-    TasksResource,
-    AsyncTasksResource,
-    TasksResourceWithRawResponse,
-    AsyncTasksResourceWithRawResponse,
-    TasksResourceWithStreamingResponse,
-    AsyncTasksResourceWithStreamingResponse,
-)
 from .tools import (
     ToolsResource,
     AsyncToolsResource,
@@ -46,12 +38,6 @@ __all__ = [
     "AsyncDocsResourceWithRawResponse",
     "DocsResourceWithStreamingResponse",
     "AsyncDocsResourceWithStreamingResponse",
-    "TasksResource",
-    "AsyncTasksResource",
-    "TasksResourceWithRawResponse",
-    "AsyncTasksResourceWithRawResponse",
-    "TasksResourceWithStreamingResponse",
-    "AsyncTasksResourceWithStreamingResponse",
     "AgentsResource",
     "AsyncAgentsResource",
     "AgentsResourceWithRawResponse",

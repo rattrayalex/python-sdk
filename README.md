@@ -37,7 +37,11 @@ client = Julep(
     environment="dev",
 )
 
-resource_created = client.agents.create()
+resource_created = client.tasks.create(
+    agent_id="dad00000-0000-4000-a000-000000000000",
+    main=[{"evaluate": {"foo": "string"}}],
+    name="name",
+)
 print(resource_created.id)
 ```
 
@@ -64,7 +68,11 @@ client = AsyncJulep(
 
 
 async def main() -> None:
-    resource_created = await client.agents.create()
+    resource_created = await client.tasks.create(
+        agent_id="dad00000-0000-4000-a000-000000000000",
+        main=[{"evaluate": {"foo": "string"}}],
+        name="name",
+    )
     print(resource_created.id)
 
 
@@ -95,7 +103,10 @@ client = Julep()
 
 all_agents = []
 # Automatically fetches more pages as needed.
-for agent in client.agents.list():
+for agent in client.agents.list(
+    limit=100,
+    offset=0,
+):
     # Do something with agent here
     all_agents.append(agent)
 print(all_agents)
@@ -113,7 +124,10 @@ client = AsyncJulep()
 async def main() -> None:
     all_agents = []
     # Iterate through items across all pages, issuing requests as needed.
-    async for agent in client.agents.list():
+    async for agent in client.agents.list(
+        limit=100,
+        offset=0,
+    ):
         all_agents.append(agent)
     print(all_agents)
 
@@ -124,7 +138,10 @@ asyncio.run(main())
 Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
 
 ```python
-first_page = await client.agents.list()
+first_page = await client.agents.list(
+    limit=100,
+    offset=0,
+)
 if first_page.has_next_page():
     print(f"will fetch next page using these details: {first_page.next_page_info()}")
     next_page = await first_page.get_next_page()
@@ -136,7 +153,10 @@ if first_page.has_next_page():
 Or just work directly with the returned data:
 
 ```python
-first_page = await client.agents.list()
+first_page = await client.agents.list(
+    limit=100,
+    offset=0,
+)
 for agent in first_page.items:
     print(agent.id)
 
@@ -159,7 +179,12 @@ from julep import Julep
 client = Julep()
 
 try:
-    client.agents.create()
+    client.agents.create_or_update(
+        agent_id="dad00000-0000-4000-a000-000000000000",
+        instructions=["Protect Leia", "Kick butt"],
+        model="o1-preview",
+        name="R2D2",
+    )
 except julep.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -202,7 +227,12 @@ client = Julep(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).agents.create()
+client.with_options(max_retries=5).agents.create_or_update(
+    agent_id="dad00000-0000-4000-a000-000000000000",
+    instructions=["Protect Leia", "Kick butt"],
+    model="o1-preview",
+    name="R2D2",
+)
 ```
 
 ### Timeouts
@@ -225,7 +255,12 @@ client = Julep(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).agents.create()
+client.with_options(timeout=5.0).agents.create_or_update(
+    agent_id="dad00000-0000-4000-a000-000000000000",
+    instructions=["Protect Leia", "Kick butt"],
+    model="o1-preview",
+    name="R2D2",
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -264,10 +299,15 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from julep import Julep
 
 client = Julep()
-response = client.agents.with_raw_response.create()
+response = client.agents.with_raw_response.create_or_update(
+    agent_id="dad00000-0000-4000-a000-000000000000",
+    instructions=["Protect Leia", "Kick butt"],
+    model="o1-preview",
+    name="R2D2",
+)
 print(response.headers.get('X-My-Header'))
 
-agent = response.parse()  # get the object that `agents.create()` would have returned
+agent = response.parse()  # get the object that `agents.create_or_update()` would have returned
 print(agent.id)
 ```
 
@@ -282,7 +322,12 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.agents.with_streaming_response.create() as response:
+with client.agents.with_streaming_response.create_or_update(
+    agent_id="dad00000-0000-4000-a000-000000000000",
+    instructions=["Protect Leia", "Kick butt"],
+    model="o1-preview",
+    name="R2D2",
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
