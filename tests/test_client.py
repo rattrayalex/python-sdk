@@ -17,9 +17,10 @@ from respx import MockRouter
 from pydantic import ValidationError
 
 from julep import Julep, AsyncJulep, APIResponseValidationError
+from julep._types import Omit
 from julep._models import BaseModel, FinalRequestOptions
 from julep._constants import RAW_RESPONSE_HEADER
-from julep._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
+from julep._exceptions import JulepError, APIStatusError, APITimeoutError, APIResponseValidationError
 from julep._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
 
 from .utils import update_env
@@ -320,6 +321,16 @@ class TestJulep:
         request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+
+    def test_validate_headers(self) -> None:
+        client = Julep(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == api_key
+
+        with pytest.raises(JulepError):
+            with update_env(**{"JULEP_API_KEY": Omit()}):
+                client2 = Julep(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
 
     def test_default_query_option(self) -> None:
         client = Julep(
@@ -1015,6 +1026,16 @@ class TestAsyncJulep:
         request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+
+    def test_validate_headers(self) -> None:
+        client = AsyncJulep(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == api_key
+
+        with pytest.raises(JulepError):
+            with update_env(**{"JULEP_API_KEY": Omit()}):
+                client2 = AsyncJulep(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncJulep(

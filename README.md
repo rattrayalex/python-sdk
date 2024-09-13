@@ -27,9 +27,13 @@ pip install git+ssh://git@github.com/stainless-sdks/julep-python.git
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from julep import Julep
 
-client = Julep()
+client = Julep(
+    # This is the default and can be omitted
+    api_key=os.environ.get("JULEP_API_KEY"),
+)
 
 session = client.sessions.create()
 print(session.id)
@@ -45,10 +49,14 @@ so that your API Key is not stored in source control.
 Simply import `AsyncJulep` instead of `Julep` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from julep import AsyncJulep
 
-client = AsyncJulep()
+client = AsyncJulep(
+    # This is the default and can be omitted
+    api_key=os.environ.get("JULEP_API_KEY"),
+)
 
 
 async def main() -> None:
