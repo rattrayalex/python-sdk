@@ -12,14 +12,10 @@ from julep.types import (
     History,
     Session,
     SessionChatResponse,
-    SessionPatchResponse,
-    SessionCreateResponse,
-    SessionDeleteResponse,
-    SessionUpdateResponse,
-    SessionCreateOrUpdateResponse,
 )
 from tests.utils import assert_matches_type
 from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
+from julep.types.shared import ResourceCreated, ResourceDeleted, ResourceUpdated
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -30,7 +26,7 @@ class TestSessions:
     @parametrize
     def test_method_create(self, client: Julep) -> None:
         session = client.sessions.create()
-        assert_matches_type(SessionCreateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Julep) -> None:
@@ -53,7 +49,7 @@ class TestSessions:
                 "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             ],
         )
-        assert_matches_type(SessionCreateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Julep) -> None:
@@ -62,7 +58,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionCreateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: Julep) -> None:
@@ -71,7 +67,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionCreateResponse, session, path=["response"])
+            assert_matches_type(ResourceCreated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -80,7 +76,7 @@ class TestSessions:
         session = client.sessions.update(
             session_id="session_id",
         )
-        assert_matches_type(SessionUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Julep) -> None:
@@ -92,7 +88,7 @@ class TestSessions:
             situation="situation",
             token_budget=0,
         )
-        assert_matches_type(SessionUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     def test_raw_response_update(self, client: Julep) -> None:
@@ -103,7 +99,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     def test_streaming_response_update(self, client: Julep) -> None:
@@ -114,7 +110,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionUpdateResponse, session, path=["response"])
+            assert_matches_type(ResourceUpdated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -166,7 +162,7 @@ class TestSessions:
         session = client.sessions.delete(
             "session_id",
         )
-        assert_matches_type(SessionDeleteResponse, session, path=["response"])
+        assert_matches_type(ResourceDeleted, session, path=["response"])
 
     @parametrize
     def test_raw_response_delete(self, client: Julep) -> None:
@@ -177,7 +173,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionDeleteResponse, session, path=["response"])
+        assert_matches_type(ResourceDeleted, session, path=["response"])
 
     @parametrize
     def test_streaming_response_delete(self, client: Julep) -> None:
@@ -188,7 +184,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionDeleteResponse, session, path=["response"])
+            assert_matches_type(ResourceDeleted, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -337,7 +333,7 @@ class TestSessions:
         session = client.sessions.create_or_update(
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     def test_method_create_or_update_with_all_params(self, client: Julep) -> None:
@@ -361,7 +357,7 @@ class TestSessions:
                 "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             ],
         )
-        assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     def test_raw_response_create_or_update(self, client: Julep) -> None:
@@ -372,7 +368,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     def test_streaming_response_create_or_update(self, client: Julep) -> None:
@@ -383,7 +379,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+            assert_matches_type(ResourceCreated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -475,7 +471,7 @@ class TestSessions:
         session = client.sessions.patch(
             session_id="session_id",
         )
-        assert_matches_type(SessionPatchResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     def test_method_patch_with_all_params(self, client: Julep) -> None:
@@ -487,7 +483,7 @@ class TestSessions:
             situation="situation",
             token_budget=0,
         )
-        assert_matches_type(SessionPatchResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     def test_raw_response_patch(self, client: Julep) -> None:
@@ -498,7 +494,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionPatchResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     def test_streaming_response_patch(self, client: Julep) -> None:
@@ -509,7 +505,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionPatchResponse, session, path=["response"])
+            assert_matches_type(ResourceUpdated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -527,7 +523,7 @@ class TestAsyncSessions:
     @parametrize
     async def test_method_create(self, async_client: AsyncJulep) -> None:
         session = await async_client.sessions.create()
-        assert_matches_type(SessionCreateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -550,7 +546,7 @@ class TestAsyncSessions:
                 "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             ],
         )
-        assert_matches_type(SessionCreateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncJulep) -> None:
@@ -559,7 +555,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionCreateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncJulep) -> None:
@@ -568,7 +564,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionCreateResponse, session, path=["response"])
+            assert_matches_type(ResourceCreated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -577,7 +573,7 @@ class TestAsyncSessions:
         session = await async_client.sessions.update(
             session_id="session_id",
         )
-        assert_matches_type(SessionUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -589,7 +585,7 @@ class TestAsyncSessions:
             situation="situation",
             token_budget=0,
         )
-        assert_matches_type(SessionUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncJulep) -> None:
@@ -600,7 +596,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncJulep) -> None:
@@ -611,7 +607,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionUpdateResponse, session, path=["response"])
+            assert_matches_type(ResourceUpdated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -663,7 +659,7 @@ class TestAsyncSessions:
         session = await async_client.sessions.delete(
             "session_id",
         )
-        assert_matches_type(SessionDeleteResponse, session, path=["response"])
+        assert_matches_type(ResourceDeleted, session, path=["response"])
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncJulep) -> None:
@@ -674,7 +670,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionDeleteResponse, session, path=["response"])
+        assert_matches_type(ResourceDeleted, session, path=["response"])
 
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncJulep) -> None:
@@ -685,7 +681,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionDeleteResponse, session, path=["response"])
+            assert_matches_type(ResourceDeleted, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -834,7 +830,7 @@ class TestAsyncSessions:
         session = await async_client.sessions.create_or_update(
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     async def test_method_create_or_update_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -858,7 +854,7 @@ class TestAsyncSessions:
                 "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             ],
         )
-        assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     async def test_raw_response_create_or_update(self, async_client: AsyncJulep) -> None:
@@ -869,7 +865,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+        assert_matches_type(ResourceCreated, session, path=["response"])
 
     @parametrize
     async def test_streaming_response_create_or_update(self, async_client: AsyncJulep) -> None:
@@ -880,7 +876,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionCreateOrUpdateResponse, session, path=["response"])
+            assert_matches_type(ResourceCreated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -972,7 +968,7 @@ class TestAsyncSessions:
         session = await async_client.sessions.patch(
             session_id="session_id",
         )
-        assert_matches_type(SessionPatchResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     async def test_method_patch_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -984,7 +980,7 @@ class TestAsyncSessions:
             situation="situation",
             token_budget=0,
         )
-        assert_matches_type(SessionPatchResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     async def test_raw_response_patch(self, async_client: AsyncJulep) -> None:
@@ -995,7 +991,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionPatchResponse, session, path=["response"])
+        assert_matches_type(ResourceUpdated, session, path=["response"])
 
     @parametrize
     async def test_streaming_response_patch(self, async_client: AsyncJulep) -> None:
@@ -1006,7 +1002,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionPatchResponse, session, path=["response"])
+            assert_matches_type(ResourceUpdated, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

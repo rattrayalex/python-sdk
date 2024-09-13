@@ -25,8 +25,8 @@ from ...types.doc import Doc
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.users import doc_list_params, doc_create_params, doc_search_params
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.users.doc_create_response import DocCreateResponse
-from ...types.users.doc_delete_response import DocDeleteResponse
+from ...types.shared.resource_created import ResourceCreated
+from ...types.shared.resource_deleted import ResourceDeleted
 from ...types.users.doc_search_response import DocSearchResponse
 
 __all__ = ["DocsResource", "AsyncDocsResource"]
@@ -65,7 +65,7 @@ class DocsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DocCreateResponse:
+    ) -> ResourceCreated:
         """
         Create User Doc
 
@@ -93,7 +93,7 @@ class DocsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DocCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     def list(
@@ -159,7 +159,7 @@ class DocsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DocDeleteResponse:
+    ) -> ResourceDeleted:
         """
         Delete User Doc
 
@@ -181,7 +181,7 @@ class DocsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DocDeleteResponse,
+            cast_to=ResourceDeleted,
         )
 
     @overload
@@ -348,7 +348,7 @@ class AsyncDocsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DocCreateResponse:
+    ) -> ResourceCreated:
         """
         Create User Doc
 
@@ -376,7 +376,7 @@ class AsyncDocsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DocCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     def list(
@@ -442,7 +442,7 @@ class AsyncDocsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DocDeleteResponse:
+    ) -> ResourceDeleted:
         """
         Delete User Doc
 
@@ -464,7 +464,7 @@ class AsyncDocsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DocDeleteResponse,
+            cast_to=ResourceDeleted,
         )
 
     @overload

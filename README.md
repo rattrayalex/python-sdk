@@ -37,8 +37,8 @@ client = Julep(
     environment="dev",
 )
 
-session = client.sessions.create()
-print(session.id)
+resource_created = client.sessions.create()
+print(resource_created.id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -64,8 +64,8 @@ client = AsyncJulep(
 
 
 async def main() -> None:
-    session = await client.sessions.create()
-    print(session.id)
+    resource_created = await client.sessions.create()
+    print(resource_created.id)
 
 
 asyncio.run(main())

@@ -11,10 +11,7 @@ from julep import Julep, AsyncJulep
 from julep.types import Task
 from tests.utils import assert_matches_type
 from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
-from julep.types.agents import (
-    TaskCreateResponse,
-    TaskCreateOrUpdateResponse,
-)
+from julep.types.shared import ResourceCreated, ResourceUpdated
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -29,7 +26,7 @@ class TestTasks:
             main=[{"evaluate": {"foo": "string"}}],
             name="name",
         )
-        assert_matches_type(TaskCreateResponse, task, path=["response"])
+        assert_matches_type(ResourceCreated, task, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Julep) -> None:
@@ -80,7 +77,7 @@ class TestTasks:
                 },
             ],
         )
-        assert_matches_type(TaskCreateResponse, task, path=["response"])
+        assert_matches_type(ResourceCreated, task, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Julep) -> None:
@@ -93,7 +90,7 @@ class TestTasks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = response.parse()
-        assert_matches_type(TaskCreateResponse, task, path=["response"])
+        assert_matches_type(ResourceCreated, task, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: Julep) -> None:
@@ -106,7 +103,7 @@ class TestTasks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = response.parse()
-            assert_matches_type(TaskCreateResponse, task, path=["response"])
+            assert_matches_type(ResourceCreated, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -176,7 +173,7 @@ class TestTasks:
             main=[{"evaluate": {"foo": "string"}}],
             name="name",
         )
-        assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+        assert_matches_type(ResourceUpdated, task, path=["response"])
 
     @parametrize
     def test_method_create_or_update_with_all_params(self, client: Julep) -> None:
@@ -228,7 +225,7 @@ class TestTasks:
                 },
             ],
         )
-        assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+        assert_matches_type(ResourceUpdated, task, path=["response"])
 
     @parametrize
     def test_raw_response_create_or_update(self, client: Julep) -> None:
@@ -242,7 +239,7 @@ class TestTasks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = response.parse()
-        assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+        assert_matches_type(ResourceUpdated, task, path=["response"])
 
     @parametrize
     def test_streaming_response_create_or_update(self, client: Julep) -> None:
@@ -256,7 +253,7 @@ class TestTasks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = response.parse()
-            assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+            assert_matches_type(ResourceUpdated, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -289,7 +286,7 @@ class TestAsyncTasks:
             main=[{"evaluate": {"foo": "string"}}],
             name="name",
         )
-        assert_matches_type(TaskCreateResponse, task, path=["response"])
+        assert_matches_type(ResourceCreated, task, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -340,7 +337,7 @@ class TestAsyncTasks:
                 },
             ],
         )
-        assert_matches_type(TaskCreateResponse, task, path=["response"])
+        assert_matches_type(ResourceCreated, task, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncJulep) -> None:
@@ -353,7 +350,7 @@ class TestAsyncTasks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = await response.parse()
-        assert_matches_type(TaskCreateResponse, task, path=["response"])
+        assert_matches_type(ResourceCreated, task, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncJulep) -> None:
@@ -366,7 +363,7 @@ class TestAsyncTasks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = await response.parse()
-            assert_matches_type(TaskCreateResponse, task, path=["response"])
+            assert_matches_type(ResourceCreated, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -436,7 +433,7 @@ class TestAsyncTasks:
             main=[{"evaluate": {"foo": "string"}}],
             name="name",
         )
-        assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+        assert_matches_type(ResourceUpdated, task, path=["response"])
 
     @parametrize
     async def test_method_create_or_update_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -488,7 +485,7 @@ class TestAsyncTasks:
                 },
             ],
         )
-        assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+        assert_matches_type(ResourceUpdated, task, path=["response"])
 
     @parametrize
     async def test_raw_response_create_or_update(self, async_client: AsyncJulep) -> None:
@@ -502,7 +499,7 @@ class TestAsyncTasks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = await response.parse()
-        assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+        assert_matches_type(ResourceUpdated, task, path=["response"])
 
     @parametrize
     async def test_streaming_response_create_or_update(self, async_client: AsyncJulep) -> None:
@@ -516,7 +513,7 @@ class TestAsyncTasks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = await response.parse()
-            assert_matches_type(TaskCreateOrUpdateResponse, task, path=["response"])
+            assert_matches_type(ResourceUpdated, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

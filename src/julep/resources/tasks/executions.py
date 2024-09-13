@@ -24,8 +24,8 @@ from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.tasks import execution_list_params, execution_create_params, execution_update_params
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.execution import Execution
-from ...types.tasks.execution_create_response import ExecutionCreateResponse
-from ...types.tasks.execution_update_response import ExecutionUpdateResponse
+from ...types.shared.resource_created import ResourceCreated
+from ...types.shared.resource_updated import ResourceUpdated
 
 __all__ = ["ExecutionsResource", "AsyncExecutionsResource"]
 
@@ -64,7 +64,7 @@ class ExecutionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionCreateResponse:
+    ) -> ResourceCreated:
         """
         Create Task Execution
 
@@ -93,7 +93,7 @@ class ExecutionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ExecutionCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     def update(
@@ -108,7 +108,7 @@ class ExecutionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionUpdateResponse:
+    ) -> ResourceUpdated:
         """
         Patch Execution
 
@@ -131,7 +131,7 @@ class ExecutionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ExecutionUpdateResponse,
+            cast_to=ResourceUpdated,
         )
 
     def list(
@@ -219,7 +219,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionCreateResponse:
+    ) -> ResourceCreated:
         """
         Create Task Execution
 
@@ -248,7 +248,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ExecutionCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     async def update(
@@ -263,7 +263,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionUpdateResponse:
+    ) -> ResourceUpdated:
         """
         Patch Execution
 
@@ -286,7 +286,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ExecutionUpdateResponse,
+            cast_to=ResourceUpdated,
         )
 
     def list(

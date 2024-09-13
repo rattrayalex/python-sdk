@@ -3,14 +3,14 @@
 from typing import List, Optional
 from datetime import datetime
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["UserPatchResponse"]
+__all__ = ["ResourceDeleted"]
 
 
-class UserPatchResponse(BaseModel):
+class ResourceDeleted(BaseModel):
     id: str
 
-    updated_at: datetime
+    deleted_at: datetime
 
     jobs: Optional[List[str]] = None
