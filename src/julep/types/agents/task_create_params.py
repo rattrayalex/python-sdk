@@ -5,6 +5,9 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
+from ..tool_param import ToolParam
+from ..chat_settings_param import ChatSettingsParam
+
 __all__ = [
     "TaskCreateParams",
     "Main",
@@ -16,10 +19,6 @@ __all__ = [
     "MainPromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainPromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainPromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainPromptStepInputSettings",
-    "MainPromptStepInputSettingsResponseFormat",
-    "MainPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainGetStep",
     "MainSetStep",
     "MainLogStep",
@@ -47,10 +46,6 @@ __all__ = [
     "MainIfElseWorkflowStepInputThenPromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainIfElseWorkflowStepInputThenPromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainIfElseWorkflowStepInputThenPromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainIfElseWorkflowStepInputThenPromptStepInputSettings",
-    "MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormat",
-    "MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainIfElseWorkflowStepInputThenGetStep",
     "MainIfElseWorkflowStepInputThenSetStep",
     "MainIfElseWorkflowStepInputThenLogStep",
@@ -77,10 +72,6 @@ __all__ = [
     "MainIfElseWorkflowStepInputElsePromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainIfElseWorkflowStepInputElsePromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainIfElseWorkflowStepInputElsePromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainIfElseWorkflowStepInputElsePromptStepInputSettings",
-    "MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormat",
-    "MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainIfElseWorkflowStepInputElseGetStep",
     "MainIfElseWorkflowStepInputElseSetStep",
     "MainIfElseWorkflowStepInputElseLogStep",
@@ -109,10 +100,6 @@ __all__ = [
     "MainSwitchStepInputSwitchThenPromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainSwitchStepInputSwitchThenPromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainSwitchStepInputSwitchThenPromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainSwitchStepInputSwitchThenPromptStepInputSettings",
-    "MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormat",
-    "MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainSwitchStepInputSwitchThenGetStep",
     "MainSwitchStepInputSwitchThenSetStep",
     "MainSwitchStepInputSwitchThenLogStep",
@@ -141,10 +128,6 @@ __all__ = [
     "MainForeachStepInputForeachDoPromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainForeachStepInputForeachDoPromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainForeachStepInputForeachDoPromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainForeachStepInputForeachDoPromptStepInputSettings",
-    "MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormat",
-    "MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainForeachStepInputForeachDoGetStep",
     "MainForeachStepInputForeachDoSetStep",
     "MainForeachStepInputForeachDoLogStep",
@@ -165,10 +148,6 @@ __all__ = [
     "MainParallelStepInputParallelPromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainParallelStepInputParallelPromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainParallelStepInputParallelPromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainParallelStepInputParallelPromptStepInputSettings",
-    "MainParallelStepInputParallelPromptStepInputSettingsResponseFormat",
-    "MainParallelStepInputParallelPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainParallelStepInputParallelPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainParallelStepInputParallelGetStep",
     "MainParallelStepInputParallelSetStep",
     "MainParallelStepInputParallelLogStep",
@@ -189,10 +168,6 @@ __all__ = [
     "MainMainInputMapPromptStepInputPromptUnionMember0ContentUnionMember1Content",
     "MainMainInputMapPromptStepInputPromptUnionMember0ContentUnionMember1ContentModel",
     "MainMainInputMapPromptStepInputPromptUnionMember0ContentUnionMember1ContentModelImageURL",
-    "MainMainInputMapPromptStepInputSettings",
-    "MainMainInputMapPromptStepInputSettingsResponseFormat",
-    "MainMainInputMapPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat",
-    "MainMainInputMapPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat",
     "MainMainInputMapGetStep",
     "MainMainInputMapSetStep",
     "MainMainInputMapLogStep",
@@ -203,8 +178,6 @@ __all__ = [
     "MainMainInputMapSearchStepSearchVectorDocSearchRequest",
     "MainMainInputMapSearchStepSearchTextOnlyDocSearchRequest",
     "MainMainInputMapSearchStepSearchHybridDocSearchRequest",
-    "Tool",
-    "ToolFunction",
 ]
 
 
@@ -221,7 +194,7 @@ class TaskCreateParams(TypedDict, total=False):
 
     metadata: Optional[object]
 
-    tools: Iterable[Tool]
+    tools: Iterable[ToolParam]
 
 
 class MainEvaluateStep(TypedDict, total=False):
@@ -275,58 +248,10 @@ class MainPromptStepInputPromptUnionMember0(_MainPromptStepInputPromptUnionMembe
     name: Optional[str]
 
 
-class MainPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(TypedDict, total=False):
-    type: Literal["text", "json_object"]
-
-
-class MainPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(TypedDict, total=False):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainPromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainPromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainPromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainPromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainPromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainPromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainGetStep(TypedDict, total=False):
@@ -504,62 +429,10 @@ class MainIfElseWorkflowStepInputThenPromptStepInputPromptUnionMember0(
     name: Optional[str]
 
 
-class MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(
-    TypedDict, total=False
-):
-    type: Literal["text", "json_object"]
-
-
-class MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(
-    TypedDict, total=False
-):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainIfElseWorkflowStepInputThenPromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainIfElseWorkflowStepInputThenPromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainIfElseWorkflowStepInputThenPromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainIfElseWorkflowStepInputThenPromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainIfElseWorkflowStepInputThenPromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainIfElseWorkflowStepInputThenGetStep(TypedDict, total=False):
@@ -756,62 +629,10 @@ class MainIfElseWorkflowStepInputElsePromptStepInputPromptUnionMember0(
     name: Optional[str]
 
 
-class MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(
-    TypedDict, total=False
-):
-    type: Literal["text", "json_object"]
-
-
-class MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(
-    TypedDict, total=False
-):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainIfElseWorkflowStepInputElsePromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainIfElseWorkflowStepInputElsePromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainIfElseWorkflowStepInputElsePromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainIfElseWorkflowStepInputElsePromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainIfElseWorkflowStepInputElsePromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainIfElseWorkflowStepInputElseGetStep(TypedDict, total=False):
@@ -1017,62 +838,10 @@ class MainSwitchStepInputSwitchThenPromptStepInputPromptUnionMember0(
     name: Optional[str]
 
 
-class MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(
-    TypedDict, total=False
-):
-    type: Literal["text", "json_object"]
-
-
-class MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(
-    TypedDict, total=False
-):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainSwitchStepInputSwitchThenPromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainSwitchStepInputSwitchThenPromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainSwitchStepInputSwitchThenPromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainSwitchStepInputSwitchThenPromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainSwitchStepInputSwitchThenPromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainSwitchStepInputSwitchThenGetStep(TypedDict, total=False):
@@ -1273,62 +1042,10 @@ class MainForeachStepInputForeachDoPromptStepInputPromptUnionMember0(
     name: Optional[str]
 
 
-class MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(
-    TypedDict, total=False
-):
-    type: Literal["text", "json_object"]
-
-
-class MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(
-    TypedDict, total=False
-):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainForeachStepInputForeachDoPromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainForeachStepInputForeachDoPromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainForeachStepInputForeachDoPromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainForeachStepInputForeachDoPromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainForeachStepInputForeachDoPromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainForeachStepInputForeachDoGetStep(TypedDict, total=False):
@@ -1485,62 +1202,10 @@ class MainParallelStepInputParallelPromptStepInputPromptUnionMember0(
     name: Optional[str]
 
 
-class MainParallelStepInputParallelPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(
-    TypedDict, total=False
-):
-    type: Literal["text", "json_object"]
-
-
-class MainParallelStepInputParallelPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(
-    TypedDict, total=False
-):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainParallelStepInputParallelPromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainParallelStepInputParallelPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainParallelStepInputParallelPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainParallelStepInputParallelPromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainParallelStepInputParallelPromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainParallelStepInputParallelPromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainParallelStepInputParallelPromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainParallelStepInputParallelPromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainParallelStepInputParallelGetStep(TypedDict, total=False):
@@ -1677,58 +1342,10 @@ class MainMainInputMapPromptStepInputPromptUnionMember0(
     name: Optional[str]
 
 
-class MainMainInputMapPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat(TypedDict, total=False):
-    type: Literal["text", "json_object"]
-
-
-class MainMainInputMapPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat(TypedDict, total=False):
-    json_schema: Required[object]
-
-    type: Literal["json_schema"]
-
-
-MainMainInputMapPromptStepInputSettingsResponseFormat: TypeAlias = Union[
-    MainMainInputMapPromptStepInputSettingsResponseFormatSimpleCompletionResponseFormat,
-    MainMainInputMapPromptStepInputSettingsResponseFormatSchemaCompletionResponseFormat,
-]
-
-
-class MainMainInputMapPromptStepInputSettings(TypedDict, total=False):
-    agent: Optional[str]
-
-    frequency_penalty: Optional[float]
-
-    length_penalty: Optional[float]
-
-    logit_bias: Optional[Dict[str, float]]
-
-    max_tokens: Optional[int]
-
-    min_p: Optional[float]
-
-    model: Optional[str]
-
-    presence_penalty: Optional[float]
-
-    repetition_penalty: Optional[float]
-
-    response_format: Optional[MainMainInputMapPromptStepInputSettingsResponseFormat]
-
-    seed: Optional[int]
-
-    stop: List[str]
-
-    stream: bool
-
-    temperature: Optional[float]
-
-    top_p: Optional[float]
-
-
 class MainMainInputMapPromptStepInput(TypedDict, total=False):
     prompt: Required[Union[Iterable[MainMainInputMapPromptStepInputPromptUnionMember0], str]]
 
-    settings: Optional[MainMainInputMapPromptStepInputSettings]
+    settings: Optional[ChatSettingsParam]
 
 
 class MainMainInputMapGetStep(TypedDict, total=False):
@@ -1838,26 +1455,3 @@ Main: TypeAlias = Union[
     MainParallelStepInput,
     MainMainInput,
 ]
-
-
-class ToolFunction(TypedDict, total=False):
-    description: Optional[str]
-
-    name: Optional[object]
-
-    parameters: Optional[object]
-
-
-class Tool(TypedDict, total=False):
-    function: Required[ToolFunction]
-    """Function definition"""
-
-    name: Required[str]
-
-    api_call: Optional[object]
-
-    integration: Optional[object]
-
-    system: Optional[object]
-
-    type: Literal["function", "integration", "system", "api_call"]

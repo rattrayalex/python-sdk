@@ -32,6 +32,7 @@ from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.history import History
 from ..types.session import Session
+from ..types.message_param import MessageParam
 from ..types.session_chat_response import SessionChatResponse
 from ..types.shared.resource_created import ResourceCreated
 from ..types.shared.resource_deleted import ResourceDeleted
@@ -247,7 +248,7 @@ class SessionsResource(SyncAPIResource):
         self,
         session_id: str,
         *,
-        messages: Iterable[session_chat_params.Message],
+        messages: Iterable[MessageParam],
         agent: Optional[str] | NotGiven = NOT_GIVEN,
         frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         length_penalty: Optional[float] | NotGiven = NOT_GIVEN,
@@ -704,7 +705,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         self,
         session_id: str,
         *,
-        messages: Iterable[session_chat_params.Message],
+        messages: Iterable[MessageParam],
         agent: Optional[str] | NotGiven = NOT_GIVEN,
         frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         length_penalty: Optional[float] | NotGiven = NOT_GIVEN,
