@@ -5,10 +5,10 @@ from datetime import datetime
 
 from ..._models import BaseModel
 
-__all__ = ["TaskCreateResponse"]
+__all__ = ["ResourceCreated"]
 
 
-class TaskCreateResponse(BaseModel):
+class ResourceCreated(BaseModel):
     id: str
 
     created_at: datetime
