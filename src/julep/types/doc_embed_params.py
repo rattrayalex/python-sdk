@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import List, Union
 from typing_extensions import Required, TypedDict
 
-__all__ = ["DocCreateParams"]
+__all__ = ["DocEmbedParams"]
 
 
-class DocCreateParams(TypedDict, total=False):
+class DocEmbedParams(TypedDict, total=False):
     text: Required[Union[str, List[str]]]

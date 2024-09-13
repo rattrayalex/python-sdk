@@ -5,13 +5,11 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
+from .shared_params.tool import Tool
+from .shared_params.message import Message
+
 __all__ = [
     "SessionChatParams",
-    "Message",
-    "MessageContentUnionMember2",
-    "MessageContentUnionMember2Content",
-    "MessageContentUnionMember2ContentModel",
-    "MessageContentUnionMember2ContentModelImageURL",
     "ResponseFormat",
     "ResponseFormatSimpleCompletionResponseFormat",
     "ResponseFormatSchemaCompletionResponseFormat",
@@ -21,8 +19,6 @@ __all__ = [
     "ToolChoiceNamedIntegrationChoice",
     "ToolChoiceNamedSystemChoice",
     "ToolChoiceNamedAPICallChoice",
-    "Tool",
-    "ToolFunction",
 ]
 
 
@@ -68,44 +64,6 @@ class SessionChatParams(TypedDict, total=False):
     top_p: Optional[float]
 
 
-class MessageContentUnionMember2Content(TypedDict, total=False):
-    text: Required[str]
-
-    type: Literal["text"]
-
-
-class MessageContentUnionMember2ContentModelImageURL(TypedDict, total=False):
-    url: Required[str]
-
-    detail: Literal["low", "high", "auto"]
-
-
-class MessageContentUnionMember2ContentModel(TypedDict, total=False):
-    image_url: Required[MessageContentUnionMember2ContentModelImageURL]
-    """The image URL"""
-
-    type: Literal["image_url"]
-
-
-MessageContentUnionMember2: TypeAlias = Union[MessageContentUnionMember2Content, MessageContentUnionMember2ContentModel]
-
-_MessageReservedKeywords = TypedDict(
-    "_MessageReservedKeywords",
-    {
-        "continue": Optional[bool],
-    },
-    total=False,
-)
-
-
-class Message(_MessageReservedKeywords, total=False):
-    content: Required[Union[str, List[str], Iterable[MessageContentUnionMember2]]]
-
-    role: Required[Literal["user", "assistant", "system", "function", "function_response", "function_call", "auto"]]
-
-    name: Optional[str]
-
-
 class ResponseFormatSimpleCompletionResponseFormat(TypedDict, total=False):
     type: Literal["text", "json_object"]
 
@@ -148,26 +106,3 @@ ToolChoice: TypeAlias = Union[
     ToolChoiceNamedSystemChoice,
     ToolChoiceNamedAPICallChoice,
 ]
-
-
-class ToolFunction(TypedDict, total=False):
-    description: Optional[str]
-
-    name: Optional[object]
-
-    parameters: Optional[object]
-
-
-class Tool(TypedDict, total=False):
-    function: Required[ToolFunction]
-    """Function definition"""
-
-    name: Required[str]
-
-    api_call: Optional[object]
-
-    integration: Optional[object]
-
-    system: Optional[object]
-
-    type: Literal["function", "integration", "system", "api_call"]

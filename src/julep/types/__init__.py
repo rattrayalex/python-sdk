@@ -6,15 +6,38 @@ from .doc import Doc as Doc
 from .task import Task as Task
 from .user import User as User
 from .agent import Agent as Agent
+from .shared import (
+    Doc as Doc,
+    Task as Task,
+    Tool as Tool,
+    User as User,
+    Agent as Agent,
+    Entry as Entry,
+    History as History,
+    Message as Message,
+    Session as Session,
+    Snippet as Snippet,
+    DocOwner as DocOwner,
+    Relation as Relation,
+    ChatInput as ChatInput,
+    Execution as Execution,
+    JobStatus as JobStatus,
+    Transition as Transition,
+    ChatSettings as ChatSettings,
+    DocReference as DocReference,
+    ResourceCreated as ResourceCreated,
+    ResourceDeleted as ResourceDeleted,
+    ResourceUpdated as ResourceUpdated,
+)
 from .history import History as History
 from .session import Session as Session
 from .execution import Execution as Execution
 from .job_status import JobStatus as JobStatus
 from .transition import Transition as Transition
 from .chat_response import ChatResponse as ChatResponse
+from .doc_embed_params import DocEmbedParams as DocEmbedParams
 from .user_list_params import UserListParams as UserListParams
 from .agent_list_params import AgentListParams as AgentListParams
-from .doc_create_params import DocCreateParams as DocCreateParams
 from .user_patch_params import UserPatchParams as UserPatchParams
 from .agent_patch_params import AgentPatchParams as AgentPatchParams
 from .user_create_params import UserCreateParams as UserCreateParams
@@ -23,27 +46,12 @@ from .agent_create_params import AgentCreateParams as AgentCreateParams
 from .agent_update_params import AgentUpdateParams as AgentUpdateParams
 from .session_chat_params import SessionChatParams as SessionChatParams
 from .session_list_params import SessionListParams as SessionListParams
-from .user_patch_response import UserPatchResponse as UserPatchResponse
-from .agent_patch_response import AgentPatchResponse as AgentPatchResponse
 from .embed_query_response import EmbedQueryResponse as EmbedQueryResponse
 from .session_patch_params import SessionPatchParams as SessionPatchParams
-from .user_create_response import UserCreateResponse as UserCreateResponse
-from .user_delete_response import UserDeleteResponse as UserDeleteResponse
-from .user_update_response import UserUpdateResponse as UserUpdateResponse
-from .agent_create_response import AgentCreateResponse as AgentCreateResponse
-from .agent_delete_response import AgentDeleteResponse as AgentDeleteResponse
-from .agent_update_response import AgentUpdateResponse as AgentUpdateResponse
 from .session_chat_response import SessionChatResponse as SessionChatResponse
 from .session_create_params import SessionCreateParams as SessionCreateParams
 from .session_update_params import SessionUpdateParams as SessionUpdateParams
-from .session_patch_response import SessionPatchResponse as SessionPatchResponse
 from .execution_update_params import ExecutionUpdateParams as ExecutionUpdateParams
-from .session_create_response import SessionCreateResponse as SessionCreateResponse
-from .session_delete_response import SessionDeleteResponse as SessionDeleteResponse
-from .session_update_response import SessionUpdateResponse as SessionUpdateResponse
 from .user_create_or_update_params import UserCreateOrUpdateParams as UserCreateOrUpdateParams
 from .agent_create_or_update_params import AgentCreateOrUpdateParams as AgentCreateOrUpdateParams
-from .user_create_or_update_response import UserCreateOrUpdateResponse as UserCreateOrUpdateResponse
-from .agent_create_or_update_response import AgentCreateOrUpdateResponse as AgentCreateOrUpdateResponse
 from .session_create_or_update_params import SessionCreateOrUpdateParams as SessionCreateOrUpdateParams
-from .session_create_or_update_response import SessionCreateOrUpdateResponse as SessionCreateOrUpdateResponse

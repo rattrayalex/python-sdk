@@ -54,11 +54,9 @@ from ..._response import (
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.agent import Agent
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.agent_patch_response import AgentPatchResponse
-from ...types.agent_create_response import AgentCreateResponse
-from ...types.agent_delete_response import AgentDeleteResponse
-from ...types.agent_update_response import AgentUpdateResponse
-from ...types.agent_create_or_update_response import AgentCreateOrUpdateResponse
+from ...types.shared.resource_created import ResourceCreated
+from ...types.shared.resource_deleted import ResourceDeleted
+from ...types.shared.resource_updated import ResourceUpdated
 
 __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
@@ -110,7 +108,7 @@ class AgentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentCreateResponse:
+    ) -> ResourceCreated:
         """
         Create Agent
 
@@ -141,7 +139,7 @@ class AgentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     def update(
@@ -160,7 +158,7 @@ class AgentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentUpdateResponse:
+    ) -> ResourceUpdated:
         """
         Update Agent
 
@@ -193,7 +191,7 @@ class AgentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentUpdateResponse,
+            cast_to=ResourceUpdated,
         )
 
     def list(
@@ -255,7 +253,7 @@ class AgentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentDeleteResponse:
+    ) -> ResourceDeleted:
         """
         Delete Agent
 
@@ -275,7 +273,7 @@ class AgentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentDeleteResponse,
+            cast_to=ResourceDeleted,
         )
 
     def create_or_update(
@@ -294,7 +292,7 @@ class AgentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentCreateOrUpdateResponse:
+    ) -> ResourceCreated:
         """
         Create Or Update Agent
 
@@ -327,7 +325,7 @@ class AgentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentCreateOrUpdateResponse,
+            cast_to=ResourceCreated,
         )
 
     def get(
@@ -379,7 +377,7 @@ class AgentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentPatchResponse:
+    ) -> ResourceUpdated:
         """
         Patch Agent
 
@@ -412,7 +410,7 @@ class AgentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentPatchResponse,
+            cast_to=ResourceUpdated,
         )
 
 
@@ -463,7 +461,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentCreateResponse:
+    ) -> ResourceCreated:
         """
         Create Agent
 
@@ -494,7 +492,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     async def update(
@@ -513,7 +511,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentUpdateResponse:
+    ) -> ResourceUpdated:
         """
         Update Agent
 
@@ -546,7 +544,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentUpdateResponse,
+            cast_to=ResourceUpdated,
         )
 
     def list(
@@ -608,7 +606,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentDeleteResponse:
+    ) -> ResourceDeleted:
         """
         Delete Agent
 
@@ -628,7 +626,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentDeleteResponse,
+            cast_to=ResourceDeleted,
         )
 
     async def create_or_update(
@@ -647,7 +645,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentCreateOrUpdateResponse:
+    ) -> ResourceCreated:
         """
         Create Or Update Agent
 
@@ -680,7 +678,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentCreateOrUpdateResponse,
+            cast_to=ResourceCreated,
         )
 
     async def get(
@@ -732,7 +730,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentPatchResponse:
+    ) -> ResourceUpdated:
         """
         Patch Agent
 
@@ -765,7 +763,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AgentPatchResponse,
+            cast_to=ResourceUpdated,
         )
 
 

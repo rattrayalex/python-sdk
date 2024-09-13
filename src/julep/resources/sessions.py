@@ -32,12 +32,12 @@ from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.history import History
 from ..types.session import Session
+from ..types.shared_params.tool import Tool
 from ..types.session_chat_response import SessionChatResponse
-from ..types.session_patch_response import SessionPatchResponse
-from ..types.session_create_response import SessionCreateResponse
-from ..types.session_delete_response import SessionDeleteResponse
-from ..types.session_update_response import SessionUpdateResponse
-from ..types.session_create_or_update_response import SessionCreateOrUpdateResponse
+from ..types.shared_params.message import Message
+from ..types.shared.resource_created import ResourceCreated
+from ..types.shared.resource_deleted import ResourceDeleted
+from ..types.shared.resource_updated import ResourceUpdated
 
 __all__ = ["SessionsResource", "AsyncSessionsResource"]
 
@@ -80,7 +80,7 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCreateResponse:
+    ) -> ResourceCreated:
         """
         Create Session
 
@@ -112,7 +112,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     def update(
@@ -130,7 +130,7 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionUpdateResponse:
+    ) -> ResourceUpdated:
         """
         Update Session
 
@@ -160,7 +160,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionUpdateResponse,
+            cast_to=ResourceUpdated,
         )
 
     def list(
@@ -222,7 +222,7 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionDeleteResponse:
+    ) -> ResourceDeleted:
         """
         Delete Session
 
@@ -242,14 +242,14 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionDeleteResponse,
+            cast_to=ResourceDeleted,
         )
 
     def chat(
         self,
         session_id: str,
         *,
-        messages: Iterable[session_chat_params.Message],
+        messages: Iterable[Message],
         agent: Optional[str] | NotGiven = NOT_GIVEN,
         frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         length_penalty: Optional[float] | NotGiven = NOT_GIVEN,
@@ -267,7 +267,7 @@ class SessionsResource(SyncAPIResource):
         stream: bool | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: Optional[session_chat_params.ToolChoice] | NotGiven = NOT_GIVEN,
-        tools: Iterable[session_chat_params.Tool] | NotGiven = NOT_GIVEN,
+        tools: Iterable[Tool] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -347,7 +347,7 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCreateOrUpdateResponse:
+    ) -> ResourceCreated:
         """
         Create Or Update Session
 
@@ -381,7 +381,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCreateOrUpdateResponse,
+            cast_to=ResourceCreated,
         )
 
     def get(
@@ -465,7 +465,7 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionPatchResponse:
+    ) -> ResourceUpdated:
         """
         Patch Session
 
@@ -495,7 +495,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionPatchResponse,
+            cast_to=ResourceUpdated,
         )
 
 
@@ -537,7 +537,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCreateResponse:
+    ) -> ResourceCreated:
         """
         Create Session
 
@@ -569,7 +569,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCreateResponse,
+            cast_to=ResourceCreated,
         )
 
     async def update(
@@ -587,7 +587,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionUpdateResponse:
+    ) -> ResourceUpdated:
         """
         Update Session
 
@@ -617,7 +617,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionUpdateResponse,
+            cast_to=ResourceUpdated,
         )
 
     def list(
@@ -679,7 +679,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionDeleteResponse:
+    ) -> ResourceDeleted:
         """
         Delete Session
 
@@ -699,14 +699,14 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionDeleteResponse,
+            cast_to=ResourceDeleted,
         )
 
     async def chat(
         self,
         session_id: str,
         *,
-        messages: Iterable[session_chat_params.Message],
+        messages: Iterable[Message],
         agent: Optional[str] | NotGiven = NOT_GIVEN,
         frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         length_penalty: Optional[float] | NotGiven = NOT_GIVEN,
@@ -724,7 +724,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         stream: bool | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: Optional[session_chat_params.ToolChoice] | NotGiven = NOT_GIVEN,
-        tools: Iterable[session_chat_params.Tool] | NotGiven = NOT_GIVEN,
+        tools: Iterable[Tool] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -804,7 +804,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCreateOrUpdateResponse:
+    ) -> ResourceCreated:
         """
         Create Or Update Session
 
@@ -838,7 +838,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCreateOrUpdateResponse,
+            cast_to=ResourceCreated,
         )
 
     async def get(
@@ -922,7 +922,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionPatchResponse:
+    ) -> ResourceUpdated:
         """
         Patch Session
 
@@ -952,7 +952,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionPatchResponse,
+            cast_to=ResourceUpdated,
         )
 
 

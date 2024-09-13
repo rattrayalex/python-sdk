@@ -3,9 +3,9 @@
 from typing import List
 from datetime import datetime
 
-from .._models import BaseModel
-from .shared.entry import Entry
-from .shared.relation import Relation
+from .entry import Entry
+from .relation import Relation
+from ..._models import BaseModel
 
 __all__ = ["History"]
 

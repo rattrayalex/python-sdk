@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["ToolListResponse", "Function"]
+__all__ = ["Tool", "Function"]
 
 
 class Function(BaseModel):
@@ -17,7 +17,7 @@ class Function(BaseModel):
     parameters: Optional[object] = None
 
 
-class ToolListResponse(BaseModel):
+class Tool(BaseModel):
     id: str
 
     created_at: datetime
