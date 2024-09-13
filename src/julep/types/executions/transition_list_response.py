@@ -1,36 +1,36 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["TransitionListResponse", "Item", "ItemCurrent", "ItemNext"]
+__all__ = ["TransitionListResponse", "Current", "Next"]
 
 
-class ItemCurrent(BaseModel):
+class Current(BaseModel):
     step: int
 
     workflow: str
 
 
-class ItemNext(BaseModel):
+class Next(BaseModel):
     step: int
 
     workflow: str
 
 
-class Item(BaseModel):
+class TransitionListResponse(BaseModel):
     id: str
 
     created_at: datetime
 
-    current: ItemCurrent
+    current: Current
 
     execution_id: str
 
-    next: Optional[ItemNext] = None
+    next: Optional[Next] = None
 
     output: object
 
@@ -39,7 +39,3 @@ class Item(BaseModel):
     updated_at: datetime
 
     metadata: Optional[object] = None
-
-
-class TransitionListResponse(BaseModel):
-    items: List[Item]

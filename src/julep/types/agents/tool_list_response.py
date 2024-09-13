@@ -1,15 +1,15 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["ToolListResponse", "Item", "ItemFunction"]
+__all__ = ["ToolListResponse", "Function"]
 
 
-class ItemFunction(BaseModel):
+class Function(BaseModel):
     description: Optional[str] = None
 
     name: Optional[object] = None
@@ -17,12 +17,12 @@ class ItemFunction(BaseModel):
     parameters: Optional[object] = None
 
 
-class Item(BaseModel):
+class ToolListResponse(BaseModel):
     id: str
 
     created_at: datetime
 
-    function: ItemFunction
+    function: Function
     """Function definition"""
 
     name: str
@@ -36,7 +36,3 @@ class Item(BaseModel):
     system: Optional[object] = None
 
     type: Optional[Literal["function", "integration", "system", "api_call"]] = None
-
-
-class ToolListResponse(BaseModel):
-    items: List[Item]

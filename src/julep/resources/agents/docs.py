@@ -20,9 +20,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
+from ...types.doc import Doc
+from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.agents import doc_list_params, doc_create_params
-from ...types.agents.doc_list_response import DocListResponse
 from ...types.agents.doc_create_response import DocCreateResponse
 from ...types.agents.doc_delete_response import DocDeleteResponse
 
@@ -108,7 +109,7 @@ class DocsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DocListResponse:
+    ) -> SyncOffsetPagination[Doc]:
         """
         List Agent Docs
 
@@ -123,8 +124,9 @@ class DocsResource(SyncAPIResource):
         """
         if not agent_id:
             raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return self._get(
+        return self._get_api_list(
             f"/agents/{agent_id}/docs",
+            page=SyncOffsetPagination[Doc],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -141,7 +143,7 @@ class DocsResource(SyncAPIResource):
                     doc_list_params.DocListParams,
                 ),
             ),
-            cast_to=DocListResponse,
+            model=Doc,
         )
 
     def delete(
@@ -245,7 +247,7 @@ class AsyncDocsResource(AsyncAPIResource):
             cast_to=DocCreateResponse,
         )
 
-    async def list(
+    def list(
         self,
         agent_id: str,
         *,
@@ -260,7 +262,7 @@ class AsyncDocsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DocListResponse:
+    ) -> AsyncPaginator[Doc, AsyncOffsetPagination[Doc]]:
         """
         List Agent Docs
 
@@ -275,14 +277,15 @@ class AsyncDocsResource(AsyncAPIResource):
         """
         if not agent_id:
             raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return await self._get(
+        return self._get_api_list(
             f"/agents/{agent_id}/docs",
+            page=AsyncOffsetPagination[Doc],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "direction": direction,
                         "limit": limit,
@@ -293,7 +296,7 @@ class AsyncDocsResource(AsyncAPIResource):
                     doc_list_params.DocListParams,
                 ),
             ),
-            cast_to=DocListResponse,
+            model=Doc,
         )
 
     async def delete(
