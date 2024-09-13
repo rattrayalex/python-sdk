@@ -12,7 +12,7 @@ from julep.types import Doc
 from tests.utils import assert_matches_type
 from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
 from julep.types.users import DocSearchResponse
-from julep.types.shared import ResourceCreated, ResourceDeleted
+from julep.types.shared import ResourceCreated
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -124,54 +124,6 @@ class TestDocs:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
             client.users.docs.with_raw_response.list(
                 user_id="",
-            )
-
-    @parametrize
-    def test_method_delete(self, client: Julep) -> None:
-        doc = client.users.docs.delete(
-            doc_id="doc_id",
-            user_id="user_id",
-        )
-        assert_matches_type(ResourceDeleted, doc, path=["response"])
-
-    @parametrize
-    def test_raw_response_delete(self, client: Julep) -> None:
-        response = client.users.docs.with_raw_response.delete(
-            doc_id="doc_id",
-            user_id="user_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        doc = response.parse()
-        assert_matches_type(ResourceDeleted, doc, path=["response"])
-
-    @parametrize
-    def test_streaming_response_delete(self, client: Julep) -> None:
-        with client.users.docs.with_streaming_response.delete(
-            doc_id="doc_id",
-            user_id="user_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            doc = response.parse()
-            assert_matches_type(ResourceDeleted, doc, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_delete(self, client: Julep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            client.users.docs.with_raw_response.delete(
-                doc_id="doc_id",
-                user_id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `doc_id` but received ''"):
-            client.users.docs.with_raw_response.delete(
-                doc_id="",
-                user_id="user_id",
             )
 
     @parametrize
@@ -446,54 +398,6 @@ class TestAsyncDocs:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
             await async_client.users.docs.with_raw_response.list(
                 user_id="",
-            )
-
-    @parametrize
-    async def test_method_delete(self, async_client: AsyncJulep) -> None:
-        doc = await async_client.users.docs.delete(
-            doc_id="doc_id",
-            user_id="user_id",
-        )
-        assert_matches_type(ResourceDeleted, doc, path=["response"])
-
-    @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncJulep) -> None:
-        response = await async_client.users.docs.with_raw_response.delete(
-            doc_id="doc_id",
-            user_id="user_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        doc = await response.parse()
-        assert_matches_type(ResourceDeleted, doc, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncJulep) -> None:
-        async with async_client.users.docs.with_streaming_response.delete(
-            doc_id="doc_id",
-            user_id="user_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            doc = await response.parse()
-            assert_matches_type(ResourceDeleted, doc, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_delete(self, async_client: AsyncJulep) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            await async_client.users.docs.with_raw_response.delete(
-                doc_id="doc_id",
-                user_id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `doc_id` but received ''"):
-            await async_client.users.docs.with_raw_response.delete(
-                doc_id="",
-                user_id="user_id",
             )
 
     @parametrize

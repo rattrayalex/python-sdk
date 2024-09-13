@@ -21,11 +21,10 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
-from ...types.tasks import execution_list_params, execution_create_params, execution_update_params
+from ...types.tasks import execution_list_params, execution_create_params
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.execution import Execution
 from ...types.shared.resource_created import ResourceCreated
-from ...types.shared.resource_updated import ResourceUpdated
 
 __all__ = ["ExecutionsResource", "AsyncExecutionsResource"]
 
@@ -94,44 +93,6 @@ class ExecutionsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ResourceCreated,
-        )
-
-    def update(
-        self,
-        execution_id: str,
-        *,
-        task_id: str,
-        status: Literal["queued", "starting", "running", "awaiting_input", "succeeded", "failed", "cancelled"],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResourceUpdated:
-        """
-        Patch Execution
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        if not execution_id:
-            raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
-        return self._patch(
-            f"/tasks/{task_id}/executions/{execution_id}",
-            body=maybe_transform({"status": status}, execution_update_params.ExecutionUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ResourceUpdated,
         )
 
     def list(
@@ -251,44 +212,6 @@ class AsyncExecutionsResource(AsyncAPIResource):
             cast_to=ResourceCreated,
         )
 
-    async def update(
-        self,
-        execution_id: str,
-        *,
-        task_id: str,
-        status: Literal["queued", "starting", "running", "awaiting_input", "succeeded", "failed", "cancelled"],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResourceUpdated:
-        """
-        Patch Execution
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        if not execution_id:
-            raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
-        return await self._patch(
-            f"/tasks/{task_id}/executions/{execution_id}",
-            body=await async_maybe_transform({"status": status}, execution_update_params.ExecutionUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ResourceUpdated,
-        )
-
     def list(
         self,
         task_id: str,
@@ -347,9 +270,6 @@ class ExecutionsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             executions.create,
         )
-        self.update = to_raw_response_wrapper(
-            executions.update,
-        )
         self.list = to_raw_response_wrapper(
             executions.list,
         )
@@ -361,9 +281,6 @@ class AsyncExecutionsResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             executions.create,
-        )
-        self.update = async_to_raw_response_wrapper(
-            executions.update,
         )
         self.list = async_to_raw_response_wrapper(
             executions.list,
@@ -377,9 +294,6 @@ class ExecutionsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             executions.create,
         )
-        self.update = to_streamed_response_wrapper(
-            executions.update,
-        )
         self.list = to_streamed_response_wrapper(
             executions.list,
         )
@@ -391,9 +305,6 @@ class AsyncExecutionsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             executions.create,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            executions.update,
         )
         self.list = async_to_streamed_response_wrapper(
             executions.list,

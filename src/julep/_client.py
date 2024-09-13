@@ -57,7 +57,6 @@ class Julep(SyncAPIClient):
     agents: resources.AgentsResource
     sessions: resources.SessionsResource
     users: resources.UsersResource
-    jobs: resources.JobsResource
     docs: resources.DocsResource
     tasks: resources.TasksResource
     executions: resources.ExecutionsResource
@@ -145,7 +144,6 @@ class Julep(SyncAPIClient):
         self.agents = resources.AgentsResource(self)
         self.sessions = resources.SessionsResource(self)
         self.users = resources.UsersResource(self)
-        self.jobs = resources.JobsResource(self)
         self.docs = resources.DocsResource(self)
         self.tasks = resources.TasksResource(self)
         self.executions = resources.ExecutionsResource(self)
@@ -263,7 +261,6 @@ class AsyncJulep(AsyncAPIClient):
     agents: resources.AsyncAgentsResource
     sessions: resources.AsyncSessionsResource
     users: resources.AsyncUsersResource
-    jobs: resources.AsyncJobsResource
     docs: resources.AsyncDocsResource
     tasks: resources.AsyncTasksResource
     executions: resources.AsyncExecutionsResource
@@ -351,7 +348,6 @@ class AsyncJulep(AsyncAPIClient):
         self.agents = resources.AsyncAgentsResource(self)
         self.sessions = resources.AsyncSessionsResource(self)
         self.users = resources.AsyncUsersResource(self)
-        self.jobs = resources.AsyncJobsResource(self)
         self.docs = resources.AsyncDocsResource(self)
         self.tasks = resources.AsyncTasksResource(self)
         self.executions = resources.AsyncExecutionsResource(self)
@@ -470,7 +466,6 @@ class JulepWithRawResponse:
         self.agents = resources.AgentsResourceWithRawResponse(client.agents)
         self.sessions = resources.SessionsResourceWithRawResponse(client.sessions)
         self.users = resources.UsersResourceWithRawResponse(client.users)
-        self.jobs = resources.JobsResourceWithRawResponse(client.jobs)
         self.docs = resources.DocsResourceWithRawResponse(client.docs)
         self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
         self.executions = resources.ExecutionsResourceWithRawResponse(client.executions)
@@ -481,7 +476,6 @@ class AsyncJulepWithRawResponse:
         self.agents = resources.AsyncAgentsResourceWithRawResponse(client.agents)
         self.sessions = resources.AsyncSessionsResourceWithRawResponse(client.sessions)
         self.users = resources.AsyncUsersResourceWithRawResponse(client.users)
-        self.jobs = resources.AsyncJobsResourceWithRawResponse(client.jobs)
         self.docs = resources.AsyncDocsResourceWithRawResponse(client.docs)
         self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
         self.executions = resources.AsyncExecutionsResourceWithRawResponse(client.executions)
@@ -492,7 +486,6 @@ class JulepWithStreamedResponse:
         self.agents = resources.AgentsResourceWithStreamingResponse(client.agents)
         self.sessions = resources.SessionsResourceWithStreamingResponse(client.sessions)
         self.users = resources.UsersResourceWithStreamingResponse(client.users)
-        self.jobs = resources.JobsResourceWithStreamingResponse(client.jobs)
         self.docs = resources.DocsResourceWithStreamingResponse(client.docs)
         self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
         self.executions = resources.ExecutionsResourceWithStreamingResponse(client.executions)
@@ -503,7 +496,6 @@ class AsyncJulepWithStreamedResponse:
         self.agents = resources.AsyncAgentsResourceWithStreamingResponse(client.agents)
         self.sessions = resources.AsyncSessionsResourceWithStreamingResponse(client.sessions)
         self.users = resources.AsyncUsersResourceWithStreamingResponse(client.users)
-        self.jobs = resources.AsyncJobsResourceWithStreamingResponse(client.jobs)
         self.docs = resources.AsyncDocsResourceWithStreamingResponse(client.docs)
         self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
         self.executions = resources.AsyncExecutionsResourceWithStreamingResponse(client.executions)

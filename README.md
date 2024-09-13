@@ -37,7 +37,7 @@ client = Julep(
     environment="dev",
 )
 
-resource_created = client.sessions.create()
+resource_created = client.agents.create()
 print(resource_created.id)
 ```
 
@@ -64,7 +64,7 @@ client = AsyncJulep(
 
 
 async def main() -> None:
-    resource_created = await client.sessions.create()
+    resource_created = await client.agents.create()
     print(resource_created.id)
 
 
@@ -159,7 +159,7 @@ from julep import Julep
 client = Julep()
 
 try:
-    client.sessions.create()
+    client.agents.create()
 except julep.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -202,7 +202,7 @@ client = Julep(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).sessions.create()
+client.with_options(max_retries=5).agents.create()
 ```
 
 ### Timeouts
@@ -225,7 +225,7 @@ client = Julep(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).sessions.create()
+client.with_options(timeout=5.0).agents.create()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -264,11 +264,11 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from julep import Julep
 
 client = Julep()
-response = client.sessions.with_raw_response.create()
+response = client.agents.with_raw_response.create()
 print(response.headers.get('X-My-Header'))
 
-session = response.parse()  # get the object that `sessions.create()` would have returned
-print(session.id)
+agent = response.parse()  # get the object that `agents.create()` would have returned
+print(agent.id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/stainless-sdks/julep-python/tree/main/src/julep/_response.py) object.
@@ -282,7 +282,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.sessions.with_streaming_response.create() as response:
+with client.agents.with_streaming_response.create() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
