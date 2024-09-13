@@ -325,7 +325,7 @@ class TestJulep:
     def test_validate_headers(self) -> None:
         client = Julep(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == api_key
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(JulepError):
             with update_env(**{"JULEP_API_KEY": Omit()}):
@@ -545,6 +545,14 @@ class TestJulep:
         with update_env(JULEP_BASE_URL="http://localhost:5000/from/env"):
             client = Julep(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
+
+        # explicit environment arg requires explicitness
+        with update_env(JULEP_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                Julep(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = Julep(base_url=None, api_key=api_key, _strict_response_validation=True, environment="production")
+            assert str(client.base_url).startswith("https://api.julep.ai/api")
 
     @pytest.mark.parametrize(
         "client",
@@ -1030,7 +1038,7 @@ class TestAsyncJulep:
     def test_validate_headers(self) -> None:
         client = AsyncJulep(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == api_key
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(JulepError):
             with update_env(**{"JULEP_API_KEY": Omit()}):
@@ -1250,6 +1258,16 @@ class TestAsyncJulep:
         with update_env(JULEP_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncJulep(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
+
+        # explicit environment arg requires explicitness
+        with update_env(JULEP_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                AsyncJulep(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = AsyncJulep(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
+            )
+            assert str(client.base_url).startswith("https://api.julep.ai/api")
 
     @pytest.mark.parametrize(
         "client",
