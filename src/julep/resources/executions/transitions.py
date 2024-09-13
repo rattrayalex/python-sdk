@@ -23,7 +23,7 @@ from ..._response import (
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.executions import transition_list_params, transition_stream_params
-from ...types.executions.transition_list_response import TransitionListResponse
+from ...types.transition import Transition
 
 __all__ = ["TransitionsResource", "AsyncTransitionsResource"]
 
@@ -62,7 +62,7 @@ class TransitionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncOffsetPagination[TransitionListResponse]:
+    ) -> SyncOffsetPagination[Transition]:
         """
         List Execution Transitions
 
@@ -79,7 +79,7 @@ class TransitionsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
         return self._get_api_list(
             f"/executions/{execution_id}/transitions",
-            page=SyncOffsetPagination[TransitionListResponse],
+            page=SyncOffsetPagination[Transition],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -95,7 +95,7 @@ class TransitionsResource(SyncAPIResource):
                     transition_list_params.TransitionListParams,
                 ),
             ),
-            model=TransitionListResponse,
+            model=Transition,
         )
 
     def stream(
@@ -173,7 +173,7 @@ class AsyncTransitionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[TransitionListResponse, AsyncOffsetPagination[TransitionListResponse]]:
+    ) -> AsyncPaginator[Transition, AsyncOffsetPagination[Transition]]:
         """
         List Execution Transitions
 
@@ -190,7 +190,7 @@ class AsyncTransitionsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
         return self._get_api_list(
             f"/executions/{execution_id}/transitions",
-            page=AsyncOffsetPagination[TransitionListResponse],
+            page=AsyncOffsetPagination[Transition],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -206,7 +206,7 @@ class AsyncTransitionsResource(AsyncAPIResource):
                     transition_list_params.TransitionListParams,
                 ),
             ),
-            model=TransitionListResponse,
+            model=Transition,
         )
 
     async def stream(

@@ -8,9 +8,9 @@ from typing import Any, cast
 import pytest
 
 from julep import Julep, AsyncJulep
+from julep.types import Transition
 from tests.utils import assert_matches_type
 from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
-from julep.types.executions import TransitionListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestTransitions:
         transition = client.executions.transitions.list(
             execution_id="execution_id",
         )
-        assert_matches_type(SyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Transition], transition, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Julep) -> None:
@@ -34,7 +34,7 @@ class TestTransitions:
             offset=0,
             sort_by="created_at",
         )
-        assert_matches_type(SyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Transition], transition, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Julep) -> None:
@@ -45,7 +45,7 @@ class TestTransitions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transition = response.parse()
-        assert_matches_type(SyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Transition], transition, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Julep) -> None:
@@ -56,7 +56,7 @@ class TestTransitions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transition = response.parse()
-            assert_matches_type(SyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+            assert_matches_type(SyncOffsetPagination[Transition], transition, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -122,7 +122,7 @@ class TestAsyncTransitions:
         transition = await async_client.executions.transitions.list(
             execution_id="execution_id",
         )
-        assert_matches_type(AsyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Transition], transition, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -133,7 +133,7 @@ class TestAsyncTransitions:
             offset=0,
             sort_by="created_at",
         )
-        assert_matches_type(AsyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Transition], transition, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncJulep) -> None:
@@ -144,7 +144,7 @@ class TestAsyncTransitions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transition = await response.parse()
-        assert_matches_type(AsyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Transition], transition, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncJulep) -> None:
@@ -155,7 +155,7 @@ class TestAsyncTransitions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transition = await response.parse()
-            assert_matches_type(AsyncOffsetPagination[TransitionListResponse], transition, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[Transition], transition, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

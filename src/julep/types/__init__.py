@@ -10,6 +10,8 @@ from .history import History as History
 from .session import Session as Session
 from .execution import Execution as Execution
 from .job_status import JobStatus as JobStatus
+from .transition import Transition as Transition
+from .chat_response import ChatResponse as ChatResponse
 from .user_list_params import UserListParams as UserListParams
 from .agent_list_params import AgentListParams as AgentListParams
 from .doc_create_params import DocCreateParams as DocCreateParams
