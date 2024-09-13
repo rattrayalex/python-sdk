@@ -20,9 +20,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.tasks import execution_list_params, execution_create_params, execution_update_params
-from ..._base_client import make_request_options
-from ...types.tasks.execution_list_response import ExecutionListResponse
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.execution import Execution
 from ...types.tasks.execution_create_response import ExecutionCreateResponse
 from ...types.tasks.execution_update_response import ExecutionUpdateResponse
 
@@ -147,7 +148,7 @@ class ExecutionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionListResponse:
+    ) -> SyncOffsetPagination[Execution]:
         """
         List Task Executions
 
@@ -162,8 +163,9 @@ class ExecutionsResource(SyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        return self._get(
+        return self._get_api_list(
             f"/tasks/{task_id}/executions",
+            page=SyncOffsetPagination[Execution],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -179,7 +181,7 @@ class ExecutionsResource(SyncAPIResource):
                     execution_list_params.ExecutionListParams,
                 ),
             ),
-            cast_to=ExecutionListResponse,
+            model=Execution,
         )
 
 
@@ -287,7 +289,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
             cast_to=ExecutionUpdateResponse,
         )
 
-    async def list(
+    def list(
         self,
         task_id: str,
         *,
@@ -301,7 +303,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionListResponse:
+    ) -> AsyncPaginator[Execution, AsyncOffsetPagination[Execution]]:
         """
         List Task Executions
 
@@ -316,14 +318,15 @@ class AsyncExecutionsResource(AsyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        return await self._get(
+        return self._get_api_list(
             f"/tasks/{task_id}/executions",
+            page=AsyncOffsetPagination[Execution],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "direction": direction,
                         "limit": limit,
@@ -333,7 +336,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
                     execution_list_params.ExecutionListParams,
                 ),
             ),
-            cast_to=ExecutionListResponse,
+            model=Execution,
         )
 
 

@@ -78,6 +78,67 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
+## Pagination
+
+List methods in the Julep API are paginated.
+
+This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
+
+```python
+from julep import Julep
+
+client = Julep()
+
+all_agents = []
+# Automatically fetches more pages as needed.
+for agent in client.agents.list():
+    # Do something with agent here
+    all_agents.append(agent)
+print(all_agents)
+```
+
+Or, asynchronously:
+
+```python
+import asyncio
+from julep import AsyncJulep
+
+client = AsyncJulep()
+
+
+async def main() -> None:
+    all_agents = []
+    # Iterate through items across all pages, issuing requests as needed.
+    async for agent in client.agents.list():
+        all_agents.append(agent)
+    print(all_agents)
+
+
+asyncio.run(main())
+```
+
+Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
+
+```python
+first_page = await client.agents.list()
+if first_page.has_next_page():
+    print(f"will fetch next page using these details: {first_page.next_page_info()}")
+    next_page = await first_page.get_next_page()
+    print(f"number of items we just fetched: {len(next_page.items)}")
+
+# Remove `await` for non-async usage.
+```
+
+Or just work directly with the returned data:
+
+```python
+first_page = await client.agents.list()
+for agent in first_page.items:
+    print(agent.id)
+
+# Remove `await` for non-async usage.
+```
+
 ## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `julep.APIConnectionError` is raised.

@@ -31,7 +31,14 @@ from .tools import (
     ToolsResourceWithStreamingResponse,
     AsyncToolsResourceWithStreamingResponse,
 )
-from ...types import agent_list_params, agent_create_params, agent_search_params, agent_update_params
+from ...types import (
+    agent_list_params,
+    agent_patch_params,
+    agent_create_params,
+    agent_search_params,
+    agent_update_params,
+    agent_create_or_update_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
@@ -46,13 +53,15 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.agent import Agent
-from ..._base_client import make_request_options
-from ...types.agent_list_response import AgentListResponse
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.agent_patch_response import AgentPatchResponse
 from ...types.agent_create_response import AgentCreateResponse
 from ...types.agent_delete_response import AgentDeleteResponse
 from ...types.agent_search_response import AgentSearchResponse
 from ...types.agent_update_response import AgentUpdateResponse
+from ...types.agent_create_or_update_response import AgentCreateOrUpdateResponse
 
 __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
@@ -91,7 +100,6 @@ class AgentsResource(SyncAPIResource):
 
     def create(
         self,
-        agent_id: str,
         *,
         about: str | NotGiven = NOT_GIVEN,
         default_settings: Optional[agent_create_params.DefaultSettings] | NotGiven = NOT_GIVEN,
@@ -107,7 +115,7 @@ class AgentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentCreateResponse:
         """
-        Create Or Update Agent
+        Create Agent
 
         Args:
           default_settings: Default settings for the chat session (also used by the agent)
@@ -120,10 +128,8 @@ class AgentsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         return self._post(
-            f"/agents/{agent_id}",
+            "/agents",
             body=maybe_transform(
                 {
                     "about": about,
@@ -240,7 +246,7 @@ class AgentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentListResponse:
+    ) -> SyncOffsetPagination[Agent]:
         """
         List Agents
 
@@ -253,8 +259,9 @@ class AgentsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/agents",
+            page=SyncOffsetPagination[Agent],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -271,7 +278,7 @@ class AgentsResource(SyncAPIResource):
                     agent_list_params.AgentListParams,
                 ),
             ),
-            cast_to=AgentListResponse,
+            model=Agent,
         )
 
     def delete(
@@ -305,6 +312,110 @@ class AgentsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentDeleteResponse,
+        )
+
+    def create_or_update(
+        self,
+        agent_id: str,
+        *,
+        about: str | NotGiven = NOT_GIVEN,
+        default_settings: Optional[agent_create_or_update_params.DefaultSettings] | NotGiven = NOT_GIVEN,
+        instructions: Union[str, List[str]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AgentCreateOrUpdateResponse:
+        """
+        Create Or Update Agent
+
+        Args:
+          default_settings: Default settings for the chat session (also used by the agent)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return self._post(
+            f"/agents/{agent_id}",
+            body=maybe_transform(
+                {
+                    "about": about,
+                    "default_settings": default_settings,
+                    "instructions": instructions,
+                    "metadata": metadata,
+                    "model": model,
+                    "name": name,
+                },
+                agent_create_or_update_params.AgentCreateOrUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentCreateOrUpdateResponse,
+        )
+
+    def patch(
+        self,
+        agent_id: str,
+        *,
+        about: str | NotGiven = NOT_GIVEN,
+        default_settings: Optional[agent_patch_params.DefaultSettings] | NotGiven = NOT_GIVEN,
+        instructions: Union[str, List[str]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AgentPatchResponse:
+        """
+        Patch Agent
+
+        Args:
+          default_settings: Default settings for the chat session (also used by the agent)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return self._patch(
+            f"/agents/{agent_id}",
+            body=maybe_transform(
+                {
+                    "about": about,
+                    "default_settings": default_settings,
+                    "instructions": instructions,
+                    "metadata": metadata,
+                    "model": model,
+                    "name": name,
+                },
+                agent_patch_params.AgentPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentPatchResponse,
         )
 
     @overload
@@ -472,7 +583,6 @@ class AsyncAgentsResource(AsyncAPIResource):
 
     async def create(
         self,
-        agent_id: str,
         *,
         about: str | NotGiven = NOT_GIVEN,
         default_settings: Optional[agent_create_params.DefaultSettings] | NotGiven = NOT_GIVEN,
@@ -488,7 +598,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentCreateResponse:
         """
-        Create Or Update Agent
+        Create Agent
 
         Args:
           default_settings: Default settings for the chat session (also used by the agent)
@@ -501,10 +611,8 @@ class AsyncAgentsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         return await self._post(
-            f"/agents/{agent_id}",
+            "/agents",
             body=await async_maybe_transform(
                 {
                     "about": about,
@@ -607,7 +715,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             cast_to=AgentUpdateResponse,
         )
 
-    async def list(
+    def list(
         self,
         *,
         direction: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
@@ -621,7 +729,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentListResponse:
+    ) -> AsyncPaginator[Agent, AsyncOffsetPagination[Agent]]:
         """
         List Agents
 
@@ -634,14 +742,15 @@ class AsyncAgentsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/agents",
+            page=AsyncOffsetPagination[Agent],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "direction": direction,
                         "limit": limit,
@@ -652,7 +761,7 @@ class AsyncAgentsResource(AsyncAPIResource):
                     agent_list_params.AgentListParams,
                 ),
             ),
-            cast_to=AgentListResponse,
+            model=Agent,
         )
 
     async def delete(
@@ -686,6 +795,110 @@ class AsyncAgentsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentDeleteResponse,
+        )
+
+    async def create_or_update(
+        self,
+        agent_id: str,
+        *,
+        about: str | NotGiven = NOT_GIVEN,
+        default_settings: Optional[agent_create_or_update_params.DefaultSettings] | NotGiven = NOT_GIVEN,
+        instructions: Union[str, List[str]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AgentCreateOrUpdateResponse:
+        """
+        Create Or Update Agent
+
+        Args:
+          default_settings: Default settings for the chat session (also used by the agent)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return await self._post(
+            f"/agents/{agent_id}",
+            body=await async_maybe_transform(
+                {
+                    "about": about,
+                    "default_settings": default_settings,
+                    "instructions": instructions,
+                    "metadata": metadata,
+                    "model": model,
+                    "name": name,
+                },
+                agent_create_or_update_params.AgentCreateOrUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentCreateOrUpdateResponse,
+        )
+
+    async def patch(
+        self,
+        agent_id: str,
+        *,
+        about: str | NotGiven = NOT_GIVEN,
+        default_settings: Optional[agent_patch_params.DefaultSettings] | NotGiven = NOT_GIVEN,
+        instructions: Union[str, List[str]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AgentPatchResponse:
+        """
+        Patch Agent
+
+        Args:
+          default_settings: Default settings for the chat session (also used by the agent)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return await self._patch(
+            f"/agents/{agent_id}",
+            body=await async_maybe_transform(
+                {
+                    "about": about,
+                    "default_settings": default_settings,
+                    "instructions": instructions,
+                    "metadata": metadata,
+                    "model": model,
+                    "name": name,
+                },
+                agent_patch_params.AgentPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentPatchResponse,
         )
 
     @overload
@@ -838,6 +1051,12 @@ class AgentsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             agents.delete,
         )
+        self.create_or_update = to_raw_response_wrapper(
+            agents.create_or_update,
+        )
+        self.patch = to_raw_response_wrapper(
+            agents.patch,
+        )
         self.search = to_raw_response_wrapper(
             agents.search,
         )
@@ -873,6 +1092,12 @@ class AsyncAgentsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             agents.delete,
+        )
+        self.create_or_update = async_to_raw_response_wrapper(
+            agents.create_or_update,
+        )
+        self.patch = async_to_raw_response_wrapper(
+            agents.patch,
         )
         self.search = async_to_raw_response_wrapper(
             agents.search,
@@ -910,6 +1135,12 @@ class AgentsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             agents.delete,
         )
+        self.create_or_update = to_streamed_response_wrapper(
+            agents.create_or_update,
+        )
+        self.patch = to_streamed_response_wrapper(
+            agents.patch,
+        )
         self.search = to_streamed_response_wrapper(
             agents.search,
         )
@@ -945,6 +1176,12 @@ class AsyncAgentsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             agents.delete,
+        )
+        self.create_or_update = async_to_streamed_response_wrapper(
+            agents.create_or_update,
+        )
+        self.patch = async_to_streamed_response_wrapper(
+            agents.patch,
         )
         self.search = async_to_streamed_response_wrapper(
             agents.search,

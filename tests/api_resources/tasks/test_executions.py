@@ -8,9 +8,10 @@ from typing import Any, cast
 import pytest
 
 from julep import Julep, AsyncJulep
+from julep.types import Execution
 from tests.utils import assert_matches_type
+from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
 from julep.types.tasks import (
-    ExecutionListResponse,
     ExecutionCreateResponse,
     ExecutionUpdateResponse,
 )
@@ -132,7 +133,7 @@ class TestExecutions:
         execution = client.tasks.executions.list(
             task_id="task_id",
         )
-        assert_matches_type(ExecutionListResponse, execution, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Execution], execution, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Julep) -> None:
@@ -143,7 +144,7 @@ class TestExecutions:
             offset=0,
             sort_by="created_at",
         )
-        assert_matches_type(ExecutionListResponse, execution, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Execution], execution, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Julep) -> None:
@@ -154,7 +155,7 @@ class TestExecutions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         execution = response.parse()
-        assert_matches_type(ExecutionListResponse, execution, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Execution], execution, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Julep) -> None:
@@ -165,7 +166,7 @@ class TestExecutions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             execution = response.parse()
-            assert_matches_type(ExecutionListResponse, execution, path=["response"])
+            assert_matches_type(SyncOffsetPagination[Execution], execution, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -291,7 +292,7 @@ class TestAsyncExecutions:
         execution = await async_client.tasks.executions.list(
             task_id="task_id",
         )
-        assert_matches_type(ExecutionListResponse, execution, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Execution], execution, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -302,7 +303,7 @@ class TestAsyncExecutions:
             offset=0,
             sort_by="created_at",
         )
-        assert_matches_type(ExecutionListResponse, execution, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Execution], execution, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncJulep) -> None:
@@ -313,7 +314,7 @@ class TestAsyncExecutions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         execution = await response.parse()
-        assert_matches_type(ExecutionListResponse, execution, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Execution], execution, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncJulep) -> None:
@@ -324,7 +325,7 @@ class TestAsyncExecutions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             execution = await response.parse()
-            assert_matches_type(ExecutionListResponse, execution, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[Execution], execution, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

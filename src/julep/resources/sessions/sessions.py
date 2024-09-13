@@ -15,7 +15,13 @@ from .chats import (
     ChatsResourceWithStreamingResponse,
     AsyncChatsResourceWithStreamingResponse,
 )
-from ...types import session_list_params, session_create_params, session_update_params
+from ...types import (
+    session_list_params,
+    session_patch_params,
+    session_create_params,
+    session_update_params,
+    session_create_or_update_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -29,13 +35,15 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
+from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.history import History
 from ...types.session import Session
-from ...types.session_list_response import SessionListResponse
+from ...types.session_patch_response import SessionPatchResponse
 from ...types.session_create_response import SessionCreateResponse
 from ...types.session_delete_response import SessionDeleteResponse
 from ...types.session_update_response import SessionUpdateResponse
+from ...types.session_create_or_update_response import SessionCreateOrUpdateResponse
 
 __all__ = ["SessionsResource", "AsyncSessionsResource"]
 
@@ -212,7 +220,7 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionListResponse:
+    ) -> SyncOffsetPagination[Session]:
         """
         List Sessions
 
@@ -225,8 +233,9 @@ class SessionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/sessions",
+            page=SyncOffsetPagination[Session],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -243,7 +252,7 @@ class SessionsResource(SyncAPIResource):
                     session_list_params.SessionListParams,
                 ),
             ),
-            cast_to=SessionListResponse,
+            model=Session,
         )
 
     def delete(
@@ -279,6 +288,62 @@ class SessionsResource(SyncAPIResource):
             cast_to=SessionDeleteResponse,
         )
 
+    def create_or_update(
+        self,
+        session_id: str,
+        *,
+        agent: Optional[str] | NotGiven = NOT_GIVEN,
+        agents: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        context_overflow: Optional[Literal["truncate", "adaptive"]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        render_templates: bool | NotGiven = NOT_GIVEN,
+        situation: str | NotGiven = NOT_GIVEN,
+        token_budget: Optional[int] | NotGiven = NOT_GIVEN,
+        user: Optional[str] | NotGiven = NOT_GIVEN,
+        users: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SessionCreateOrUpdateResponse:
+        """
+        Create Or Update Session
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return self._post(
+            f"/sessions/{session_id}",
+            body=maybe_transform(
+                {
+                    "agent": agent,
+                    "agents": agents,
+                    "context_overflow": context_overflow,
+                    "metadata": metadata,
+                    "render_templates": render_templates,
+                    "situation": situation,
+                    "token_budget": token_budget,
+                    "user": user,
+                    "users": users,
+                },
+                session_create_or_update_params.SessionCreateOrUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SessionCreateOrUpdateResponse,
+        )
+
     def history(
         self,
         session_id: str,
@@ -310,6 +375,54 @@ class SessionsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=History,
+        )
+
+    def patch(
+        self,
+        session_id: str,
+        *,
+        context_overflow: Optional[Literal["truncate", "adaptive"]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        render_templates: bool | NotGiven = NOT_GIVEN,
+        situation: str | NotGiven = NOT_GIVEN,
+        token_budget: Optional[int] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SessionPatchResponse:
+        """
+        Patch Session
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return self._patch(
+            f"/sessions/{session_id}",
+            body=maybe_transform(
+                {
+                    "context_overflow": context_overflow,
+                    "metadata": metadata,
+                    "render_templates": render_templates,
+                    "situation": situation,
+                    "token_budget": token_budget,
+                },
+                session_patch_params.SessionPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SessionPatchResponse,
         )
 
 
@@ -471,7 +584,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             cast_to=SessionUpdateResponse,
         )
 
-    async def list(
+    def list(
         self,
         *,
         direction: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
@@ -485,7 +598,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionListResponse:
+    ) -> AsyncPaginator[Session, AsyncOffsetPagination[Session]]:
         """
         List Sessions
 
@@ -498,14 +611,15 @@ class AsyncSessionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/sessions",
+            page=AsyncOffsetPagination[Session],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "direction": direction,
                         "limit": limit,
@@ -516,7 +630,7 @@ class AsyncSessionsResource(AsyncAPIResource):
                     session_list_params.SessionListParams,
                 ),
             ),
-            cast_to=SessionListResponse,
+            model=Session,
         )
 
     async def delete(
@@ -552,6 +666,62 @@ class AsyncSessionsResource(AsyncAPIResource):
             cast_to=SessionDeleteResponse,
         )
 
+    async def create_or_update(
+        self,
+        session_id: str,
+        *,
+        agent: Optional[str] | NotGiven = NOT_GIVEN,
+        agents: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        context_overflow: Optional[Literal["truncate", "adaptive"]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        render_templates: bool | NotGiven = NOT_GIVEN,
+        situation: str | NotGiven = NOT_GIVEN,
+        token_budget: Optional[int] | NotGiven = NOT_GIVEN,
+        user: Optional[str] | NotGiven = NOT_GIVEN,
+        users: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SessionCreateOrUpdateResponse:
+        """
+        Create Or Update Session
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return await self._post(
+            f"/sessions/{session_id}",
+            body=await async_maybe_transform(
+                {
+                    "agent": agent,
+                    "agents": agents,
+                    "context_overflow": context_overflow,
+                    "metadata": metadata,
+                    "render_templates": render_templates,
+                    "situation": situation,
+                    "token_budget": token_budget,
+                    "user": user,
+                    "users": users,
+                },
+                session_create_or_update_params.SessionCreateOrUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SessionCreateOrUpdateResponse,
+        )
+
     async def history(
         self,
         session_id: str,
@@ -585,6 +755,54 @@ class AsyncSessionsResource(AsyncAPIResource):
             cast_to=History,
         )
 
+    async def patch(
+        self,
+        session_id: str,
+        *,
+        context_overflow: Optional[Literal["truncate", "adaptive"]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[object] | NotGiven = NOT_GIVEN,
+        render_templates: bool | NotGiven = NOT_GIVEN,
+        situation: str | NotGiven = NOT_GIVEN,
+        token_budget: Optional[int] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SessionPatchResponse:
+        """
+        Patch Session
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        return await self._patch(
+            f"/sessions/{session_id}",
+            body=await async_maybe_transform(
+                {
+                    "context_overflow": context_overflow,
+                    "metadata": metadata,
+                    "render_templates": render_templates,
+                    "situation": situation,
+                    "token_budget": token_budget,
+                },
+                session_patch_params.SessionPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SessionPatchResponse,
+        )
+
 
 class SessionsResourceWithRawResponse:
     def __init__(self, sessions: SessionsResource) -> None:
@@ -605,8 +823,14 @@ class SessionsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             sessions.delete,
         )
+        self.create_or_update = to_raw_response_wrapper(
+            sessions.create_or_update,
+        )
         self.history = to_raw_response_wrapper(
             sessions.history,
+        )
+        self.patch = to_raw_response_wrapper(
+            sessions.patch,
         )
 
     @cached_property
@@ -633,8 +857,14 @@ class AsyncSessionsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             sessions.delete,
         )
+        self.create_or_update = async_to_raw_response_wrapper(
+            sessions.create_or_update,
+        )
         self.history = async_to_raw_response_wrapper(
             sessions.history,
+        )
+        self.patch = async_to_raw_response_wrapper(
+            sessions.patch,
         )
 
     @cached_property
@@ -661,8 +891,14 @@ class SessionsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             sessions.delete,
         )
+        self.create_or_update = to_streamed_response_wrapper(
+            sessions.create_or_update,
+        )
         self.history = to_streamed_response_wrapper(
             sessions.history,
+        )
+        self.patch = to_streamed_response_wrapper(
+            sessions.patch,
         )
 
     @cached_property
@@ -689,8 +925,14 @@ class AsyncSessionsResourceWithStreamingResponse:
         self.delete = async_to_streamed_response_wrapper(
             sessions.delete,
         )
+        self.create_or_update = async_to_streamed_response_wrapper(
+            sessions.create_or_update,
+        )
         self.history = async_to_streamed_response_wrapper(
             sessions.history,
+        )
+        self.patch = async_to_streamed_response_wrapper(
+            sessions.patch,
         )
 
     @cached_property

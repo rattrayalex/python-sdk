@@ -8,8 +8,10 @@ from typing import Any, cast
 import pytest
 
 from julep import Julep, AsyncJulep
+from julep.types import Doc
 from tests.utils import assert_matches_type
-from julep.types.agents import DocListResponse, DocCreateResponse, DocDeleteResponse
+from julep.pagination import SyncOffsetPagination, AsyncOffsetPagination
+from julep.types.agents import DocCreateResponse, DocDeleteResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -78,7 +80,7 @@ class TestDocs:
         doc = client.agents.docs.list(
             agent_id="agent_id",
         )
-        assert_matches_type(DocListResponse, doc, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Doc], doc, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Julep) -> None:
@@ -90,7 +92,7 @@ class TestDocs:
             offset=0,
             sort_by="created_at",
         )
-        assert_matches_type(DocListResponse, doc, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Doc], doc, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Julep) -> None:
@@ -101,7 +103,7 @@ class TestDocs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         doc = response.parse()
-        assert_matches_type(DocListResponse, doc, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Doc], doc, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Julep) -> None:
@@ -112,7 +114,7 @@ class TestDocs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             doc = response.parse()
-            assert_matches_type(DocListResponse, doc, path=["response"])
+            assert_matches_type(SyncOffsetPagination[Doc], doc, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -236,7 +238,7 @@ class TestAsyncDocs:
         doc = await async_client.agents.docs.list(
             agent_id="agent_id",
         )
-        assert_matches_type(DocListResponse, doc, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Doc], doc, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncJulep) -> None:
@@ -248,7 +250,7 @@ class TestAsyncDocs:
             offset=0,
             sort_by="created_at",
         )
-        assert_matches_type(DocListResponse, doc, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Doc], doc, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncJulep) -> None:
@@ -259,7 +261,7 @@ class TestAsyncDocs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         doc = await response.parse()
-        assert_matches_type(DocListResponse, doc, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Doc], doc, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncJulep) -> None:
@@ -270,7 +272,7 @@ class TestAsyncDocs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             doc = await response.parse()
-            assert_matches_type(DocListResponse, doc, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[Doc], doc, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

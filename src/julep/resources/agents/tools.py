@@ -20,9 +20,11 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.agents import tool_list_params, tool_create_params, tool_update_params
+from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.agents import tool_list_params, tool_patch_params, tool_create_params, tool_update_params
 from ...types.agents.tool_list_response import ToolListResponse
+from ...types.agents.tool_patch_response import ToolPatchResponse
 from ...types.agents.tool_create_response import ToolCreateResponse
 from ...types.agents.tool_delete_response import ToolDeleteResponse
 from ...types.agents.tool_update_response import ToolUpdateResponse
@@ -171,7 +173,7 @@ class ToolsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolListResponse:
+    ) -> SyncOffsetPagination[ToolListResponse]:
         """
         List Agent Tools
 
@@ -186,8 +188,9 @@ class ToolsResource(SyncAPIResource):
         """
         if not agent_id:
             raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return self._get(
+        return self._get_api_list(
             f"/agents/{agent_id}/tools",
+            page=SyncOffsetPagination[ToolListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -203,7 +206,7 @@ class ToolsResource(SyncAPIResource):
                     tool_list_params.ToolListParams,
                 ),
             ),
-            cast_to=ToolListResponse,
+            model=ToolListResponse,
         )
 
     def delete(
@@ -240,6 +243,61 @@ class ToolsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ToolDeleteResponse,
+        )
+
+    def patch(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        api_call: Optional[object] | NotGiven = NOT_GIVEN,
+        function: Optional[tool_patch_params.Function] | NotGiven = NOT_GIVEN,
+        integration: Optional[object] | NotGiven = NOT_GIVEN,
+        name: Optional[str] | NotGiven = NOT_GIVEN,
+        system: Optional[object] | NotGiven = NOT_GIVEN,
+        type: Literal["function", "integration", "system", "api_call"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ToolPatchResponse:
+        """
+        Patch Agent Tool
+
+        Args:
+          function: Function definition
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return self._patch(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            body=maybe_transform(
+                {
+                    "api_call": api_call,
+                    "function": function,
+                    "integration": integration,
+                    "name": name,
+                    "system": system,
+                    "type": type,
+                },
+                tool_patch_params.ToolPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ToolPatchResponse,
         )
 
 
@@ -370,7 +428,7 @@ class AsyncToolsResource(AsyncAPIResource):
             cast_to=ToolUpdateResponse,
         )
 
-    async def list(
+    def list(
         self,
         agent_id: str,
         *,
@@ -384,7 +442,7 @@ class AsyncToolsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolListResponse:
+    ) -> AsyncPaginator[ToolListResponse, AsyncOffsetPagination[ToolListResponse]]:
         """
         List Agent Tools
 
@@ -399,14 +457,15 @@ class AsyncToolsResource(AsyncAPIResource):
         """
         if not agent_id:
             raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return await self._get(
+        return self._get_api_list(
             f"/agents/{agent_id}/tools",
+            page=AsyncOffsetPagination[ToolListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "direction": direction,
                         "limit": limit,
@@ -416,7 +475,7 @@ class AsyncToolsResource(AsyncAPIResource):
                     tool_list_params.ToolListParams,
                 ),
             ),
-            cast_to=ToolListResponse,
+            model=ToolListResponse,
         )
 
     async def delete(
@@ -455,6 +514,61 @@ class AsyncToolsResource(AsyncAPIResource):
             cast_to=ToolDeleteResponse,
         )
 
+    async def patch(
+        self,
+        tool_id: str,
+        *,
+        agent_id: str,
+        api_call: Optional[object] | NotGiven = NOT_GIVEN,
+        function: Optional[tool_patch_params.Function] | NotGiven = NOT_GIVEN,
+        integration: Optional[object] | NotGiven = NOT_GIVEN,
+        name: Optional[str] | NotGiven = NOT_GIVEN,
+        system: Optional[object] | NotGiven = NOT_GIVEN,
+        type: Literal["function", "integration", "system", "api_call"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ToolPatchResponse:
+        """
+        Patch Agent Tool
+
+        Args:
+          function: Function definition
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not tool_id:
+            raise ValueError(f"Expected a non-empty value for `tool_id` but received {tool_id!r}")
+        return await self._patch(
+            f"/agents/{agent_id}/tools/{tool_id}",
+            body=await async_maybe_transform(
+                {
+                    "api_call": api_call,
+                    "function": function,
+                    "integration": integration,
+                    "name": name,
+                    "system": system,
+                    "type": type,
+                },
+                tool_patch_params.ToolPatchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ToolPatchResponse,
+        )
+
 
 class ToolsResourceWithRawResponse:
     def __init__(self, tools: ToolsResource) -> None:
@@ -471,6 +585,9 @@ class ToolsResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             tools.delete,
+        )
+        self.patch = to_raw_response_wrapper(
+            tools.patch,
         )
 
 
@@ -490,6 +607,9 @@ class AsyncToolsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             tools.delete,
         )
+        self.patch = async_to_raw_response_wrapper(
+            tools.patch,
+        )
 
 
 class ToolsResourceWithStreamingResponse:
@@ -508,6 +628,9 @@ class ToolsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             tools.delete,
         )
+        self.patch = to_streamed_response_wrapper(
+            tools.patch,
+        )
 
 
 class AsyncToolsResourceWithStreamingResponse:
@@ -525,4 +648,7 @@ class AsyncToolsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             tools.delete,
+        )
+        self.patch = async_to_streamed_response_wrapper(
+            tools.patch,
         )
