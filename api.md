@@ -80,6 +80,8 @@ Types:
 
 ```python
 from julep.types import (
+    ChatInput,
+    ChatResponse,
     History,
     Session,
     SessionCreateResponse,
@@ -199,7 +201,7 @@ Methods:
 Types:
 
 ```python
-from julep.types import Execution, ExecutionUpdateResponse
+from julep.types import Execution, Transition, ExecutionUpdateResponse
 ```
 
 Methods:
@@ -212,10 +214,10 @@ Methods:
 Types:
 
 ```python
-from julep.types.executions import TransitionListResponse, TransitionStreamResponse
+from julep.types.executions import TransitionStreamResponse
 ```
 
 Methods:
 
-- <code title="get /executions/{execution_id}/transitions">client.executions.transitions.<a href="./src/julep/resources/executions/transitions.py">list</a>(execution_id, \*\*<a href="src/julep/types/executions/transition_list_params.py">params</a>) -> <a href="./src/julep/types/executions/transition_list_response.py">SyncOffsetPagination[TransitionListResponse]</a></code>
+- <code title="get /executions/{execution_id}/transitions">client.executions.transitions.<a href="./src/julep/resources/executions/transitions.py">list</a>(execution_id, \*\*<a href="src/julep/types/executions/transition_list_params.py">params</a>) -> <a href="./src/julep/types/transition.py">SyncOffsetPagination[Transition]</a></code>
 - <code title="get /executions/{execution_id}/transitions.stream">client.executions.transitions.<a href="./src/julep/resources/executions/transitions.py">stream</a>(execution_id, \*\*<a href="src/julep/types/executions/transition_stream_params.py">params</a>) -> <a href="./src/julep/types/executions/transition_stream_response.py">object</a></code>

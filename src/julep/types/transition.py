@@ -4,9 +4,9 @@ from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = ["TransitionListResponse", "Current", "Next"]
+__all__ = ["Transition", "Current", "Next"]
 
 
 class Current(BaseModel):
@@ -21,7 +21,7 @@ class Next(BaseModel):
     workflow: str
 
 
-class TransitionListResponse(BaseModel):
+class Transition(BaseModel):
     id: str
 
     created_at: datetime
