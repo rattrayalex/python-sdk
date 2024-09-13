@@ -39,7 +39,7 @@ class JobsResource(SyncAPIResource):
         """
         return JobsResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def get(
         self,
         job_id: str,
         *,
@@ -93,7 +93,7 @@ class AsyncJobsResource(AsyncAPIResource):
         """
         return AsyncJobsResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def get(
         self,
         job_id: str,
         *,
@@ -131,8 +131,8 @@ class JobsResourceWithRawResponse:
     def __init__(self, jobs: JobsResource) -> None:
         self._jobs = jobs
 
-        self.retrieve = to_raw_response_wrapper(
-            jobs.retrieve,
+        self.get = to_raw_response_wrapper(
+            jobs.get,
         )
 
 
@@ -140,8 +140,8 @@ class AsyncJobsResourceWithRawResponse:
     def __init__(self, jobs: AsyncJobsResource) -> None:
         self._jobs = jobs
 
-        self.retrieve = async_to_raw_response_wrapper(
-            jobs.retrieve,
+        self.get = async_to_raw_response_wrapper(
+            jobs.get,
         )
 
 
@@ -149,8 +149,8 @@ class JobsResourceWithStreamingResponse:
     def __init__(self, jobs: JobsResource) -> None:
         self._jobs = jobs
 
-        self.retrieve = to_streamed_response_wrapper(
-            jobs.retrieve,
+        self.get = to_streamed_response_wrapper(
+            jobs.get,
         )
 
 
@@ -158,6 +158,6 @@ class AsyncJobsResourceWithStreamingResponse:
     def __init__(self, jobs: AsyncJobsResource) -> None:
         self._jobs = jobs
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            jobs.retrieve,
+        self.get = async_to_streamed_response_wrapper(
+            jobs.get,
         )

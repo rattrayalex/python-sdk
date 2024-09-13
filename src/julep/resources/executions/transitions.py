@@ -22,7 +22,7 @@ from ..._response import (
 )
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.executions import transition_list_params, transition_list_stream_params
+from ...types.executions import transition_list_params, transition_stream_params
 from ...types.executions.transition_list_response import TransitionListResponse
 
 __all__ = ["TransitionsResource", "AsyncTransitionsResource"]
@@ -98,7 +98,7 @@ class TransitionsResource(SyncAPIResource):
             model=TransitionListResponse,
         )
 
-    def list_stream(
+    def stream(
         self,
         execution_id: str,
         *,
@@ -132,7 +132,7 @@ class TransitionsResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"next_page_token": next_page_token}, transition_list_stream_params.TransitionListStreamParams
+                    {"next_page_token": next_page_token}, transition_stream_params.TransitionStreamParams
                 ),
             ),
             cast_to=object,
@@ -209,7 +209,7 @@ class AsyncTransitionsResource(AsyncAPIResource):
             model=TransitionListResponse,
         )
 
-    async def list_stream(
+    async def stream(
         self,
         execution_id: str,
         *,
@@ -243,7 +243,7 @@ class AsyncTransitionsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"next_page_token": next_page_token}, transition_list_stream_params.TransitionListStreamParams
+                    {"next_page_token": next_page_token}, transition_stream_params.TransitionStreamParams
                 ),
             ),
             cast_to=object,
@@ -257,8 +257,8 @@ class TransitionsResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             transitions.list,
         )
-        self.list_stream = to_raw_response_wrapper(
-            transitions.list_stream,
+        self.stream = to_raw_response_wrapper(
+            transitions.stream,
         )
 
 
@@ -269,8 +269,8 @@ class AsyncTransitionsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             transitions.list,
         )
-        self.list_stream = async_to_raw_response_wrapper(
-            transitions.list_stream,
+        self.stream = async_to_raw_response_wrapper(
+            transitions.stream,
         )
 
 
@@ -281,8 +281,8 @@ class TransitionsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             transitions.list,
         )
-        self.list_stream = to_streamed_response_wrapper(
-            transitions.list_stream,
+        self.stream = to_streamed_response_wrapper(
+            transitions.stream,
         )
 
 
@@ -293,6 +293,6 @@ class AsyncTransitionsResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             transitions.list,
         )
-        self.list_stream = async_to_streamed_response_wrapper(
-            transitions.list_stream,
+        self.stream = async_to_streamed_response_wrapper(
+            transitions.stream,
         )

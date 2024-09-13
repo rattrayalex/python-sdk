@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import TypedDict
 
-__all__ = ["TransitionListStreamParams"]
+__all__ = ["TransitionStreamParams"]
 
 
-class TransitionListStreamParams(TypedDict, total=False):
+class TransitionStreamParams(TypedDict, total=False):
     next_page_token: Optional[str]

@@ -79,7 +79,7 @@ class DocsResource(SyncAPIResource):
             cast_to=EmbedQueryResponse,
         )
 
-    def retrieve(
+    def get(
         self,
         doc_id: str,
         *,
@@ -165,7 +165,7 @@ class AsyncDocsResource(AsyncAPIResource):
             cast_to=EmbedQueryResponse,
         )
 
-    async def retrieve(
+    async def get(
         self,
         doc_id: str,
         *,
@@ -206,8 +206,8 @@ class DocsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             docs.create,
         )
-        self.retrieve = to_raw_response_wrapper(
-            docs.retrieve,
+        self.get = to_raw_response_wrapper(
+            docs.get,
         )
 
 
@@ -218,8 +218,8 @@ class AsyncDocsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             docs.create,
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            docs.retrieve,
+        self.get = async_to_raw_response_wrapper(
+            docs.get,
         )
 
 
@@ -230,8 +230,8 @@ class DocsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             docs.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            docs.retrieve,
+        self.get = to_streamed_response_wrapper(
+            docs.get,
         )
 
 
@@ -242,6 +242,6 @@ class AsyncDocsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             docs.create,
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            docs.retrieve,
+        self.get = async_to_streamed_response_wrapper(
+            docs.get,
         )

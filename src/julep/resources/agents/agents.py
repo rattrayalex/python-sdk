@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable, Optional, overload
+from typing import List, Union, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -35,13 +35,11 @@ from ...types import (
     agent_list_params,
     agent_patch_params,
     agent_create_params,
-    agent_search_params,
     agent_update_params,
     agent_create_or_update_params,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
-    required_args,
     maybe_transform,
     async_maybe_transform,
 )
@@ -59,7 +57,6 @@ from ..._base_client import AsyncPaginator, make_request_options
 from ...types.agent_patch_response import AgentPatchResponse
 from ...types.agent_create_response import AgentCreateResponse
 from ...types.agent_delete_response import AgentDeleteResponse
-from ...types.agent_search_response import AgentSearchResponse
 from ...types.agent_update_response import AgentUpdateResponse
 from ...types.agent_create_or_update_response import AgentCreateOrUpdateResponse
 
@@ -145,39 +142,6 @@ class AgentsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentCreateResponse,
-        )
-
-    def retrieve(
-        self,
-        agent_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Agent:
-        """
-        Get Agent Details
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return self._get(
-            f"/agents/{agent_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Agent,
         )
 
     def update(
@@ -366,6 +330,39 @@ class AgentsResource(SyncAPIResource):
             cast_to=AgentCreateOrUpdateResponse,
         )
 
+    def get(
+        self,
+        agent_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Agent:
+        """
+        Get Agent Details
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return self._get(
+            f"/agents/{agent_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Agent,
+        )
+
     def patch(
         self,
         agent_id: str,
@@ -416,136 +413,6 @@ class AgentsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentPatchResponse,
-        )
-
-    @overload
-    def search(
-        self,
-        agent_id: str,
-        *,
-        text: str,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        """
-        Search Agent Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    def search(
-        self,
-        agent_id: str,
-        *,
-        vector: Iterable[float],
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        """
-        Search Agent Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    def search(
-        self,
-        agent_id: str,
-        *,
-        text: str,
-        vector: Iterable[float],
-        alpha: float | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        """
-        Search Agent Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["text"], ["vector"], ["text", "vector"])
-    def search(
-        self,
-        agent_id: str,
-        *,
-        text: str | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        vector: Iterable[float] | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        alpha: float | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return self._post(
-            f"/agents/{agent_id}/search",
-            body=maybe_transform(
-                {
-                    "text": text,
-                    "lang": lang,
-                    "limit": limit,
-                    "vector": vector,
-                    "confidence": confidence,
-                    "alpha": alpha,
-                },
-                agent_search_params.AgentSearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentSearchResponse,
         )
 
 
@@ -628,39 +495,6 @@ class AsyncAgentsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentCreateResponse,
-        )
-
-    async def retrieve(
-        self,
-        agent_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Agent:
-        """
-        Get Agent Details
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return await self._get(
-            f"/agents/{agent_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Agent,
         )
 
     async def update(
@@ -849,6 +683,39 @@ class AsyncAgentsResource(AsyncAPIResource):
             cast_to=AgentCreateOrUpdateResponse,
         )
 
+    async def get(
+        self,
+        agent_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Agent:
+        """
+        Get Agent Details
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return await self._get(
+            f"/agents/{agent_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Agent,
+        )
+
     async def patch(
         self,
         agent_id: str,
@@ -901,136 +768,6 @@ class AsyncAgentsResource(AsyncAPIResource):
             cast_to=AgentPatchResponse,
         )
 
-    @overload
-    async def search(
-        self,
-        agent_id: str,
-        *,
-        text: str,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        """
-        Search Agent Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    async def search(
-        self,
-        agent_id: str,
-        *,
-        vector: Iterable[float],
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        """
-        Search Agent Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    async def search(
-        self,
-        agent_id: str,
-        *,
-        text: str,
-        vector: Iterable[float],
-        alpha: float | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        """
-        Search Agent Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["text"], ["vector"], ["text", "vector"])
-    async def search(
-        self,
-        agent_id: str,
-        *,
-        text: str | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        vector: Iterable[float] | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        alpha: float | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentSearchResponse:
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return await self._post(
-            f"/agents/{agent_id}/search",
-            body=await async_maybe_transform(
-                {
-                    "text": text,
-                    "lang": lang,
-                    "limit": limit,
-                    "vector": vector,
-                    "confidence": confidence,
-                    "alpha": alpha,
-                },
-                agent_search_params.AgentSearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentSearchResponse,
-        )
-
 
 class AgentsResourceWithRawResponse:
     def __init__(self, agents: AgentsResource) -> None:
@@ -1038,9 +775,6 @@ class AgentsResourceWithRawResponse:
 
         self.create = to_raw_response_wrapper(
             agents.create,
-        )
-        self.retrieve = to_raw_response_wrapper(
-            agents.retrieve,
         )
         self.update = to_raw_response_wrapper(
             agents.update,
@@ -1054,11 +788,11 @@ class AgentsResourceWithRawResponse:
         self.create_or_update = to_raw_response_wrapper(
             agents.create_or_update,
         )
+        self.get = to_raw_response_wrapper(
+            agents.get,
+        )
         self.patch = to_raw_response_wrapper(
             agents.patch,
-        )
-        self.search = to_raw_response_wrapper(
-            agents.search,
         )
 
     @cached_property
@@ -1081,9 +815,6 @@ class AsyncAgentsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             agents.create,
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            agents.retrieve,
-        )
         self.update = async_to_raw_response_wrapper(
             agents.update,
         )
@@ -1096,11 +827,11 @@ class AsyncAgentsResourceWithRawResponse:
         self.create_or_update = async_to_raw_response_wrapper(
             agents.create_or_update,
         )
+        self.get = async_to_raw_response_wrapper(
+            agents.get,
+        )
         self.patch = async_to_raw_response_wrapper(
             agents.patch,
-        )
-        self.search = async_to_raw_response_wrapper(
-            agents.search,
         )
 
     @cached_property
@@ -1123,9 +854,6 @@ class AgentsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             agents.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            agents.retrieve,
-        )
         self.update = to_streamed_response_wrapper(
             agents.update,
         )
@@ -1138,11 +866,11 @@ class AgentsResourceWithStreamingResponse:
         self.create_or_update = to_streamed_response_wrapper(
             agents.create_or_update,
         )
+        self.get = to_streamed_response_wrapper(
+            agents.get,
+        )
         self.patch = to_streamed_response_wrapper(
             agents.patch,
-        )
-        self.search = to_streamed_response_wrapper(
-            agents.search,
         )
 
     @cached_property
@@ -1165,9 +893,6 @@ class AsyncAgentsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             agents.create,
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            agents.retrieve,
-        )
         self.update = async_to_streamed_response_wrapper(
             agents.update,
         )
@@ -1180,11 +905,11 @@ class AsyncAgentsResourceWithStreamingResponse:
         self.create_or_update = async_to_streamed_response_wrapper(
             agents.create_or_update,
         )
+        self.get = async_to_streamed_response_wrapper(
+            agents.get,
+        )
         self.patch = async_to_streamed_response_wrapper(
             agents.patch,
-        )
-        self.search = async_to_streamed_response_wrapper(
-            agents.search,
         )
 
     @cached_property

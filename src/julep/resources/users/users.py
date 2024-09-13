@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional, overload
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
@@ -19,13 +19,11 @@ from ...types import (
     user_list_params,
     user_patch_params,
     user_create_params,
-    user_search_params,
     user_update_params,
     user_create_or_update_params,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
-    required_args,
     maybe_transform,
     async_maybe_transform,
 )
@@ -43,7 +41,6 @@ from ..._base_client import AsyncPaginator, make_request_options
 from ...types.user_patch_response import UserPatchResponse
 from ...types.user_create_response import UserCreateResponse
 from ...types.user_delete_response import UserDeleteResponse
-from ...types.user_search_response import UserSearchResponse
 from ...types.user_update_response import UserUpdateResponse
 from ...types.user_create_or_update_response import UserCreateOrUpdateResponse
 
@@ -113,39 +110,6 @@ class UsersResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=UserCreateResponse,
-        )
-
-    def retrieve(
-        self,
-        user_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> User:
-        """
-        Get User Details
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        return self._get(
-            f"/users/{user_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=User,
         )
 
     def update(
@@ -318,6 +282,39 @@ class UsersResource(SyncAPIResource):
             cast_to=UserCreateOrUpdateResponse,
         )
 
+    def get(
+        self,
+        user_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> User:
+        """
+        Get User Details
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not user_id:
+            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
+        return self._get(
+            f"/users/{user_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=User,
+        )
+
     def patch(
         self,
         user_id: str,
@@ -360,136 +357,6 @@ class UsersResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=UserPatchResponse,
-        )
-
-    @overload
-    def search(
-        self,
-        user_id: str,
-        *,
-        text: str,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        """
-        Search User Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    def search(
-        self,
-        user_id: str,
-        *,
-        vector: Iterable[float],
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        """
-        Search User Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    def search(
-        self,
-        user_id: str,
-        *,
-        text: str,
-        vector: Iterable[float],
-        alpha: float | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        """
-        Search User Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["text"], ["vector"], ["text", "vector"])
-    def search(
-        self,
-        user_id: str,
-        *,
-        text: str | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        vector: Iterable[float] | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        alpha: float | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        return self._post(
-            f"/users/{user_id}/search",
-            body=maybe_transform(
-                {
-                    "text": text,
-                    "lang": lang,
-                    "limit": limit,
-                    "vector": vector,
-                    "confidence": confidence,
-                    "alpha": alpha,
-                },
-                user_search_params.UserSearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=UserSearchResponse,
         )
 
 
@@ -556,39 +423,6 @@ class AsyncUsersResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=UserCreateResponse,
-        )
-
-    async def retrieve(
-        self,
-        user_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> User:
-        """
-        Get User Details
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        return await self._get(
-            f"/users/{user_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=User,
         )
 
     async def update(
@@ -761,6 +595,39 @@ class AsyncUsersResource(AsyncAPIResource):
             cast_to=UserCreateOrUpdateResponse,
         )
 
+    async def get(
+        self,
+        user_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> User:
+        """
+        Get User Details
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not user_id:
+            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
+        return await self._get(
+            f"/users/{user_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=User,
+        )
+
     async def patch(
         self,
         user_id: str,
@@ -805,136 +672,6 @@ class AsyncUsersResource(AsyncAPIResource):
             cast_to=UserPatchResponse,
         )
 
-    @overload
-    async def search(
-        self,
-        user_id: str,
-        *,
-        text: str,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        """
-        Search User Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    async def search(
-        self,
-        user_id: str,
-        *,
-        vector: Iterable[float],
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        """
-        Search User Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    async def search(
-        self,
-        user_id: str,
-        *,
-        text: str,
-        vector: Iterable[float],
-        alpha: float | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        """
-        Search User Docs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["text"], ["vector"], ["text", "vector"])
-    async def search(
-        self,
-        user_id: str,
-        *,
-        text: str | NotGiven = NOT_GIVEN,
-        lang: Literal["en-US"] | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        vector: Iterable[float] | NotGiven = NOT_GIVEN,
-        confidence: float | NotGiven = NOT_GIVEN,
-        alpha: float | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserSearchResponse:
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        return await self._post(
-            f"/users/{user_id}/search",
-            body=await async_maybe_transform(
-                {
-                    "text": text,
-                    "lang": lang,
-                    "limit": limit,
-                    "vector": vector,
-                    "confidence": confidence,
-                    "alpha": alpha,
-                },
-                user_search_params.UserSearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=UserSearchResponse,
-        )
-
 
 class UsersResourceWithRawResponse:
     def __init__(self, users: UsersResource) -> None:
@@ -942,9 +679,6 @@ class UsersResourceWithRawResponse:
 
         self.create = to_raw_response_wrapper(
             users.create,
-        )
-        self.retrieve = to_raw_response_wrapper(
-            users.retrieve,
         )
         self.update = to_raw_response_wrapper(
             users.update,
@@ -958,11 +692,11 @@ class UsersResourceWithRawResponse:
         self.create_or_update = to_raw_response_wrapper(
             users.create_or_update,
         )
+        self.get = to_raw_response_wrapper(
+            users.get,
+        )
         self.patch = to_raw_response_wrapper(
             users.patch,
-        )
-        self.search = to_raw_response_wrapper(
-            users.search,
         )
 
     @cached_property
@@ -977,9 +711,6 @@ class AsyncUsersResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             users.create,
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            users.retrieve,
-        )
         self.update = async_to_raw_response_wrapper(
             users.update,
         )
@@ -992,11 +723,11 @@ class AsyncUsersResourceWithRawResponse:
         self.create_or_update = async_to_raw_response_wrapper(
             users.create_or_update,
         )
+        self.get = async_to_raw_response_wrapper(
+            users.get,
+        )
         self.patch = async_to_raw_response_wrapper(
             users.patch,
-        )
-        self.search = async_to_raw_response_wrapper(
-            users.search,
         )
 
     @cached_property
@@ -1011,9 +742,6 @@ class UsersResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             users.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            users.retrieve,
-        )
         self.update = to_streamed_response_wrapper(
             users.update,
         )
@@ -1026,11 +754,11 @@ class UsersResourceWithStreamingResponse:
         self.create_or_update = to_streamed_response_wrapper(
             users.create_or_update,
         )
+        self.get = to_streamed_response_wrapper(
+            users.get,
+        )
         self.patch = to_streamed_response_wrapper(
             users.patch,
-        )
-        self.search = to_streamed_response_wrapper(
-            users.search,
         )
 
     @cached_property
@@ -1045,9 +773,6 @@ class AsyncUsersResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             users.create,
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            users.retrieve,
-        )
         self.update = async_to_streamed_response_wrapper(
             users.update,
         )
@@ -1060,11 +785,11 @@ class AsyncUsersResourceWithStreamingResponse:
         self.create_or_update = async_to_streamed_response_wrapper(
             users.create_or_update,
         )
+        self.get = async_to_streamed_response_wrapper(
+            users.get,
+        )
         self.patch = async_to_streamed_response_wrapper(
             users.patch,
-        )
-        self.search = async_to_streamed_response_wrapper(
-            users.search,
         )
 
     @cached_property

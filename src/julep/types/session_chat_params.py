@@ -6,7 +6,7 @@ from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = [
-    "ChatCreateParams",
+    "SessionChatParams",
     "Message",
     "MessageContentUnionMember2",
     "MessageContentUnionMember2Content",
@@ -26,7 +26,7 @@ __all__ = [
 ]
 
 
-class ChatCreateParams(TypedDict, total=False):
+class SessionChatParams(TypedDict, total=False):
     messages: Required[Iterable[Message]]
 
     agent: Optional[str]
