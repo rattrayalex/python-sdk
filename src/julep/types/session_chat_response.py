@@ -8,7 +8,6 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 from .chat_response import ChatResponse
-from .shared.doc_reference import DocReference
 
 __all__ = [
     "SessionChatResponse",
@@ -22,6 +21,9 @@ __all__ = [
     "ChunkChatResponseChoiceLogprobs",
     "ChunkChatResponseChoiceLogprobsContent",
     "ChunkChatResponseChoiceLogprobsContentTopLogprob",
+    "ChunkChatResponseDoc",
+    "ChunkChatResponseDocOwner",
+    "ChunkChatResponseDocSnippet",
     "ChunkChatResponseUsage",
 ]
 
@@ -93,6 +95,30 @@ class ChunkChatResponseChoice(BaseModel):
     logprobs: Optional[ChunkChatResponseChoiceLogprobs] = None
 
 
+class ChunkChatResponseDocOwner(BaseModel):
+    id: str
+
+    role: Literal["user", "agent"]
+
+
+class ChunkChatResponseDocSnippet(BaseModel):
+    content: str
+
+    index: int
+
+
+class ChunkChatResponseDoc(BaseModel):
+    id: str
+
+    owner: ChunkChatResponseDocOwner
+
+    snippets: List[ChunkChatResponseDocSnippet]
+
+    distance: Optional[float] = None
+
+    title: Optional[str] = None
+
+
 class ChunkChatResponseUsage(BaseModel):
     completion_tokens: Optional[int] = None
 
@@ -108,7 +134,7 @@ class ChunkChatResponse(BaseModel):
 
     created_at: datetime
 
-    docs: Optional[List[DocReference]] = None
+    docs: Optional[List[ChunkChatResponseDoc]] = None
 
     jobs: Optional[List[str]] = None
 

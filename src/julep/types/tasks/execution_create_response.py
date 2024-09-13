@@ -1,20 +1,16 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import List, Optional
 from datetime import datetime
 
 from ..._models import BaseModel
 
-__all__ = ["Doc"]
+__all__ = ["ExecutionCreateResponse"]
 
 
-class Doc(BaseModel):
+class ExecutionCreateResponse(BaseModel):
     id: str
-
-    content: Union[str, List[str]]
 
     created_at: datetime
 
-    title: str
-
-    metadata: Optional[object] = None
+    jobs: Optional[List[str]] = None
