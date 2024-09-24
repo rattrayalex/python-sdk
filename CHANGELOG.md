@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.1 (2024-09-24)
+
+Full Changelog: [v1.3.0...v1.3.1](https://github.com/julep-ai/python-sdk/compare/v1.3.0...v1.3.1)
+
+### Chores
+
+* **internal:** update pydantic v1 compat helpers ([#22](https://github.com/julep-ai/python-sdk/issues/22)) ([f90bc17](https://github.com/julep-ai/python-sdk/commit/f90bc1783cee6669055f02fe9621f5b70a2f5d89))
+
 ## 1.3.0 (2024-09-23)
 
 Full Changelog: [v1.2.1...v1.3.0](https://github.com/julep-ai/python-sdk/compare/v1.2.1...v1.3.0)
