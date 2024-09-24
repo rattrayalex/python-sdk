@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.0 (2024-09-23)
+
+Full Changelog: [v1.2.1...v1.3.0](https://github.com/julep-ai/python-sdk/compare/v1.2.1...v1.3.0)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#19](https://github.com/julep-ai/python-sdk/issues/19)) ([c27c232](https://github.com/julep-ai/python-sdk/commit/c27c232a662f936c8f28ae32d9e19fddca2f6ccd))
+* **api:** OpenAPI spec update via Stainless API ([#20](https://github.com/julep-ai/python-sdk/issues/20)) ([d8ff0e5](https://github.com/julep-ai/python-sdk/commit/d8ff0e5d14cee458d3f853491df93da0f0a34fc5))
+* **client:** send retry count header ([#17](https://github.com/julep-ai/python-sdk/issues/17)) ([8f99506](https://github.com/julep-ai/python-sdk/commit/8f995066384e390b1a1a4e514c4493702a2145d0))
+
 ## 1.2.1 (2024-09-19)
 
 Full Changelog: [v1.2.0...v1.2.1](https://github.com/julep-ai/python-sdk/compare/v1.2.0...v1.2.1)
