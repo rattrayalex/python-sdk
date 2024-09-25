@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.2 (2024-09-25)
+
+Full Changelog: [v1.3.1...v1.3.2](https://github.com/julep-ai/python-sdk/compare/v1.3.1...v1.3.2)
+
+### Chores
+
+* **internal:** codegen related update ([#27](https://github.com/julep-ai/python-sdk/issues/27)) ([cb98d42](https://github.com/julep-ai/python-sdk/commit/cb98d423b87043de48ca3e845f107b797a69824b))
+* **internal:** use `typing_extensions.overload` instead of `typing` ([#25](https://github.com/julep-ai/python-sdk/issues/25)) ([3c50f29](https://github.com/julep-ai/python-sdk/commit/3c50f297ee48e3a7bc284551a1cd12905bc7ae29))
+
 ## 1.3.1 (2024-09-24)
 
 Full Changelog: [v1.3.0...v1.3.1](https://github.com/julep-ai/python-sdk/compare/v1.3.0...v1.3.1)
