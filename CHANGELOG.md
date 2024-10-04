@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.11.1 (2024-10-04)
+
+Full Changelog: [v1.11.0...v1.11.1](https://github.com/julep-ai/python-sdk/compare/v1.11.0...v1.11.1)
+
+### Chores
+
+* **internal:** add support for parsing bool response content ([#54](https://github.com/julep-ai/python-sdk/issues/54)) ([fb290f2](https://github.com/julep-ai/python-sdk/commit/fb290f2119eb9ff66549d1c360b89d8dcb35d92d))
+
 ## 1.11.0 (2024-10-04)
 
 Full Changelog: [v1.10.0...v1.11.0](https://github.com/julep-ai/python-sdk/compare/v1.10.0...v1.11.0)
