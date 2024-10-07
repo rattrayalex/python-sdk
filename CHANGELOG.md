@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.2 (2024-10-07)
+
+Full Changelog: [v1.15.1...v1.15.2](https://github.com/julep-ai/python-sdk/compare/v1.15.1...v1.15.2)
+
+### Chores
+
+* add repr to PageInfo class ([#72](https://github.com/julep-ai/python-sdk/issues/72)) ([4b1d049](https://github.com/julep-ai/python-sdk/commit/4b1d0497ed765df25e1c401a6b414fd58a32223c))
+
 ## 1.15.1 (2024-10-07)
 
 Full Changelog: [v1.15.0...v1.15.1](https://github.com/julep-ai/python-sdk/compare/v1.15.0...v1.15.1)
