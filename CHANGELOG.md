@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.18.0 (2024-10-18)
+
+Full Changelog: [v1.17.0...v1.18.0](https://github.com/julep-ai/python-sdk/compare/v1.17.0...v1.18.0)
+
+### Features
+
+* deps: Add dotenv as a bundled dep ([08fd755](https://github.com/julep-ai/python-sdk/commit/08fd7557f1bd334a2be302090bdfb3545e18d540))
+
 ## 1.17.0 (2024-10-18)
 
 Full Changelog: [v1.16.0...v1.17.0](https://github.com/julep-ai/python-sdk/compare/v1.16.0...v1.17.0)
