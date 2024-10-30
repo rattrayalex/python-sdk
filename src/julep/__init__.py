@@ -38,7 +38,7 @@ from ._exceptions import (
 from ._base_client import DefaultHttpxClient, DefaultAsyncHttpxClient
 from ._utils._logs import setup_logging as _setup_logging
 
-lib.setup()
+lib.setup() # type: ignore[attr-defined]
 
 __all__ = [
     "types",
