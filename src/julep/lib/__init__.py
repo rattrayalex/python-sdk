@@ -14,7 +14,7 @@ create_spec = inspect.getfullargspec(resources.tasks.TasksResource.create)
 create_or_update_spec = inspect.getfullargspec(resources.tasks.TasksResource.create_or_update)
 
 
-def make_patch(kw: 'list[str]', method: Callable):
+def make_patch(kw: "list[str]", method: Callable):
     @wraps(method)
     def patched_method(self: resources.tasks.TasksResource, *args: P.args, **kwargs: P.kwargs):
         extra_args = set(kwargs).difference(set(kw))
