@@ -67,6 +67,7 @@ class TasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        **kwargs
     ) -> ResourceCreated:
         """
         Create Task
@@ -93,6 +94,7 @@ class TasksResource(SyncAPIResource):
                     "input_schema": input_schema,
                     "metadata": metadata,
                     "tools": tools,
+                    **kwargs,
                 },
                 task_create_params.TaskCreateParams,
             ),
